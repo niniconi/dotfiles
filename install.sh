@@ -2,7 +2,7 @@
 echo "[user]:"$HOME
 
 NEOVIM_PATH="${HOME}/.config/nvim"
-PKG_LIST="git wget curl htop exa bottom neofetch zsh"
+PKG_LIST="git wget curl htop bottom neofetch zsh lsd"
 PKG_MGR="pacman -S"
 
 # install software
