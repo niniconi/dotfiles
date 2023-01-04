@@ -14,6 +14,7 @@ cd zsh
 bash ./install.sh
 cd ..
 
+cd ..
 if [ -d "./my-conf-file" ];then
-    rm ./my-conf-file
+    rm ./my-conf-file -rf
 fi
