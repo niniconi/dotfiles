@@ -4,17 +4,49 @@ if [ ! -d "./my-conf-file" ];then
 fi
 cd my-conf-file
 
-echo "[installing]:neovim configuration"
-cd neovim
-bash ./install.sh
-cd ..
+installNeovimConf(){
+    echo "[installing]:neovim configuration"
+    cd neovim
+    bash ./install.sh
+    cd ..
+}
 
-echo "[installing]:zsh configuration"
-cd zsh
-bash ./install.sh
-cd ..
+installZshConf(){
+    echo "[installing]:zsh configuration"
+    cd zsh
+    bash ./install.sh
+    cd ..
+}
 
-cd ..
-if [ -d "./my-conf-file" ];then
-    rm ./my-conf-file -rf
-fi
+rmRepository(){
+    cd ..
+    if [ -d "./my-conf-file" ];then
+        rm ./my-conf-file -rf
+        echo "[removed]:./my-conf-file"
+    fi
+}
+
+while true
+do
+    read -p "Plese input your chose (neovim/zsh/all)[N/Z/A]:" install
+    if [ $install == "N" ] || [ $install == "n" ];then
+        installNeovimConf
+        rmRepository
+        break
+    elif [ $install == "Z" ] || [ $install == "z" ];then
+        installZshConf
+        rmRepository
+        break
+    elif [ $install == "A" ] || [ $install == "a" ];then
+        installNeovimConf
+        installZshConf
+        rmRepository
+        break
+    elif [ $install == "Q" ] || [ $install == "q" ];then
+        rmRepository
+        exit 0
+    else
+        echo "[error]:Unkown input chose"
+    fi
+done
+
