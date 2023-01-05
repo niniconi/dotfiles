@@ -35,9 +35,10 @@ packer.startup({
         use("ryanoasis/vim-devicons")
         use("powerline/powerline")
         use("tpope/vim-fugitive") --git
+        use("Xuyuanp/nerdtree-git-plugin") --git for NERDTree
         use("mhinz/vim-startify")
-        --terminal
-        use("voldikss/vim-floaterm")
+        use("voldikss/vim-floaterm") --terminal
+
         --colorcheme
         -- use("morhetz/gruvbox")
         use("joshdick/onedark.vim")
@@ -70,5 +71,5 @@ packer.startup({
 })
 
 -- import plugins conf
-require("plugins/powerline")
-require("plugins/vim-startify")
+require("plugins.powerline")
+require("plugins.vim-startify")
