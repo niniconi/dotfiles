@@ -1,4 +1,13 @@
 #!/bin/bash
+
+INSTALL_TIP="make sure you install "
+
+which wget > /dev/null 2>&1
+if [ $? == 1 ];then
+    echo "[error]:${INSTALL_TIP}wget"
+    exit 1
+fi
+
 if [ ! -d "./my-conf-file" ];then
     git clone https://github.com/niniconi/my-conf-file.git
 fi
@@ -6,6 +15,11 @@ cd my-conf-file
 
 installNeovimConf(){
     echo "[installing]:neovim configuration"
+    which nvim > /dev/null 2>&1
+    if [ $? == 1 ];then
+        echo "[error]:${INSTALL_TIP}neovim"
+        exit 1
+    fi
     cd neovim
     bash ./install.sh
     cd ..
@@ -13,6 +27,11 @@ installNeovimConf(){
 
 installZshConf(){
     echo "[installing]:zsh configuration"
+    which zsh > /dev/null 2>&1
+    if [ $? == 1 ];then
+        echo "[error]:${INSTALL_TIP}zsh"
+        exit 1
+    fi
     cd zsh
     bash ./install.sh
     cd ..
@@ -49,4 +68,3 @@ do
         echo "[error]:Unkown input chose"
     fi
 done
-

@@ -1,18 +1,21 @@
 #!/bin/bash
 
 #install oh my zsh
-sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+if [ ! -d ~/.oh-my-zsh ];then
+    echo "[installing]:oh my zsh"
+    sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
+fi
 
 ##install some plugins
 if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ];then
    git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 else
-   echo "installed already  zsh-autosuggestions"
+   echo "[installed]:already install zsh-autosuggestions"
 fi
 if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ];then
    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 else
-   echo "installed already zsh-syntax-highlighting"
+   echo "[installed]:already install zsh-syntax-highlighting"
 fi
 
 ## wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf 
@@ -22,7 +25,7 @@ fi
 if [ ! -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k ];then
    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 else
-   echo "installed already  powerlevel10k"
+   echo "[installed]:already install powerlevel10k"
 fi
 
 cp .zshrc ~/.zshrc
