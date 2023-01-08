@@ -36,6 +36,7 @@ packer.startup({
         use("powerline/powerline")
         use("tpope/vim-fugitive") --git
         use("Xuyuanp/nerdtree-git-plugin") --git for NERDTree
+        use("mhinz/vim-signify")
         use("mhinz/vim-startify")
         use("voldikss/vim-floaterm") --terminal
         --lsp
