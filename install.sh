@@ -28,7 +28,7 @@ rmRepository(){
 
 while true
 do
-    read -p "Plese input your chose (neovim/zsh/all)[N/Z/A]:" install
+    read -p "Plese input your chose (neovim/zsh/all/quit)[N/Z/A/Q]:" install
     if [ $install == "N" ] || [ $install == "n" ];then
         installNeovimConf
         rmRepository
