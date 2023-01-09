@@ -4,7 +4,12 @@ INSTALL_TIP="make sure you install "
 
 which wget > /dev/null 2>&1
 if [ $? == 1 ];then
-    echo "[error]:${INSTALL_TIP}wget"
+    echo "[error]:${INSTALL_TIP}wget and git"
+    exit 1
+fi
+which git > /dev/null 2>&1
+if [ $? == 1 ];then
+    echo "[error]:${INSTALL_TIP}wget and git"
     exit 1
 fi
 
