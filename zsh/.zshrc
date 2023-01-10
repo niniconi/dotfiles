@@ -114,6 +114,8 @@ alias nvimconf="nvim ~/.config/nvim"
 alias vimconf="nvim ~/.vimrc"
 alias termuxconf="nvim ~/.termux/termux.properties"
 alias gitconf="nvim ~/.ssh/config"
+alias tmuxconf="nvim ~/.tmux.conf"
+alias icat="kitty +kitten icat"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
