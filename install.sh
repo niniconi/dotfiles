@@ -42,6 +42,18 @@ installZshConf(){
     cd ..
 }
 
+instalTmuxConf(){
+    echo "[installing]:tmux configuration"
+    which tmux > /dev/null 2>&1
+    if [ $? == 1];then
+        echo "[error]:${INSTALL_TIP}tmux"
+        exit 1
+    fi
+    cd tmux
+    bash ./install.sh
+    cd ..
+}
+
 rmRepository(){
     cd ..
     if [ -d "./my-conf-file" ];then
@@ -52,7 +64,7 @@ rmRepository(){
 
 while true
 do
-    read -p "Plese input your chose (neovim/zsh/all/quit)[N/Z/A/Q]:" install
+    read -p "Plese input your chose (neovim/zsh/tmux/all/quit)[N/Z/T/A/Q]:" install
     if [ $install == "N" ] || [ $install == "n" ];then
         installNeovimConf
         rmRepository
@@ -64,6 +76,10 @@ do
     elif [ $install == "A" ] || [ $install == "a" ];then
         installNeovimConf
         installZshConf
+        rmRepository
+        break
+    elif [ $install == "T" ] || [ $install == "t" ];then
+        installTmuxConf
         rmRepository
         break
     elif [ $install == "Q" ] || [ $install == "q" ];then
