@@ -1,6 +1,6 @@
 # my-conf-file
 
-配置文件包括了:neovim + zsh
+配置文件包括了:neovim + zsh + tmux + ranger
 
 ### screenshot
 
