@@ -1,91 +1,123 @@
 #!/bin/bash
 
+red='\033[0;31m'
+green='\033[0;32m'
+yellow='\033[0;33m'
+plain='\033[0m'
+
+tip="${green}[tip]${plain}"
+installing="${green}[installing]${plain}"
+installed="${yellow}[installed]${plain}"
+error="${red}[error]${plain}"
+removed="${yellow}[removed]${plain}"
+
 INSTALL_TIP="make sure you install "
+REPOSITORY_NAME="my-conf-file"
 
 which wget > /dev/null 2>&1
 if [ $? == 1 ];then
-    echo "[error]:${INSTALL_TIP}wget and git"
+    echo -e "${error}:${INSTALL_TIP}wget and git"
     exit 1
 fi
 which git > /dev/null 2>&1
 if [ $? == 1 ];then
-    echo "[error]:${INSTALL_TIP}wget and git"
+    echo -e "${error}:${INSTALL_TIP}wget and git"
     exit 1
 fi
 
-if [ ! -d "./my-conf-file" ];then
-    git clone https://github.com/niniconi/my-conf-file.git
+if [ ! -d "./${REPOSITORY_NAME}" ];then
+    git clone "https://github.com/niniconi/${REPOSITORY_NAME}.git"
 fi
-cd my-conf-file
+cd "${REPOSITORY_NAME}"
 
 installNeovimConf(){
-    echo "[installing]:neovim configuration"
+    echo -e "${installing}:neovim configuration"
     which nvim > /dev/null 2>&1
     if [ $? == 1 ];then
-        echo "[error]:${INSTALL_TIP}neovim"
+        echo -e "${error}:${INSTALL_TIP}neovim"
         exit 1
     fi
     cd neovim
-    bash ./install.sh
+    source ./install.sh
     cd ..
 }
 
 installZshConf(){
-    echo "[installing]:zsh configuration"
+    echo -e "${installing}:zsh configuration"
     which zsh > /dev/null 2>&1
     if [ $? == 1 ];then
-        echo "[error]:${INSTALL_TIP}zsh"
+        echo -e "${error}:${INSTALL_TIP}zsh"
         exit 1
     fi
     cd zsh
-    bash ./install.sh
+    source ./install.sh
     cd ..
 }
 
-instalTmuxConf(){
-    echo "[installing]:tmux configuration"
+installTmuxConf(){
+    echo -e "${installing}:tmux configuration"
     which tmux > /dev/null 2>&1
-    if [ $? == 1];then
-        echo "[error]:${INSTALL_TIP}tmux"
+    if [ $? == 1 ];then
+        echo -e "${error}:${INSTALL_TIP}tmux"
         exit 1
     fi
     cd tmux
-    bash ./install.sh
+    source ./install.sh
+    cd ..
+}
+
+installRangerConf(){
+    echo -e "${installing}:ranger configuration"
+    which ranger > /dev/null 2>&1
+    if [ $? == 1 ];then
+        echo -e "${error}:${INSTALL_TIP}ranger"
+        exit 1
+    fi
+    cd ranger
+    source ./install.sh
     cd ..
 }
 
 rmRepository(){
     cd ..
-    if [ -d "./my-conf-file" ];then
-        rm ./my-conf-file -rf
-        echo "[removed]:./my-conf-file"
+    if [ -d "./${REPOSITORY_NAME}" ];then
+        rm "./${REPOSITORY_NAME}" -rf
+        echo -e "${removed}:./${REPOSITORY_NAME}"
     fi
 }
 
 while true
 do
-    read -p "Plese input your chose (neovim/zsh/tmux/all/quit)[N/Z/T/A/Q]:" install
+    echo -e "\t1. ${red}n${plain}eovim"
+    echo -e "\t2. ${red}z${plain}sh"
+    echo -e "\t3. ${red}t${plain}mux"
+    echo -e "\t4. ${red}r${plain}anger"
+    echo -e "\t5. ${red}a${plain}ll"
+    echo -e "\t6. ${red}q${plain}uit"
+    read -p "Plese input your chose :" install
     if [ $install == "N" ] || [ $install == "n" ];then
         installNeovimConf
-        rmRepository
         break
     elif [ $install == "Z" ] || [ $install == "z" ];then
         installZshConf
-        rmRepository
         break
     elif [ $install == "A" ] || [ $install == "a" ];then
         installNeovimConf
         installZshConf
-        rmRepository
+        installTmuxConf
+        installRangerConf
         break
     elif [ $install == "T" ] || [ $install == "t" ];then
         installTmuxConf
-        rmRepository
+        break
+    elif [ $install == "R" ] || [ $install == "r" ];then
+        installRangerConf
         break
     elif [ $install == "Q" ] || [ $install == "q" ];then
-        rmRepository
-        exit 0
+        break
     else
-        echo "[error]:Unkown input chose"
+        echo -e "${error}:Unkown input chose"
     fi
 done
+
+rmRepository
