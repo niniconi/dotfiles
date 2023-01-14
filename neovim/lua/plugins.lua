@@ -45,9 +45,11 @@ packer.startup({
             "neovim/nvim-lspconfig",
         }
         --colorcheme
-        -- use("morhetz/gruvbox")
+        use("morhetz/gruvbox")
         use("joshdick/onedark.vim")
-        use("flazz/vim-colorschemes") --a colorscheme pack
+        use("tomasr/molokai")
+        use("dracula/vim")
+        -- use("flazz/vim-colorschemes") --a colorscheme pack
         if paccker_bootstrap then
             packer.sync()
         end
