@@ -40,10 +40,9 @@ packer.startup({
         use("mhinz/vim-startify")
         use("voldikss/vim-floaterm") --terminal
         --lsp
-        use {
-            "williamboman/nvim-lsp-installer",
-            "neovim/nvim-lspconfig",
-        }
+        use {"neoclide/coc.nvim", branch = "release"}
+        -- use {"williamboman/nvim-lsp-installer","neovim/nvim-lspconfig"}
+
         --colorcheme
         use("morhetz/gruvbox")
         use("joshdick/onedark.vim")
@@ -80,6 +79,3 @@ packer.startup({
 -- import plugins conf
 require("plugins.powerline")
 require("plugins.vim-startify")
-
--- import lsp
-require("lsp.setup")
