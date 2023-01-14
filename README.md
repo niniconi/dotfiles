@@ -4,13 +4,32 @@
 
 ### screenshot
 
-1. startup界面
-
-![startup](./screenshot/Screenshot%20from%202023-01-04%2011-15-46.png)
-
-2. 编辑界面
-
-![edit](./screenshot/Screenshot%20from%202023-01-04%2011-18-18.png)
+<details>
+  <summary>neovim</summary>
+  
+  1. startup界面
+  
+  ![startup](./screenshot/Screenshot%202023-01-15%2002-41-50.png)
+  
+  2. 内嵌终端
+  
+  ![terminal](./screenshot/Screenshot%202023-01-15%2002-42-53.png)
+  
+  3. coc lsp
+  
+  ![lsp](./screenshot/Screenshot%202023-01-15%2002-42-32.png)
+  
+</details>
+<details>
+  <summary>ranger</summary>
+  
+  ![](/screenshot/Screenshot%202023-01-15%2002-40-19.png)
+  
+  ![](/screenshot/Screenshot%202023-01-15%2002-40-37.png)
+  
+  ![](/screenshot/Screenshot%202023-01-15%2002-41-06.png)
+  
+</details>
 
 ### neovim
 
