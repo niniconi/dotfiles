@@ -7,8 +7,8 @@ local opt = {
 }
 local pluginKeys = {}
 local map = vim.api.nvim_set_keymap
-map('n','<C-x>',':NERDTreeFocus<CR>',opt)
-map('n','<C-q>',':NERDTreeClose<CR>',opt)
+map('n','<C-x>',':NvimTreeOpen<CR>',opt)
+map('n','<C-q>',':NvimTreeClose<CR>',opt)
 map('n','T'    ,':FloatermNew<CR>'  ,opt)
 
 --

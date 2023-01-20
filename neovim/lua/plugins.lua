@@ -28,22 +28,33 @@ end
 packer.startup({
     function(use)
         use("wbthomason/packer.nvim") --auto upgrade the packer
-        use("scrooloose/nerdtree")
         use("tpope/vim-commentary")
-        use("vim-airline/vim-airline")
-        use("vim-airline/vim-airline-themes")
-        use("ryanoasis/vim-devicons")
-        use("powerline/powerline")
+        use {
+            'akinsho/bufferline.nvim',
+            tag = "v3.*",
+            requires = 'nvim-tree/nvim-web-devicons'
+        }
+        use {
+            'nvim-lualine/lualine.nvim',
+            requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+        }
+
         use("tpope/vim-fugitive") --git
-        use("Xuyuanp/nerdtree-git-plugin") --git for NERDTree
-        use("mhinz/vim-signify")
+        use {
+            'nvim-tree/nvim-tree.lua',
+            requires = {
+                'nvim-tree/nvim-web-devicons', -- optional, for file icons
+            },
+            tag = 'nightly' -- optional, updated every week. (see issue #1193)
+        }
+        -- use("lewis6991/gitsigns.nvim")
         use("mhinz/vim-startify")
         use("voldikss/vim-floaterm") --terminal
         --lsp
         use {"neoclide/coc.nvim", branch = "release"}
-        -- use {"williamboman/nvim-lsp-installer","neovim/nvim-lspconfig"}
 
         --colorcheme
+        use("folke/tokyonight.nvim")
         use("morhetz/gruvbox")
         use("joshdick/onedark.vim")
         use("tomasr/molokai")
@@ -77,5 +88,7 @@ packer.startup({
 })
 
 -- import plugins conf
-require("plugins.powerline")
 require("plugins.vim-startify")
+require("plugins.nvim-tree")
+require("plugins.lualine")
+require("plugins.bufferline")
