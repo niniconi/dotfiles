@@ -7,9 +7,15 @@ local opt = {
 }
 local pluginKeys = {}
 local map = vim.api.nvim_set_keymap
-map('n','<C-x>',':NvimTreeOpen<CR>',opt)
-map('n','<C-q>',':NvimTreeClose<CR>',opt)
-map('n','T'    ,':FloatermNew<CR>'  ,opt)
+map('n','<leader>n',':NvimTreeOpen<CR>' ,opt)
+map('n','<leader>q',':NvimTreeClose<CR>',opt)
+map('n','<leader>t',':FloatermNew<CR>'  ,opt)
+
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
 
 --
 -- here is coc's map conf
