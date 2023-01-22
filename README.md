@@ -35,11 +35,12 @@
 
 添加了如下快捷键，以下快捷键都是Normal模式下的
 
-|快捷键   |命令           |介绍        |
-|--------|--------------|-----------|
-|Ctrl + x|:NERDTreeFocus|打开NERDTree|
-|Ctrl + q|:NERDTreeClose|关闭NERDTree|
-|T       |:FloatermNew  |打开终端     |
+|快捷键     |命令                  |介绍        |
+|----------|---------------------|------------|
+|<leader>x |:NERDTreeFocus       |打开NERDTree|
+|<leader>n |:NERDTreeClose       |关闭NERDTree|
+|<leader>t |:FloatermNew         |打开终端     |
+|<leader>ff|:Telescope find_files|文件搜索     |
 
 ### install
 
