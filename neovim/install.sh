@@ -17,7 +17,7 @@ npm install coc-snippets --global-style --ignore-scripts --no-bin-links --no-pac
 # return this dir
 cd ${SOURCE_DIR}
 mkdir ~/.config/nvim -p
-cp ./init.vim ~/.config/nvim/init.vim
+cp ./init.lua ~/.config/nvim/init.lua
 rm ~/.config/nvim/lua -rf
 rm ~/.config/nvim/snapshots -rf
 cp ./lua ~/.config/nvim/lua -r
