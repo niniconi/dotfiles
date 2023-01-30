@@ -1,0 +1,5 @@
+require("base")
+require("option")
+require("plugins")
+require("colorscheme")
+require("map")
