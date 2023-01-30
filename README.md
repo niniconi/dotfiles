@@ -33,7 +33,7 @@
 
 ### neovim
 
-添加了如下快捷键，以下快捷键都是Normal模式下的
+添加了如下快捷键，以下快捷键都是Normal模式下的,`<leader>` 为空格
 
 |快捷键     |命令                  |介绍        |
 |----------|---------------------|------------|
@@ -41,6 +41,7 @@
 |<leader>n |:NERDTreeClose       |关闭NERDTree|
 |<leader>t |:FloatermNew         |打开终端     |
 |<leader>ff|:Telescope find_files|文件搜索     |
+|<leader>rn|                     |重命名变量  |
 
 ### install
 
