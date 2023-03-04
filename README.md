@@ -37,8 +37,9 @@
 
 |快捷键     |命令                  |介绍        |
 |----------|---------------------|------------|
-|<leader>x |:NERDTreeFocus       |打开NERDTree|
-|<leader>n |:NERDTreeClose       |关闭NERDTree|
+|<leader>x |:wq                  |保存关闭    |
+|<leader>q |:NvimTreeClose       |关闭NvimTree|
+|<laeder>n |:NvimTreeOpen        |打开NvimTree|
 |<leader>t |:FloatermNew         |打开终端     |
 |<leader>ff|:Telescope find_files|文件搜索     |
 |<leader>rn|                     |重命名变量  |

@@ -11,6 +11,7 @@ map('n','<leader>n',':NvimTreeOpen<CR>' ,opt)
 map('n','<leader>q',':NvimTreeClose<CR>',opt)
 map('n','<leader>t',':FloatermNew<CR>'  ,opt)
 map('n','<leader>w',"<C-w>",opt)
+map('n','<leader>x',":wq<CR>",opt)
 
 local builtin = require('telescope.builtin')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
