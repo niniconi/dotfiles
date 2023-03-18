@@ -77,6 +77,13 @@ installRangerConf(){
     cd ..
 }
 
+installTermuxConf(){
+    echo -e "${installing}:termux configuration"
+    cd termux
+    source ./install.sh
+    cd ..
+}
+
 rmRepository(){
     cd ..
     if [ -d "./${REPOSITORY_NAME}" ];then
@@ -93,9 +100,13 @@ do
     echo -e "\t4. ${red}r${plain}anger"
     echo -e "\t5. ${red}a${plain}ll"
     echo -e "\t6. ${red}q${plain}uit"
-    read -p "Plese input your chose :" install
+    echo -e "\t7. ${red}te${plain}rmux"
+    read -p "Prese input your chose :" install
     if [ $install == "N" ] || [ $install == "n" ];then
         installNeovimConf
+        break
+    elif [ $install == "TE" ] || [ $install == "te" ];then
+        installTermuxConf
         break
     elif [ $install == "Z" ] || [ $install == "z" ];then
         installZshConf
