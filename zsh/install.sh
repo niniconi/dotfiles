@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ZSHRC=~/.zshrc
+
 #install oh my zsh
 if [ ! -d ~/.oh-my-zsh ];then
     echo -e "${installing}:oh my zsh"
@@ -28,7 +30,11 @@ else
    echo -e "${installed}:already install powerlevel10k"
 fi
 
-cp .zshrc ~/.zshrc
+read -p "Please input your editor's command (nvim/vim/vi/others..):" editor
+echo "${editor} is your editor"
+
+echo "EDITOR=${editor}" > $ZSHRC
+cat .zshrc >> $ZSHRC
 
 echo -e "${tip}:最好安装powerlevel10k专用的字体，相关说明在https://github.com/romkatv/powerlevel10k"
 cp ./font-powerlevel10k/ ../../ -r
