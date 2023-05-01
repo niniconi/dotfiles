@@ -51,7 +51,7 @@ packer.startup({
             'nvim-telescope/telescope.nvim', tag = '0.1.1',
             requires = { {'nvim-lua/plenary.nvim'} }
         }
-        -- use("lewis6991/gitsigns.nvim")
+        use("airblade/vim-gitgutter")
         use("mhinz/vim-startify")
         use("voldikss/vim-floaterm") --terminal
         --lsp
