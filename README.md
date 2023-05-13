@@ -42,7 +42,9 @@
 |<laeder>n |:NvimTreeOpen        |打开NvimTree|
 |<leader>t |:FloatermNew         |打开终端     |
 |<leader>ff|:Telescope find_files|文件搜索     |
-|<leader>rn|                     |重命名变量  |
+|<leader>rn|                     |重命名变量   |
+|<leader>l |                     |到行尾      |
+|<leader>h |                     |到行首      |
 
 ### install
 
