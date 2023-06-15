@@ -57,6 +57,8 @@ packer.startup({
         --lsp
         use {"neoclide/coc.nvim", branch = "release"}
 
+        use("luochen1990/rainbow") --colorful brackets
+
         --colorcheme
         use("folke/tokyonight.nvim")
         use("morhetz/gruvbox")
@@ -96,3 +98,4 @@ require("plugins.vim-startify")
 require("plugins.nvim-tree")
 require("plugins.lualine")
 require("plugins.bufferline")
+require("plugins.rainbow")
