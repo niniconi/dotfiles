@@ -12,88 +12,90 @@ removed="${yellow}[removed]${plain}"
 
 INSTALL_TIP="make sure you install "
 REPOSITORY_NAME="my-conf-file"
+NEED_DELETE_REPOSITORY=false
 
-which wget > /dev/null 2>&1
-if [ $? == 1 ];then
-    echo -e "${error}:${INSTALL_TIP}wget and git"
-    exit 1
-fi
-which git > /dev/null 2>&1
-if [ $? == 1 ];then
-    echo -e "${error}:${INSTALL_TIP}wget and git"
-    exit 1
+excute_exist(){
+    which ${1} > /dev/null 2>&1
+    if [ $? == 1 ];then
+        echo -e "${error}:${INSTALL_TIP}${1}"
+        exit 1
+    fi
+    echo -e "${installed}:${1}"
+}
+
+excute_exist wget
+excute_exist git
+
+if [ ! -d "../${REPOSITORY_NAME}" ];then
+    NEED_DELETE_REPOSITORY=true
+    if [ ! -d "./${REPOSITORY_NAME}" ];then
+        git clone "https://github.com/niniconi/${REPOSITORY_NAME}.git"
+    fi
+    cd "${REPOSITORY_NAME}"
 fi
 
-if [ ! -d "./${REPOSITORY_NAME}" ];then
-    git clone "https://github.com/niniconi/${REPOSITORY_NAME}.git"
-fi
-cd "${REPOSITORY_NAME}"
+entry_directory(){
+    cd ${1}
+    source ./install.sh
+    cd ..
+    echo -e "${installed}:${1} configuration"
+}
 
 installNeovimConf(){
     echo -e "${installing}:neovim configuration"
-    which nvim > /dev/null 2>&1
-    if [ $? == 1 ];then
-        echo -e "${error}:${INSTALL_TIP}neovim"
-        exit 1
-    fi
-    cd neovim
-    source ./install.sh
-    cd ..
+    excute_exist npm
+    excute_exist nvim
+    entry_directory neovim
 }
 
 installZshConf(){
     echo -e "${installing}:zsh configuration"
-    which zsh > /dev/null 2>&1
-    if [ $? == 1 ];then
-        echo -e "${error}:${INSTALL_TIP}zsh"
-        exit 1
-    fi
-    cd zsh
-    source ./install.sh
-    cd ..
+    excute_exist zsh
+    entry_directory zsh
 }
 
 installTmuxConf(){
     echo -e "${installing}:tmux configuration"
-    which tmux > /dev/null 2>&1
-    if [ $? == 1 ];then
-        echo -e "${error}:${INSTALL_TIP}tmux"
-        exit 1
-    fi
-    cd tmux
-    source ./install.sh
-    cd ..
+    excute_exist tmux
+    entry_directory tmux
 }
 
 installRangerConf(){
     echo -e "${installing}:ranger configuration"
-    which ranger > /dev/null 2>&1
-    if [ $? == 1 ];then
-        echo -e "${error}:${INSTALL_TIP}ranger"
-        exit 1
-    fi
-    cd ranger
-    source ./install.sh
-    cd ..
+    excute_exist ranger
+    entry_directory ranger
 }
 
 installTermuxConf(){
     echo -e "${installing}:termux configuration"
-    cd termux
-    source ./install.sh
-    cd ..
+    entry_directory termux
+}
+
+installKittyConf(){
+    echo -e "${installing}:kitty configuration"
+    excute_exist kitty
+    entry_directory kitty
+}
+
+installHyprlandConf(){
+    echo -e "${installing}:hyprland configuration"
+    excute_exist Hyprland
+    entry_directory hyprland
 }
 
 rmRepository(){
-    cd ..
-    if [ -d "./${REPOSITORY_NAME}" ];then
-        rm "./${REPOSITORY_NAME}" -rf
-        echo -e "${removed}:./${REPOSITORY_NAME}"
+    if [ $NEED_DELETE_REPOSITORY == true ];then
+        cd ..
+        if [ -d "./${REPOSITORY_NAME}" ];then
+            rm "./${REPOSITORY_NAME}" -rf
+            echo -e "${removed}:./${REPOSITORY_NAME}"
+        fi
     fi
 }
 
 while true
 do
+    echo -e "${tip}:请输入你想应用的配置文件"
     echo -e "\t1. ${red}n${plain}eovim"
     echo -e "\t2. ${red}z${plain}sh"
     echo -e "\t3. ${red}t${plain}mux"
@@ -101,6 +103,8 @@ do
     echo -e "\t5. ${red}a${plain}ll"
     echo -e "\t6. ${red}q${plain}uit"
     echo -e "\t7. ${red}te${plain}rmux"
+    echo -e "\t8. ${red}h${plain}yprland"
+    echo -e "\t9. ${red}k${plain}itty"
     read -p "Prese input your chose :" install
     if [ $install == "N" ] || [ $install == "n" ];then
         installNeovimConf
@@ -116,12 +120,20 @@ do
         installZshConf
         installTmuxConf
         installRangerConf
+        installHyprlandConf
+        installKittyConf
         break
     elif [ $install == "T" ] || [ $install == "t" ];then
         installTmuxConf
         break
     elif [ $install == "R" ] || [ $install == "r" ];then
         installRangerConf
+        break
+    elif [ $install == "K" ] || [ $install == "k" ];then
+        installKittyConf
+        break
+    elif [ $install == "H" ] || [ $install == "h" ];then
+        installHyprlandConf
         break
     elif [ $install == "Q" ] || [ $install == "q" ];then
         break
