@@ -1,6 +1,5 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# Initialization code that may require console input (password prompts, [y/n] confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -114,7 +113,7 @@ alias nvimconf="${EDITOR} ~/.config/nvim"
 alias vimconf="${EDITOR} ~/.vimrc"
 alias termuxconf="${EDITOR} ~/.termux/termux.properties"
 alias gitconf="${EDITOR} ~/.ssh/config"
-alias tmuxconf="${EDITOR} ~/.tmux.conf"
+alias tmuxconf="${EDITOR} ~/.config/tmux/tmux.conf"
 alias icat="kitty +kitten icat"
 alias lad="lsd -a"
 alias llad="lsd -a -l"

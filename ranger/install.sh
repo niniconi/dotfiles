@@ -1,4 +1,7 @@
 #!/bin/bash
+
+echo -e "${tip}:请安装pillow包以用于在ranger中预览图片，使用命令：pip install pillow 或 包管理器安装pillow 包"
+
 mkdir ~/.config/ranger -p
 cp ./rc.conf ~/.config/ranger/
 cp ./rifle.conf ~/.config/ranger/
