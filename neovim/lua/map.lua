@@ -7,9 +7,10 @@ local opt = {
 }
 
 local map = vim.api.nvim_set_keymap
-map('n','<leader>n',':NvimTreeOpen<CR>' ,opt)
+map('n','<leader>n',':NvimTreeOpen<CR>',opt)
 map('n','<leader>q',':NvimTreeClose<CR>',opt)
-map('n','<leader>t',':FloatermNew<CR>'  ,opt)
+map('n','<leader>y',':FloatermNew<CR>',opt)
+map('n','<leader>t',':terminal<CR>',opt)
 map('n','<leader>w',"<C-w>",opt)
 map('n','<leader>fw',":w<CR>",opt)
 map('n','<leader>fq',":q<CR>",opt)
