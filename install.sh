@@ -77,12 +77,6 @@ installKittyConf(){
     entry_directory kitty
 }
 
-installHyprlandConf(){
-    echo -e "${installing}:hyprland configuration"
-    excute_exist Hyprland
-    entry_directory hyprland
-}
-
 rmRepository(){
     if [ $NEED_DELETE_REPOSITORY == true ];then
         cd ..
@@ -103,7 +97,6 @@ do
     echo -e "\t5. ${red}a${plain}ll"
     echo -e "\t6. ${red}q${plain}uit"
     echo -e "\t7. ${red}te${plain}rmux"
-    echo -e "\t8. ${red}h${plain}yprland"
     echo -e "\t9. ${red}k${plain}itty"
     read -p "Prese input your chose :" install
     if [ $install == "N" ] || [ $install == "n" ];then
@@ -120,7 +113,6 @@ do
         installZshConf
         installTmuxConf
         installRangerConf
-        installHyprlandConf
         installKittyConf
         break
     elif [ $install == "T" ] || [ $install == "t" ];then
@@ -131,9 +123,6 @@ do
         break
     elif [ $install == "K" ] || [ $install == "k" ];then
         installKittyConf
-        break
-    elif [ $install == "H" ] || [ $install == "h" ];then
-        installHyprlandConf
         break
     elif [ $install == "Q" ] || [ $install == "q" ];then
         break

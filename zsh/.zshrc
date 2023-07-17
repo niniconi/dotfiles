@@ -122,6 +122,7 @@ alias ltd="lsd --tree"
 alias latd="lsd --tree -a"
 alias llatd="lsd --tree -a -l"
 alias lltd="lsd --tree -l"
+alias edhistory="${EDITOR} ~/.zsh_history"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
