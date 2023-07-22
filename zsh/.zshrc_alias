@@ -1,0 +1,17 @@
+# set zsh alias
+
+alias zshconf="${EDITOR} ~/.zshrc"
+alias nvimconf="${EDITOR} ~/.config/nvim"
+alias vimconf="${EDITOR} ~/.vimrc"
+alias termuxconf="${EDITOR} ~/.termux/termux.properties"
+alias gitconf="${EDITOR} ~/.ssh/config"
+alias tmuxconf="${EDITOR} ~/.config/tmux/tmux.conf"
+alias icat="kitty +kitten icat"
+alias lad="lsd -a"
+alias llad="lsd -a -l"
+alias lld="lsd -l"
+alias ltd="lsd --tree"
+alias latd="lsd --tree -a"
+alias llatd="lsd --tree -a -l"
+alias lltd="lsd --tree -l"
+alias edhistory="${EDITOR} ~/.zsh_history"

@@ -100,29 +100,9 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-alias zshconf="${EDITOR} ~/.zshrc"
-alias nvimconf="${EDITOR} ~/.config/nvim"
-alias vimconf="${EDITOR} ~/.vimrc"
-alias termuxconf="${EDITOR} ~/.termux/termux.properties"
-alias gitconf="${EDITOR} ~/.ssh/config"
-alias tmuxconf="${EDITOR} ~/.config/tmux/tmux.conf"
-alias icat="kitty +kitten icat"
-alias lad="lsd -a"
-alias llad="lsd -a -l"
-alias lld="lsd -l"
-alias ltd="lsd --tree"
-alias latd="lsd --tree -a"
-alias llatd="lsd --tree -a -l"
-alias lltd="lsd --tree -l"
-alias edhistory="${EDITOR} ~/.zsh_history"
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+#import other config
+source .zshrc_command
+source .zshrc_alias

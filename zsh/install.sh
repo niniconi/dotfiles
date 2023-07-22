@@ -35,6 +35,10 @@ echo "${editor} is your editor"
 
 echo "EDITOR=${editor}" > $ZSHRC
 cat .zshrc >> $ZSHRC
+rm ${ZSHRC}_command -f
+rm ${ZSHRC}_alias -f
+cp .zshrc_command ~/
+cp .zshrc_alias ~/
 
 echo -e "${tip}:最好安装powerlevel10k专用的字体，相关说明在https://github.com/romkatv/powerlevel10k"
 cp ./font-powerlevel10k/ ../../ -r

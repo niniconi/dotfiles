@@ -1,0 +1,10 @@
+# startup stable-diffusion-webui
+function webui(){
+    SOURCE_DIR=$(pwd)
+    # on press Ctrl-C return to source dir
+    trap "cd ${SOURCE_DIR}" 2
+
+    cd ~/.webui/stable-diffusion-webui
+    ./webui.sh --precision full --no-half
+    cd ${SOURCE_DIR}
+}
