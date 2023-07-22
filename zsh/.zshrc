@@ -104,5 +104,5 @@ source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 #import other config
-source .zshrc_command
-source .zshrc_alias
+source ~/.zshrc_command
+source ~/.zshrc_alias
