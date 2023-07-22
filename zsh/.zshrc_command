@@ -5,6 +5,6 @@ function webui(){
     trap "cd ${SOURCE_DIR}" 2
 
     cd ~/.webui/stable-diffusion-webui
-    ./webui.sh --precision full --no-half
+    ./webui.sh --precision full --no-half --lowvram "$@"
     cd ${SOURCE_DIR}
 }
