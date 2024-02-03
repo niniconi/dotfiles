@@ -1,3 +1,3 @@
 #!/bin/bash
-mkdir -p ~/.config/kitty
-cp ./kitty.conf ~/.config/kitty/kitty.conf
+execute_exist kitty
+install_config_file "${CONFIG_PATH}/kitty.conf" "${HOME}/.config/kitty/"

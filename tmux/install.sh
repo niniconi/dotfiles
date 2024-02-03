@@ -1,3 +1,3 @@
 #!/bin/bash
-mkdir -p ~/.config/tmux
-cp tmux.conf ~/.config/tmux/
+execute_exist tmux
+install_config_file "${CONFIG_PATH}/tmux.conf" "$HOME/.config/tmux/"

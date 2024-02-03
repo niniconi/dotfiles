@@ -1,96 +1,43 @@
-local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-local paccker_bootstrap
-if fn.empty(fn.glob(install_path)) > 0 then
-    vim.notify("Installing Pakcer.nvim ...")
-    paccker_bootstrap = fn.system({
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+    vim.notify("Installing lazy.nvim ...")
+    vim.fn.system({
         "git",
         "clone",
-        "--depth",
-        "1",
-        "https://github.com/wbthomason/packer.nvim",
-        install_path,
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable", -- latest stable release
+        lazypath,
     })
-
-    local rtp_addition = vim.fn.stdpath("data") .. "/site/pack/*/start/*"
-    if not string.find(vim.o.runtimepath, rtp_addition) then
-        vim.o.runtimepath = rtp_addition .. "," .. vim.o.runtimepath
-    end
-    vim.notify("Pakcer.nvim is installed")
 end
 
-local status_ok, packer = pcall(require, "packer")
-if not status_ok then
-    vim.notify("not install packer.nvim")
-    return
-end
+vim.opt.rtp:prepend(lazypath)
 
-packer.startup({
-    function(use)
-        use("wbthomason/packer.nvim") --auto upgrade the packer
-        use("tpope/vim-commentary")
-        use {
-            'akinsho/bufferline.nvim',
-            tag = "v3.*",
-            requires = 'nvim-tree/nvim-web-devicons'
-        }
-        use {
-            'nvim-lualine/lualine.nvim',
-            requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-        }
+require("lazy").setup({
+    {'nvim-tree/nvim-web-devicons'}, --file icons
+    {"tpope/vim-commentary"},
+    {'akinsho/bufferline.nvim'},
+    {'nvim-lualine/lualine.nvim'},
+    {"tpope/vim-fugitive"}, --git
+    {'nvim-lua/plenary.nvim'},
+    {'nvim-telescope/telescope.nvim'},
+    {"airblade/vim-gitgutter"},
+    {"mhinz/vim-startify"},
+    {"voldikss/vim-floaterm"}, --terminal
+    {"neoclide/coc.nvim", branch = "release"},--lsp
+    {"luochen1990/rainbow"}, --colorful brackets
 
-        use("tpope/vim-fugitive") --git
-        use {
-            'nvim-tree/nvim-tree.lua',
-            requires = {
-                'nvim-tree/nvim-web-devicons', -- optional, for file icons
-            },
-            tag = 'nightly' -- optional, updated every week. (see issue #1193)
-        }
-        use {
-            'nvim-telescope/telescope.nvim', tag = '0.1.1',
-            requires = { {'nvim-lua/plenary.nvim'} }
-        }
-        use("airblade/vim-gitgutter")
-        use("mhinz/vim-startify")
-        use("voldikss/vim-floaterm") --terminal
-        --lsp
-        use {"neoclide/coc.nvim", branch = "release"}
-
-        use("luochen1990/rainbow") --colorful brackets
-
-        --colorcheme
-        use("folke/tokyonight.nvim")
-        use("morhetz/gruvbox")
-        use("joshdick/onedark.vim")
-        use("tomasr/molokai")
-        use("dracula/vim")
-        -- use("flazz/vim-colorschemes") --a colorscheme pack
-        if paccker_bootstrap then
-            packer.sync()
-        end
-    end,
-    config = {
-        -- 锁定插件版本在snapshots目录
-        snapshot_path = require("packer.util").join_paths(vim.fn.stdpath("config"), "snapshots"),
-        -- 这里锁定插件版本在v1，不会继续更新插件
-        snapshot = "v1",
-        -- 最大并发数
-        max_jobs = 16,
-        -- 自定义源
-        git = {
-          -- default_url_format = "https://hub.fastgit.xyz/%s",
-          -- default_url_format = "https://mirror.ghproxy.com/https://github.com/%s",
-          -- default_url_format = "https://gitcode.net/mirrors/%s",
-          -- default_url_format = "https://gitclone.com/github.com/%s",
-        },
-        display = {
-        -- 使用浮动窗口显示
-          open_fn = function()
-            return require("packer.util").float({ border = "single" })
-          end,
-        },
-    },
+    --colorcheme
+    {"folke/tokyonight.nvim"},
+    {"morhetz/gruvbox"},
+    {"joshdick/onedark.vim"},
+    {"tomasr/molokai"},
+    {"dracula/vim"},
+    -- use("flazz/vim-colorschemes") --a colorscheme pack
+    {
+        'nvim-tree/nvim-tree.lua',
+        tag = 'nightly' -- optional, updated every week. (see issue #1193)
+    }
 })
 
 -- import plugins conf

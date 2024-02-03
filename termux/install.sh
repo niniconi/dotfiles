@@ -1,2 +1,2 @@
 #!/bin/bash
-cp ./termux.properties ~/.termux/termux.properties
+install_config_file "${CONFIG_PATH}/termux.properties" "$HOME/.termux/"

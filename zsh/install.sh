@@ -1,44 +1,57 @@
 #!/bin/bash
 
-ZSHRC=~/.zshrc
+execute_exist zsh git
 
 #install oh my zsh
 if [ ! -d ~/.oh-my-zsh ];then
-    echo -e "${installing}:oh my zsh"
+    printf " - ${installing}:oh my zsh\n"
     sh -c "$(wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh -O -)"
 fi
 
-##install some plugins
+
+# install some plugins
 if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions ];then
    git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 else
-    echo -e "${installed}:already install zsh-autosuggestions"
+    printf " - ${installed}:already install zsh-autosuggestions\n"
 fi
 if [ ! -d ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting ];then
    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 else
-   echo -e "${installed}:already install zsh-syntax-highlighting"
+   printf " - ${installed}:already install zsh-syntax-highlighting\n"
 fi
 
-## wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Regular.ttf 
-## wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold.ttf 
-## wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Italic.ttf 
-## wget https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20Bold%20Italic.ttf 
+
+# install some themes
 if [ ! -d ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k ];then
    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 else
-   echo -e "${installed}:already install powerlevel10k"
+   printf " - ${installed}:already install powerlevel10k\n"
 fi
 
-read -p "Please input your editor's command (nvim/vim/vi/others..):" editor
-echo "${editor} is your editor"
+
+# set editor
+while true
+do
+    read -p "Please input your editor's command (nvim/vim/vi/others..):" editor
+
+    which ${editor} > /dev/null 2>&1
+    if [ $? == 1 ];then
+        printf "${bold}${red}${editor}${plain} is not a available command\n"
+    else
+        printf "${bold}${green}${editor}${plain} is your editor\n"
+        break
+    fi
+done
+
+ZSHRC=~/.zshrc
 
 echo "EDITOR=${editor}" > $ZSHRC
-cat .zshrc >> $ZSHRC
+cat ${CONFIG_PATH}/.zshrc >> $ZSHRC
 rm ${ZSHRC}_command -f
 rm ${ZSHRC}_alias -f
-cp .zshrc_command ~/
-cp .zshrc_alias ~/
+cp ${CONFIG_PATH}/.zshrc_command ~/
+cp ${CONFIG_PATH}/.zshrc_alias ~/
 
-echo -e "${tip}:最好安装powerlevel10k专用的字体，相关说明在https://github.com/romkatv/powerlevel10k"
-cp ./font-powerlevel10k/ ../../ -r
+printf " - ${tip}:最好安装powerlevel10k专用的字体，相关说明在https://github.com/romkatv/powerlevel10k\n"
+printf " - ${tip}:需要的字体是nerd-fonts字体,推荐其中的Meslo字体\n"
