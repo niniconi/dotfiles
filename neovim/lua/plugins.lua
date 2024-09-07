@@ -37,7 +37,26 @@ require("lazy").setup({
     {
         'nvim-tree/nvim-tree.lua',
         tag = 'nightly' -- optional, updated every week. (see issue #1193)
-    }
+    },
+
+    -- leetcode --
+    {
+        "kawre/leetcode.nvim",
+        build = ":TSUpdate html",
+        dependencies = {
+            "nvim-telescope/telescope.nvim",
+            "nvim-lua/plenary.nvim", -- required by telescope
+            "MunifTanjim/nui.nvim",
+
+            -- optional
+            -- "nvim-treesitter/nvim-treesitter",
+            "rcarriga/nvim-notify",
+            -- "nvim-tree/nvim-web-devicons",
+        },
+        opts = {
+            -- configuration goes here
+        }
+    },
 })
 
 -- import plugins conf
@@ -46,3 +65,4 @@ require("plugins.nvim-tree")
 require("plugins.lualine")
 require("plugins.bufferline")
 require("plugins.rainbow")
+require("plugins.leetcode")
