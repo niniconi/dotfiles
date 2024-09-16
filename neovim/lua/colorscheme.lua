@@ -4,7 +4,7 @@
 -- vim.g.tokyonight_transparent = true
 -- vim.g.tokyonight_transparent_sidebar = true
 
-local colorscheme = "tokyonight"
+local colorscheme = "molokai"
 --import colorscheme lua
 local moduleName = "colorschemes.".. colorscheme
 local f=io.open("colorschemes/"..colorscheme..".lua","r")
