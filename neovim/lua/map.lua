@@ -1,27 +1,31 @@
 -- leader key 为空
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
-local opt = {
-  noremap = true,
-  silent = true,
-}
 
-local map = vim.api.nvim_set_keymap
-map('n','<leader>n',':NvimTreeOpen<CR>',opt)
-map('n','<leader>q',':NvimTreeClose<CR>',opt)
-map('n','<leader>y',':FloatermNew<CR>',opt)
-map('n','<leader>t',':terminal<CR>',opt)
-map('n','<leader>w',"<C-w>",opt)
-map('n','<leader>fw',":w<CR>",opt)
-map('n','<leader>fq',":q<CR>",opt)
-map('n','<leader>h',"^",opt)
-map('n','<leader>l',"$",opt)
+local keyset = vim.keymap.set
 
+--
+-- some basic keymap conf
+--
+local opts = {noremap = true, silent = true}
+keyset('n','<leader>n',':NvimTreeOpen<CR>',opts)
+keyset('n','<leader>q',':NvimTreeClose<CR>',opts)
+keyset('n','<leader>y',':FloatermNew<CR>',opts)
+keyset('n','<leader>t',':terminal<CR>',opts)
+keyset('n','<leader>w',"<C-w>",opts)
+keyset('n','<leader>fw',":w<CR>",opts)
+keyset('n','<leader>fq',":q<CR>",opts)
+keyset('n','<leader>h',"^",opts)
+keyset('n','<leader>l',"$",opts)
+
+--
+-- telescope's map conf
+--
 local builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+keyset('n', '<leader>ff', builtin.find_files, {})
+keyset('n', '<leader>fg', builtin.live_grep, {})
+keyset('n', '<leader>fb', builtin.buffers, {})
+keyset('n', '<leader>fh', builtin.help_tags, {})
 
 --
 -- here is coc's map conf
@@ -39,7 +43,6 @@ vim.opt.updatetime = 300
 -- diagnostics appeared/became resolved
 vim.opt.signcolumn = "yes"
 
-local keyset = vim.keymap.set
 -- Autocomplete
 function _G.check_back_space()
     local col = vim.fn.col('.') - 1
