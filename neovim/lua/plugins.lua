@@ -34,10 +34,8 @@ require("lazy").setup({
     {"tomasr/molokai"},
     {"dracula/vim"},
     -- use("flazz/vim-colorschemes") --a colorscheme pack
-    {
-        'nvim-tree/nvim-tree.lua',
-        tag = 'nightly' -- optional, updated every week. (see issue #1193)
-    },
+
+    {'nvim-tree/nvim-tree.lua'},
 
     -- leetcode --
     {
