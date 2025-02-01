@@ -55,6 +55,9 @@ require("lazy").setup({
             -- configuration goes here
         }
     },
+
+    -- rust --
+    {'rust-lang/rust.vim'},
 })
 
 -- import plugins conf

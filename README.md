@@ -1,6 +1,8 @@
 # my-conf-file
 
-配置文件包括了:neovim + zsh + tmux + ranger
+自用的linux系统配置
+
+配置文件包括了:neovim + zsh + tmux + ranger + hyprland
 
 ### screenshot
 
@@ -38,13 +40,21 @@
 |快捷键     |命令                  |介绍        |
 |----------|---------------------|------------|
 |<leader>x |:wq                  |保存关闭    |
-|<leader>q |:NvimTreeClose       |关闭NvimTree|
-|<laeder>n |:NvimTreeOpen        |打开NvimTree|
-|<leader>t |:FloatermNew         |打开终端     |
-|<leader>ff|:Telescope find_files|文件搜索     |
+|<leader>q |:nvimtreeclose       |关闭nvimtree|
+|<laeder>n |:nvimtreeopen        |打开nvimtree|
+|<leader>t |:floatermnew         |打开终端     |
+|<leader>ff|:telescope find_files|文件搜索     |
 |<leader>rn|                     |重命名变量   |
 |<leader>l |                     |到行尾      |
 |<leader>h |                     |到行首      |
+
+### hyprland
+
+|快捷键            |介绍        |
+|------------------|------------|
+|SUPER + M         |退出Hyprland|
+|SUPER + F         |窗口内全屏  |
+|SUPER + SHIFT + F |全屏        |
 
 ### install
 
