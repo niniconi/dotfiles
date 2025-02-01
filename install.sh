@@ -13,7 +13,7 @@ installed="${yellow}[installed]${plain}"
 error="${red}[error]${plain}"
 removed="${yellow}[removed]${plain}"
 
-REPOSITORY_NAME="my-conf-file"
+REPOSITORY_NAME="dotfiles"
 REPOSITORY_URL="https://github.com/niniconi/${REPOSITORY_NAME}.git"
 NEED_DELETE_REPOSITORY=false
 

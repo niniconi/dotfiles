@@ -1,4 +1,4 @@
-# my-conf-file
+# dotfiles
 
 自用的linux系统配置
 
@@ -60,5 +60,5 @@
 
 使用以下命令安装，后字体需手动安装
 ```bash
-sh -c "$(wget https://raw.githubusercontent.com/niniconi/my-conf-file/master/install.sh -O -)"
+sh -c "$(wget https://raw.githubusercontent.com/niniconi/dotfiles/master/install.sh -O -)"
 ```
