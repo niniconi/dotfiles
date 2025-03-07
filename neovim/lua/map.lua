@@ -21,11 +21,24 @@ keyset('n','<leader>l',"$",opts)
 --
 -- telescope's map conf
 --
-local builtin = require('telescope.builtin')
-keyset('n', '<leader>ff', builtin.find_files, {})
-keyset('n', '<leader>fg', builtin.live_grep, {})
-keyset('n', '<leader>fb', builtin.buffers, {})
-keyset('n', '<leader>fh', builtin.help_tags, {})
+local telescope_builtin = require('telescope.builtin')
+keyset('n', '<leader>ff', telescope_builtin.find_files, {})
+keyset('n', '<leader>fg', telescope_builtin.live_grep, {})
+keyset('n', '<leader>fb', telescope_builtin.buffers, {})
+keyset('n', '<leader>fh', telescope_builtin.help_tags, {})
+
+--
+-- nvim-dap's map conf
+--
+keyset('n','<F5>',':lua require("dap").continue()<CR>')
+keyset('n','<F10>',':lua require("dap").step_over()<CR>')
+keyset('n','<F11>',':lua require("dap").step_into()<CR>')
+keyset('n','<F12>',':lua require("dap").step_out()<CR>')
+keyset('n','<Leader>b',':lua require("dap").toggle_breakpoint()<CR>')
+keyset('n','<Leader>B',':lua require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))<CR>')
+keyset('n','<Leader>lp',':lua require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))<CR>')
+keyset('n','<Leader>dr',':lua require("dap").repl.open()<CR>')
+keyset('n','<Leader>dl',':lua require("dap").run_last()<CR>')
 
 --
 -- here is coc's map conf

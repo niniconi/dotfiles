@@ -58,6 +58,9 @@ require("lazy").setup({
 
     -- rust --
     {'rust-lang/rust.vim'},
+
+    -- debug --
+    {"mfussenegger/nvim-dap"}
 })
 
 -- import plugins conf
@@ -67,3 +70,4 @@ require("plugins.lualine")
 require("plugins.bufferline")
 require("plugins.rainbow")
 require("plugins.leetcode")
+require("plugins.dap")
