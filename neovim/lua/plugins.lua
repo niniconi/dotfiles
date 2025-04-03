@@ -89,13 +89,21 @@ require("lazy").setup({
     }
 })
 
+local function load_plugin_config(modname)
+    local status, result = pcall(require,modname)
+    if not status then
+        print("load plugin config failed：", result)
+    end
+
+end
+
 -- import plugins conf
-require("plugins.vim-startify")
-require("plugins.nvim-tree")
-require("plugins.lualine")
-require("plugins.bufferline")
-require("plugins.rainbow")
-require("plugins.leetcode")
-require("plugins.dap")
-require("plugins.render-markdown")
-require("plugins.snacks")
+load_plugin_config("plugins.vim-startify")
+load_plugin_config("plugins.nvim-tree")
+load_plugin_config("plugins.lualine")
+load_plugin_config("plugins.bufferline")
+load_plugin_config("plugins.rainbow")
+load_plugin_config("plugins.leetcode")
+load_plugin_config("plugins.dap")
+load_plugin_config("plugins.render-markdown")
+load_plugin_config("plugins.snacks")
