@@ -60,7 +60,33 @@ require("lazy").setup({
     {'rust-lang/rust.vim'},
 
     -- debug --
-    {"mfussenegger/nvim-dap"}
+    {"mfussenegger/nvim-dap"},
+
+    {
+        'MeanderingProgrammer/render-markdown.nvim',
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter',
+            'echasnovski/mini.nvim'
+        }, -- if you use the mini.nvim suite
+        -- dependencies = {
+            -- 'nvim-treesitter/nvim-treesitter',
+            -- 'echasnovski/mini.icons'
+        -- }, -- if you use standalone mini plugins
+        -- dependencies = {
+            -- 'nvim-treesitter/nvim-treesitter',
+            -- 'nvim-tree/nvim-web-devicons' 
+        -- },-- if you prefer nvim-web-devicons
+        ---@module 'render-markdown'
+        ---@type render.md.UserConfig
+        opts = {},
+    },
+    {
+        "folke/snacks.nvim",
+        ---@type snacks.Config
+        opts = {
+            image = {}
+        }
+    }
 })
 
 -- import plugins conf
@@ -71,3 +97,5 @@ require("plugins.bufferline")
 require("plugins.rainbow")
 require("plugins.leetcode")
 require("plugins.dap")
+require("plugins.render-markdown")
+require("plugins.snacks")
