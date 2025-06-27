@@ -1,0 +1,3 @@
+require=zsh wget git
+suggest=
+ignore=install.sh font-powerlevel10k

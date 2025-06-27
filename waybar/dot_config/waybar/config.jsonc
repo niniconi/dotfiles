@@ -1,0 +1,42 @@
+// -*- mode: jsonc -*-
+{
+    "layer": "top",
+    "position": "top",
+    // "height": 53,
+    "spacing": 0,
+    "include": "$HOME/.config/waybar/modules.jsonc",
+    "modules-left": [
+        "custom/launcher",
+        "hyprland/workspaces"
+    ],
+    //"modules-center": [
+        //"hyprland/window"
+    //],
+    "modules-right": [
+        "memory",
+        "cpu",
+        "temperature",
+        "bluetooth",
+        "backlight",
+        "battery",
+        "pulseaudio",
+        "custom/wireguard",
+        "custom/proxy",
+        "clock",
+        "group/power"
+    ],
+    "group/power": {
+        "orientation": "inherit",
+        "drawer": {
+            "transition-duration": 500,
+            "children-class": "not-power",
+            "transition-left-to-right": false
+        },
+        "modules": [
+            "custom/power",
+            "custom/quit",
+            "custom/lock",
+            "custom/reboot"
+        ]
+    }
+}

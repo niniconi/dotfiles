@@ -1,0 +1,156 @@
+@define-color background-color transparent;
+@define-color foreground-color1 #0e1d2d;
+@define-color foreground-color2 #1f2e3e;
+@define-color textcolor1 #000000;
+@define-color textcolor2 #ffffff;
+@define-color textcolor3 #000000;
+
+@import "./theme.css";
+
+* {
+    color: @textcolor2;
+    /* border: 2px solid green; */
+}
+
+window#waybar{
+    /* border: 2px solid red; */
+    background-color: @background-color;
+}
+
+#custom-launcher,
+#custom-power,
+#custom-wireguard,
+#custom-proxy,
+#backlight-slider,
+#backlight,
+#battery,
+#bluetooth,
+#cpu,
+#cava,
+#clock,
+#dwl,
+#disk,
+#gamemode,
+#group,
+#hyprland,
+#idle_inhibitor,
+#image,
+#jack,
+#keyboard-State,
+#language,
+#load,
+#mpd,
+#mpris,
+#memory,
+#network,
+#niri,
+#power-profiles-daemon,
+#privacy,
+#pulseaudio-slider,
+#pulseaudio,
+#river,
+#sndio,
+#sway,
+#systemd-failed-units,
+#taskbar,
+#temperature,
+#tray,
+#upower,
+#user,
+#wirePlumber {
+    background-color: @foreground-color1;
+    margin: 5px;
+    padding: 10px 20px 10px 20px;
+    border-radius:30px;
+}
+
+#workspaces {
+    color: @main-fg;
+    background: @main-bg;
+    opacity: 1;
+    margin: 4px 0px 4px 0px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding: 0px;
+    border-radius:15px;
+}
+
+#workspaces button {
+    box-shadow: none;
+	text-shadow: none;
+    padding: 0px;
+    border-radius: 9px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    margin-left: 0px;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-right: 0px;
+    color: @main-fg;
+    animation: ws_normal 20s ease-in-out 1;
+}
+
+#workspaces button.active {
+    background: @wb-act-bg;
+    color: @wb-act-fg;
+    margin-left: 3px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-right: 3px;
+    animation: ws_active 20s ease-in-out 1;
+    transition: all 0.4s cubic-bezier(.55,-0.68,.48,1.682);
+    border-radius: 15px;
+}
+
+#workspaces button:hover {
+    background: @wb-hvr-bg;
+    color: @wb-hvr-fg;
+    animation: ws_hover 20s ease-in-out 1;
+    border-radius: 15px;
+    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+#custom-power{
+    margin-left:0px;
+}
+#custom-power:hover{
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+#custom-quit,
+#custom-lock,
+#custom-reboot {
+    margin: 5px 0px 5px;
+    padding: 10px 20px 10px 20px;
+    background-color: @foreground-color2;
+}
+
+#custom-quit{
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+#custom-launcer {
+    font-weight: bold;
+}
+
+#custom-wireguard.connected, #custom-proxy.connected{
+    color: green;
+}
+
+#custom-wireguard.disconnected, #custom-proxy.disconnected{
+    color: red;
+}
