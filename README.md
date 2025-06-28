@@ -1,8 +1,8 @@
 # dotfiles
 
-自用的linux系统配置
+自用的linux系统的dotfiles
 
-配置文件包括了:neovim + zsh + tmux + ranger + hyprland
+配置文件包括了:neovim + zsh + tmux + ranger + hyprland + waybar + wallpaper
 
 ### screenshot
 
@@ -62,3 +62,7 @@
 ```bash
 sh -c "$(wget https://raw.githubusercontent.com/niniconi/dotfiles/master/install.sh -O -)"
 ```
+
+### tip
+
+改动比较多还没做完，暂时无法正常使用。
