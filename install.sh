@@ -19,7 +19,7 @@ NEED_DELETE_REPOSITORY=false
 
 REPOSITORY_PATH=""
 CONFIG_PATH=""
-INSTALL_PATH="/home/administrator/Desktop/source/dotfiles/dots/test"
+INSTALL_PATH="$HOME"
 
 # get_config_names
 CONF_NAMES=()
