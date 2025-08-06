@@ -1,1 +1,2 @@
+require=hyprland hyprpaper hypridle hyprlock grim rofi waybar
 ignore=install.sh
