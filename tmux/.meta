@@ -1,1 +1,2 @@
+require=tmux
 ignore=install.sh

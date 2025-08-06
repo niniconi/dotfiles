@@ -1,1 +1,2 @@
+require=neovim npm
 ignore=install.sh
