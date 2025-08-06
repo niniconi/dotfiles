@@ -1,1 +1,1 @@
-require("plugins.lualine-theme.default")
+require("plugins.lualine-theme.bubbles")
