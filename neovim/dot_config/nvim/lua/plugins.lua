@@ -70,6 +70,8 @@ require("lazy").setup({
     -- debug --
     {"mfussenegger/nvim-dap"},
 
+    {"tpope/vim-surround"},
+
     {
         'MeanderingProgrammer/render-markdown.nvim',
         dependencies = {
