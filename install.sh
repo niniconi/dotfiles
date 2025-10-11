@@ -23,7 +23,7 @@ INSTALL_PATH="$HOME"
 
 # get_config_names
 CONF_NAMES=()
-CONF_IGNORE=". .git README.md install.sh l18n dot_install.sh resolve.sh utils.sh require screenshot"
+CONF_IGNORE=". .git README.md install.sh l18n dot_install.sh resolve.sh utils.sh utils require screenshot"
 
 SELECT_INDEX=1
 

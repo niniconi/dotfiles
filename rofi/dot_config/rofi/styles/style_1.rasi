@@ -26,6 +26,7 @@ window {
     spacing:                     0em;
     padding:                     0em;
     border-color:                @main-br;
+    border-radius:               10px;
     background-color:            @main-bg;
 }
 mainbox {
