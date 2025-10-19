@@ -35,5 +35,12 @@ local footer = {
     '\t\tauthor:niniconi                                   ',
     '\t\tgithub:https://github.com/niniconi                '
 }
-vim.g.startify_custom_header = vim.fn['startify#center'](header_ANSI_Shadow)
-vim.g.startify_custom_footer = footer
+
+local M = {}
+
+function M.setup()
+    vim.g.startify_custom_header = vim.fn['startify#center'](header_ANSI_Shadow)
+    vim.g.startify_custom_footer = footer
+end
+
+return M
