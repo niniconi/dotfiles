@@ -1,14 +1,19 @@
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+local M = {}
 
--- set termguicolors to enable highlight groups
-vim.opt.termguicolors = true
+function M.setup()
+    vim.g.loaded_netrw = 1
+    vim.g.loaded_netrwPlugin = 1
 
--- setup with some options
-require("nvim-tree").setup({
-  sort_by = "case_sensitive",
-  filters = {
-    dotfiles = false,
-  },
-})
+    -- set termguicolors to enable highlight groups
+    vim.opt.termguicolors = true
 
+    -- setup with some options
+    require("nvim-tree").setup({
+        sort_by = "case_sensitive",
+        filters = {
+            dotfiles = false,
+        },
+    })
+end
+
+return M
