@@ -44,7 +44,7 @@ require('lazy').setup({
         config = function()
             require('plugins.rainbow').setup()
         end
-    },    --colorful brackets
+    }, --colorful brackets
 
     {
         'neovim/nvim-lspconfig',
@@ -127,11 +127,11 @@ require('lazy').setup({
 
     -- rust --
     { 'rust-lang/rust.vim' },
-    {
-        'mrcjkb/rustaceanvim',
-        version = '^6', -- Recommended
-        lazy = false,   -- This plugin is already lazy
-    },
+    -- {
+    --     'mrcjkb/rustaceanvim',
+    --     version = '^6', -- Recommended
+    --     lazy = false, -- This plugin is already lazy
+    -- },
 
     -- debug --
     {
