@@ -3,7 +3,7 @@ local M = {}
 function M.setup()
     require('mason').setup()
     require('mason-lspconfig').setup({
-        ensure_installed = { 'rust_analyzer', 'pyright', 'clangd', 'lua_ls', 'bashls', 'jdtls' },
+        ensure_installed = { 'rust_analyzer', 'pyright', 'clangd', 'lua_ls', 'bashls', 'jdtls', 'phpactor', 'zls', 'ts_ls', 'asm_lsp', 'sqls', 'html', 'cssls', 'jsonls', 'yamlls' },
     })
 
     local signs = { Error = ' ', Warn = ' ', Hint = ' ', Info = ' ' }
@@ -19,7 +19,7 @@ function M.setup()
         underline = true,
         severity_sort = true,
         float = {
-            source = 'always',
+            source = true,
             focusable = true,
             border = 'rounded',
         },
@@ -48,7 +48,14 @@ function M.setup()
     vim.lsp.config('clangd', {})
     vim.lsp.config('bashls', {})
     vim.lsp.config('jdtls', {})
-    -- vim.lsp.config('dartls', {})
+    vim.lsp.config('phpactor', {})
+    vim.lsp.config('zls', {})
+    vim.lsp.config('ts_ls', {})
+    vim.lsp.config('asm_lsp', {})
+    vim.lsp.config('dartls', {
+        cmd = { 'fvm', 'dart', 'language-server', '--protocol=lsp' }
+    })
+    vim.lsp.enable('dartls')
 
     vim.lsp.config('lua_ls', {
         on_init = function(client)
@@ -96,6 +103,31 @@ function M.setup()
         end,
         settings = {
             Lua = {}
+        }
+    })
+
+    vim.lsp.config('sqls', {})
+
+    local capabilities = vim.lsp.protocol.make_client_capabilities()
+    capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+    vim.lsp.config('html', {
+        capabilities = capabilities,
+    })
+    vim.lsp.config('cssls', {
+        capabilities = capabilities,
+    })
+    vim.lsp.config('jsonls', {
+        capabilities = capabilities,
+    })
+    vim.lsp.config('yamlls', {
+        settings = {
+            yaml = {
+                schemas = {
+                    ["https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.1-standalone-strict/all.json"] =
+                    "/*.k8s.yaml",
+                },
+            },
         }
     })
 end
