@@ -34,10 +34,6 @@ function pkg_selector(){
     printf "\n"
 }
 
-function pkg_install(){
-    sudo $pkg_install_command $1
-}
-
 # This script separates the logic for identifying the OS/distribution
 # and determining the package manager command into distinct functions.
 
@@ -158,3 +154,100 @@ get_package_manager() {
     esac
     echo "$PACKAGE_MANAGER_CMD"
 }
+
+# Function: Checks the installation status of a package using a specified package manager.
+# Usage: check_package_status <manager> <package_name>
+# <manager> options: 'dpkg', 'rpm', 'pacman', 'apk'
+# Returns: 0 (Installed) or 1 (Not Installed/Error)
+check_package_status() {
+    local manager="$1"     # Package manager type
+    local package_name="$2" # Package name
+
+    if [ -z "$manager" ] || [ -z "$package_name" ]; then
+        echo "❌ Error: Please provide both manager type and package name." >&2
+        echo "Usage: check_package_status <manager> <package_name>" >&2
+        return 1
+    fi
+
+    # Convert manager name to lowercase for case-insensitive matching
+    local lower_manager=$(echo "$manager" | tr '[:upper:]' '[:lower:]')
+
+    case "$lower_manager" in
+
+        # Debian/Ubuntu systems
+        dpkg|apt)
+            if command -v dpkg-query &> /dev/null; then
+                # dpkg-query checks for 'install ok installed' status
+                if dpkg-query -W -f='${Status}' "$package_name" 2>/dev/null | grep -q "install ok installed"; then
+                    echo "✅ '$package_name' is installed (Manager: $manager)."
+                    return 0
+                fi
+            fi
+            ;;
+
+        # Red Hat/Fedora/CentOS systems
+        rpm|yum|dnf)
+            if command -v rpm &> /dev/null; then
+                # rpm -q returns 0 if package is found
+                if rpm -q "$package_name" &> /dev/null; then
+                    echo "✅ '$package_name' is installed (Manager: $manager)."
+                    return 0
+                fi
+            fi
+            ;;
+
+        # Arch Linux/Manjaro systems
+        pacman)
+            if command -v pacman &> /dev/null; then
+                # pacman -Q queries installed packages
+                if pacman -Q "$package_name" &> /dev/null; then
+                    echo "✅ '$package_name' is installed (Manager: $manager)."
+                    return 0
+                fi
+            fi
+            ;;
+
+        # Alpine Linux systems
+        apk)
+            if command -v apk &> /dev/null; then
+                # apk info -e checks for installed status
+                if apk info -e "$package_name" &> /dev/null; then
+                    echo "✅ '$package_name' is installed (Manager: $manager)."
+                    return 0
+                fi
+            fi
+            ;;
+
+        *)
+            echo "⚠️ Warning: Unsupported or unrecognized package manager type: '$manager'." >&2
+            return 1
+            ;;
+    esac
+
+    # If execution reaches this point, the package is not installed or command is missing
+    echo "❌ Package '$package_name' is NOT installed (Manager: $manager)."
+    return 1
+}
+
+function pkg_install(){
+    if [[ -n "$1" ]]; then
+        uninstalled_pkg=""
+        for pkg in $(echo $@); do
+            check_package_status $(get_package_manager `get_system_identifier`) $pkg
+            check_status=$?
+            if [[ $check_status != 0 ]];then
+                uninstalled_pkg="$uninstalled_pkg $pkg"
+            fi
+        done
+        if [[ -n "$uninstalled_pkg" ]];then 
+            sudo $pkg_install_command $uninstalled_pkg
+        fi
+    else
+        printf "❌ Error: pkg_install expected latest 1 param\n"
+    fi
+}
+
+function pkg_install_unchecked(){
+    sudo $pkg_install_command $1
+}
+
