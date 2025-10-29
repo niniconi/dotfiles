@@ -350,22 +350,35 @@ main(){
 
     local configs=`get_config_names`
 
-    # hide the cursor
-    printf "\e[?25l"
+    if [[ -z "$1" ]]; then
+        # hide the cursor
+        printf "\e[?25l"
 
-    # show the cursor while SIGINT
-    trap 'printf "\e[?25h";exit 2' SIGINT
+        # show the cursor while SIGINT
+        trap 'printf "\e[?25h";exit 2' SIGINT
 
-    local result=`select_panel_multi "Select configuration you want to install:" "$configs"`
+        local result=`select_panel_multi "Select configuration you want to install:" "$configs"`
 
-    local enable_configs=""
-    local offset=0
-    local configs=($configs)
-    for _enable in $result
-    do
-        [[ "$_enable" == "1" ]] && enable_configs="$enable_configs ${configs[$offset]}"
-        ((offset++))
-    done
+        local enable_configs=""
+        local offset=0
+        local configs=($configs)
+        for _enable in $result
+        do
+            [[ "$_enable" == "1" ]] && enable_configs="$enable_configs ${configs[$offset]}"
+            ((offset++))
+        done
+    else
+        local enable_configs="$@"
+        local error_msg=""
+        for config in $@;do
+            grep -w $config <<< "$configs" >> /dev/null || error_msg="$error_msg❌ Error: Not found config $config.\n"
+        done
+
+        if [[ -n "$error_msg" ]];then
+            echo -ne $error_msg
+            exit 1;
+        fi
+    fi
 
     echo $enable_configs
 
