@@ -11,7 +11,7 @@ function pkg_selector(){
     local ident=0
     local install_pkgs=""
 
-    for pkg in $1;
+    for pkg in $@;
     do
         printf "$ident) $pkg " >&2
         ((ident++))
@@ -22,9 +22,9 @@ function pkg_selector(){
     local len=`echo $choose | wc -w`
     if [[ $len == 0 ]]
     then
-        install_pkgs=$1
+        install_pkgs=$@
     else
-        pkgs=($1)
+        pkgs=($@)
         for index in $choose
         do
             install_pkgs="$install_pkgs ${pkgs[$index]}"
@@ -232,7 +232,7 @@ check_package_status() {
 function pkg_install(){
     if [[ -n "$1" ]]; then
         uninstalled_pkg=""
-        for pkg in $(echo $@); do
+        for pkg in $@; do
             check_package_status $(get_package_manager `get_system_identifier`) $pkg
             check_status=$?
             if [[ $check_status != 0 ]];then
