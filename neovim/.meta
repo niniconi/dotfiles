@@ -1,2 +1,3 @@
-require=neovim npm
+require=neovim
+suggest=npm rustup go python
 ignore=install.sh
