@@ -12,6 +12,12 @@ environment {
 
     // For JavaFX applications
     _JAVA_AWT_WM_NONREPARENTING "1"
+
+    GTK_IM_MODULE "fcitx"
+    QT_IM_MODULE "fcitx"
+    XMODIFIERS "@im=fcitx"
+    SDL_IM_MODULE "fcitx"
+    GLFW_IM_MODULE "ibus"
 }
 
 // Input device configuration.
