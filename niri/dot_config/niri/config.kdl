@@ -286,9 +286,9 @@ layout {
 spawn-at-startup "waybar"
 spawn-at-startup "hypridle"
 spawn-sh-at-startup "fcitx5 --replace -d"
-spawn-sh-at-startup "$HOME/.config/scripts/image-tool blur 30 $HOME/.config/background $HOME/.config/background-blur"
-spawn-sh-at-startup "$HOME/.config/scripts/start-swww.sh background $HOME/.config/background"
-spawn-sh-at-startup "$HOME/.config/scripts/start-swww.sh backdrop $HOME/.config/background-blur"
+spawn-sh-at-startup "$HOME/.config/scripts/image-tool blur 30 $HOME/.local/share/backgrounds/background $HOME/.local/share/backgrounds-blur/background-blur"
+spawn-sh-at-startup "$HOME/.config/scripts/start-swww.sh background $HOME/.local/share/backgrounds/background"
+spawn-sh-at-startup "$HOME/.config/scripts/start-swww.sh backdrop $HOME/.local/share/backgrounds-blur/background-blur"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
