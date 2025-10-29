@@ -1,17 +1,20 @@
 // -*- mode: jsonc -*-
 {
+    "font": "FiraCode Nerd Font",
     "layer": "top",
     "position": "top",
     // "height": 53,
     "spacing": 0,
     "include": "$HOME/.config/waybar/modules.jsonc",
     "modules-left": [
-        "custom/launcher"
+        "custom/launcher",
         // "hyprland/workspaces"
+        "niri/workspaces"
     ],
-    //"modules-center": [
-        //"hyprland/window"
-    //],
+    // "modules-center": [
+        // "hyprland/window"
+        // "niri/window"
+    // ],
     "modules-right": [
         "memory",
         "cpu",

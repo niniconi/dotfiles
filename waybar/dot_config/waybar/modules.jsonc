@@ -49,7 +49,7 @@
         "return-type": "json"
     },
     "custom/swaync": {
-        "tooltip":true,
+        "tooltip": true,
         "format": " {} {icon} ",
         "format-icons": {
             "notification": "🔔<span foreground='red'><sup></sup></span>",
@@ -68,7 +68,6 @@
         "on-click-right": "swaync-client -d -sw",
         "escape": true
     },
-
     "bluetooth": {
         "format": " {status}",
         "format-connected": " {device_alias}",
@@ -79,66 +78,86 @@
         "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
         "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
     },
-    "hyprland/workspaces":{
+    "hyprland/workspaces": {
         "on-scroll-up": "hyprctl dispatch workspace e+1",
         "on-scroll-down": "hyprctl dispatch workspace e-1"
     },
-
+    "niri/language": {
+        "format": "Lang: {long}",
+        "format-en": "AMERICA, HELL YEAH!",
+        "format-tr": "As bayrakları"
+    },
+    "niri/workspaces": {
+        "format": "{icon}",
+        "format-icons": {
+            "browser": "",
+            "chat": "<b></b>",
+            "active": "",
+            "default": ""
+        }
+    },
     "battery": {
         "states": {
-            // "good": 95,
+            "good": 95,
             "warning": 30,
             "critical": 15
         },
         "format": "{capacity}% {icon}",
         "format-full": "{capacity}% {icon}",
-        "format-charging": "{capacity}% ",
+        "format-charging": "{capacity}% 󰂄",
         "format-plugged": "{capacity}% ",
         "format-alt": "{time} {icon}",
         // "format-good": "", // An empty format will hide the module
         // "format-full": "",
-        "format-icons": ["", "", "", "", ""]
+        "format-icons": [
+            "󰁺",
+            "󰁻",
+            "󰁼",
+            "󰁽",
+            "󰁾",
+            "󰁿",
+            "󰂀",
+            "󰂁",
+            "󰂂",
+            "󱟢"
+        ]
     },
-
     "clock": {
         "interval": 1,
         "format": " 🕑  {:%H:%M} ",
         "format-alt": " 🕑  {:%H:%M  🗓️   %Y, %d %B, %A} ",
         "tooltip-format": "<tt><small>{calendar}</small></tt>",
         "calendar": {
-            "mode"          : "year",
-            "mode-mon-col"  : 3,
-            "weeks-pos"     : "right",
-            "on-scroll"     : 1,
+            "mode": "year",
+            "mode-mon-col": 3,
+            "weeks-pos": "right",
+            "on-scroll": 1,
             "format": {
-                "days":       "<span color='#ebdbb2'><b>{}</b></span>",
-                "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
-                "weekdays":   "<span color='#ebdbb2'><b>{}</b></span>",
-                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+                "days": "<span color='#ebdbb2'><b>{}</b></span>",
+                "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays": "<span color='#ebdbb2'><b>{}</b></span>",
+                "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
             }
         }
     },
-
-    "actions":  {
+    "actions": {
         "on-click-right": "mode",
         "on-click-forward": "tz_up",
         "on-click-backward": "tz_down",
         "on-scroll-up": "shift_up",
         "on-scroll-down": "shift_down"
     },
-
     "cpu": {
         "format": "{usage}% ",
         "interval": 1,
         "tooltip": false,
         "on-click": "kitty htop"
     },
-
     "hyprland/window": {
         "format": " {} ",
         "max-length": 60,
         "separate-outputs": true,
-        "offscreen-css" : true,
+        "offscreen-css": true,
         "offscreen-css-text": "(inactive)",
         "rewrite": {
             "(.*) - Mozilla Firefox": " $1",
@@ -147,7 +166,13 @@
             "(.*) - kitty": "> [$1]"
         }
     },
-
+    "niri/window": {
+        "format": "{}",
+        "rewrite": {
+            "(.*) - Mozilla Firefox": "🌎 $1",
+            "(.*) - zsh": "> [$1]"
+        }
+    },
     "memory": {
         "interval": 10,
         "format": " {percentage}% 📊 ",
@@ -156,7 +181,6 @@
         "tooltip-format": "{used:0.1f}GB/{total:0.1f}G",
         "on-click": "kitty btop"
     },
-
     "mpris": {
         "interval": 10,
         "format": " {title} ",
@@ -183,25 +207,36 @@
             "phone": "🔈",
             "portable": "🔈",
             "car": "🔈",
-            "default": ["🔈", "🔈", "🔈", "🔈"], 
-            "ignored-sinks": ["Easy Effects Sink"]
+            "default": [
+                "󰕿",
+                "󰖀",
+                "󰕾",
+                "🔈"
+            ],
+            "ignored-sinks": [
+                "Easy Effects Sink"
+            ]
         },
         "scroll-step": 5.0,
         "on-click": "pavucontrol -t 3",
         "tooltip-format": "{icon} {desc} | {volume}%",
         "smooth-scrolling-threshold": 1
     },
-    "temperature": {
+    "temp-temperature": {
         "interval": 10,
         "tooltip": true,
-        "hwmon-path": ["/sys/class/hwmon/hwmon1/temp1_input", "/sys/class/thermal/thermal_zone0/temp"],
+        "hwmon-path": [
+            "/sys/class/hwmon/hwmon1/temp1_input",
+            "/sys/class/thermal/thermal_zone0/temp"
+        ],
         "critical-threshold": 82,
         "format-critical": "{temperatureC}°C {icon}",
         "format": " {temperatureC}°C {icon} ",
-        "format-icons": ["🔥"],
+        "format-icons": [
+            "🔥"
+        ],
         "on-click-right": "kitty -c ~/.config/dotfiles/kitty/kitty.conf --title nvtop sh -c 'nvtop'"
     },
-
     "wlr/taskbar": {
         "format": " {icon} ",
         "icon-size": 20,
@@ -246,7 +281,10 @@
     "sway/scratchpad": {
         "format": "{icon} {count}",
         "show-empty": false,
-        "format-icons": ["", ""],
+        "format-icons": [
+            "",
+            ""
+        ],
         "tooltip": true,
         "tooltip-format": "{app}: {title}"
     },
@@ -288,9 +326,9 @@
         "spacing": 10
     },
     // "clock": {
-        // "timezone": "America/New_York",
-        // "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-        // "format-alt": "{:%Y-%m-%d}"
+    // "timezone": "America/New_York",
+    // "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    // "format-alt": "{:%Y-%m-%d}"
     // },
     "temperature": {
         // "thermal-zone": 2,
@@ -298,9 +336,13 @@
         "critical-threshold": 80,
         // "format-critical": "{temperatureC}°C {icon}",
         "format": "{temperatureC}°C {icon}",
-        "format-icons": ["", "", ""]
+        "format-icons": [
+            "",
+            "",
+            "",
+            ""
+        ]
     },
-
     //"battery#bat2": {
     //    "bat": "BAT2"
     //},
@@ -339,13 +381,33 @@
             "phone": "",
             "portable": "",
             "car": "",
-            "default": ["", "", ""]
+            "default": [
+                "",
+                "",
+                ""
+            ]
         },
         "on-click": "pavucontrol"
     },
     "backlight": {
         "format": "{icon} {percent}%",
-        "format-icons": [ "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""],
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ],
         "scroll-step": 1
     }
 }
