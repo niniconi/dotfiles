@@ -25,6 +25,8 @@ function M.setup()
         },
     })
 
+    vim.lsp.inlay_hint.enable(true)
+
     vim.lsp.config('rust_analyzer', {
         settings = {
             ['rust-analyzer'] = {
