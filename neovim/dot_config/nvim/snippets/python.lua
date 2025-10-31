@@ -92,6 +92,58 @@ return {
         t('import pdb; pdb.set_trace()')
     ),
 
+    s({ trig = 'openrb', dscr = 'open a file with rb flag' },
+        fmt([[
+        with open({},{}) as f:
+           {}
+        ]],
+            {
+                i(1, '"file"'),
+                i(2, '"rb"'),
+                i(3, 'pass'),
+            }
+        )
+    ),
+
+    s({ trig = 'openwb', dscr = 'open a file with wb flag' },
+        fmt([[
+        with open({},{}) as f:
+           {}
+        ]],
+            {
+                i(1, '"file"'),
+                i(2, '"wb"'),
+                i(3, 'pass'),
+            }
+        )
+    ),
+
+    s({ trig = 'openr', dscr = 'open a file with r flag' },
+        fmt([[
+        with open({},{}) as f:
+           {}
+        ]],
+            {
+                i(1, '"file"'),
+                i(2, '"r"'),
+                i(3, 'pass'),
+            }
+        )
+    ),
+
+    s({ trig = 'openw', dscr = 'open a file with w flag' },
+        fmt([[
+        with open({},{}) as f:
+           {}
+        ]],
+            {
+                i(1, '"file"'),
+                i(2, '"w"'),
+                i(3, 'pass'),
+            }
+        )
+    ),
+
     ---------------------------------------
     -- 2. Snippets (Web Scraping)
     ---------------------------------------
