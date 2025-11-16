@@ -6,7 +6,7 @@ function M.setup()
         arg = 'leetcode.nvim',
 
         ---@type lc.lang
-        lang = 'c',
+        lang = 'cpp',
 
         cn = { -- leetcode.cn
             enabled = false, ---@type boolean
