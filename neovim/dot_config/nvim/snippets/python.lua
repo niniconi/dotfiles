@@ -286,4 +286,39 @@ return {
             }
         )
     ),
+
+    -- SendlineAfter (Pwntools)
+    s({ trig = 'sla', dscr = 'io.sendline()' },
+        fmt([[
+        io.sendlineafter({}, {})
+        ]],
+            {
+                i(1, 'after'),
+                i(2, 'payload'),
+            }
+        )
+    ),
+
+    -- Send (Pwntools)
+    s({ trig = 's', dscr = 'io.sendline()' },
+        fmt([[
+        io.send({})
+        ]],
+            {
+                i(1, 'payload'),
+            }
+        )
+    ),
+
+    -- SendAfter (Pwntools)
+    s({ trig = 'sa', dscr = 'io.sendline()' },
+        fmt([[
+        io.sendafter({}, {})
+        ]],
+            {
+                i(1, 'after'),
+                i(2, 'payload'),
+            }
+        )
+    ),
 }
