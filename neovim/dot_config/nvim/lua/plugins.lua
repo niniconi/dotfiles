@@ -129,6 +129,27 @@ require('lazy').setup({
 
     -- rust --
     { 'rust-lang/rust.vim' },
+    {
+        'saecki/crates.nvim',
+        tag = 'stable',
+        event = { "BufRead Cargo.toml" },
+        opts = {
+            completion = {
+                crates = {
+                    enabled = true
+                }
+            },
+            lsp = {
+                enabled = true,
+                actions = true,
+                completion = true,
+                hover = true
+            }
+        },
+        config = function()
+            require('crates').setup()
+        end,
+    },
     -- {
     --     'mrcjkb/rustaceanvim',
     --     version = '^6', -- Recommended

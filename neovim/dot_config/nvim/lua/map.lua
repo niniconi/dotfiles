@@ -58,3 +58,29 @@ keyset('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opt
 keyset('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
 keyset('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
 keyset('n', '<leader>ty', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+
+local crates = require("crates")
+opts = { silent = true }
+
+keyset("n", "<leader>ct", crates.toggle, opts)
+keyset("n", "<leader>cr", crates.reload, opts)
+
+keyset("n", "<leader>cv", crates.show_versions_popup, opts)
+keyset("n", "<leader>cf", crates.show_features_popup, opts)
+keyset("n", "<leader>cd", crates.show_dependencies_popup, opts)
+
+keyset("n", "<leader>cu", crates.update_crate, opts)
+keyset("v", "<leader>cu", crates.update_crates, opts)
+keyset("n", "<leader>ca", crates.update_all_crates, opts)
+keyset("n", "<leader>cU", crates.upgrade_crate, opts)
+keyset("v", "<leader>cU", crates.upgrade_crates, opts)
+keyset("n", "<leader>cA", crates.upgrade_all_crates, opts)
+
+keyset("n", "<leader>cx", crates.expand_plain_crate_to_inline_table, opts)
+keyset("n", "<leader>cX", crates.extract_crate_into_table, opts)
+
+keyset("n", "<leader>cH", crates.open_homepage, opts)
+keyset("n", "<leader>cR", crates.open_repository, opts)
+keyset("n", "<leader>cD", crates.open_documentation, opts)
+keyset("n", "<leader>cC", crates.open_crates_io, opts)
+keyset("n", "<leader>cL", crates.open_lib_rs, opts)
