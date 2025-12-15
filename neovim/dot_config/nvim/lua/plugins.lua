@@ -69,6 +69,27 @@ require('lazy').setup({
             require('plugins.nvim-cmp').setup()
         end
     },
+    {
+        'SmiteshP/nvim-navic',
+        dependencies = {
+            'neovim/nvim-lspconfig'
+        },
+        config = function()
+            require('plugins.nvim-navic').setup()
+        end
+    },
+
+    {
+        'SmiteshP/nvim-navbuddy',
+        dependencies = {
+            'neovim/nvim-lspconfig',
+            'SmiteshP/nvim-navic',
+            'MunifTanjim/nui.nvim',
+        },
+        config = function ()
+            require('plugins.nvim-navbuddy').setup()
+        end
+    },
 
     -- {
     -- 'nvim-treesitter/nvim-treesitter',

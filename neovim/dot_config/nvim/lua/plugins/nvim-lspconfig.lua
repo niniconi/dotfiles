@@ -1,5 +1,13 @@
 local M = {}
 
+local on_attach = function(client, bufnr)
+    if client.server_capabilities.documentSymbolProvider then
+        require("nvim-navic").attach(client, bufnr)
+        require('nvim-navbuddy').attach(client, bufnr)
+    end
+end
+
+
 function M.setup()
     require('mason').setup()
     require('mason-lspconfig').setup({
@@ -27,7 +35,12 @@ function M.setup()
 
     vim.lsp.inlay_hint.enable(true)
 
+    local default_lsp_config = {
+        on_attach = on_attach
+    }
+
     vim.lsp.config('rust_analyzer', {
+        on_attach = on_attach,
         settings = {
             ['rust-analyzer'] = {
                 cargo = {
@@ -46,20 +59,22 @@ function M.setup()
             },
         },
     })
-    vim.lsp.config('pyright', {})
-    vim.lsp.config('clangd', {})
-    vim.lsp.config('bashls', {})
-    vim.lsp.config('jdtls', {})
-    vim.lsp.config('phpactor', {})
-    vim.lsp.config('zls', {})
-    vim.lsp.config('ts_ls', {})
-    vim.lsp.config('asm_lsp', {})
+    vim.lsp.config('pyright', default_lsp_config)
+    vim.lsp.config('clangd', default_lsp_config)
+    vim.lsp.config('bashls', default_lsp_config)
+    vim.lsp.config('jdtls', default_lsp_config)
+    vim.lsp.config('phpactor', default_lsp_config)
+    vim.lsp.config('zls', default_lsp_config)
+    vim.lsp.config('ts_ls', default_lsp_config)
+    vim.lsp.config('asm_lsp', default_lsp_config)
     vim.lsp.config('dartls', {
+        on_attach = on_attach,
         cmd = { 'fvm', 'dart', 'language-server', '--protocol=lsp' }
     })
     vim.lsp.enable('dartls')
 
     vim.lsp.config('lua_ls', {
+        on_attach = on_attach,
         on_init = function(client)
             if client.workspace_folders then
                 local path = client.workspace_folders[1].name
@@ -108,21 +123,25 @@ function M.setup()
         }
     })
 
-    vim.lsp.config('sqls', {})
+    vim.lsp.config('sqls', default_lsp_config)
 
     local capabilities = vim.lsp.protocol.make_client_capabilities()
     capabilities.textDocument.completion.completionItem.snippetSupport = true
 
     vim.lsp.config('html', {
+        on_attach = on_attach,
         capabilities = capabilities,
     })
     vim.lsp.config('cssls', {
+        on_attach = on_attach,
         capabilities = capabilities,
     })
     vim.lsp.config('jsonls', {
+        on_attach = on_attach,
         capabilities = capabilities,
     })
     vim.lsp.config('yamlls', {
+        on_attach = on_attach,
         settings = {
             yaml = {
                 schemas = {
