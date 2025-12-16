@@ -3,7 +3,7 @@
 -- vim.g.tokyonight_transparent = true
 -- vim.g.tokyonight_transparent_sidebar = true
 
-local colorscheme = "dracula"
+local colorscheme = "tokyonight-moon"
 --import colorscheme lua
 local moduleName = "colorschemes.".. colorscheme
 local f=io.open("colorschemes/"..colorscheme..".lua","r")
