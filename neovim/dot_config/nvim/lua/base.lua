@@ -29,4 +29,6 @@ vim.o.list = true
 vim.o.termguicolors = true
 vim.opt.termguicolors = true
 
+vim.opt.clipboard = "unnamedplus"
+
 vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"

@@ -1,3 +1,3 @@
-require=neovim
+require=neovim wl-clipboard
 suggest=npm rustup go python
 ignore=install.sh
