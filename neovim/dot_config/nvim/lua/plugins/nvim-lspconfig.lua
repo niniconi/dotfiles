@@ -61,12 +61,7 @@ function M.setup()
         },
     })
     vim.lsp.config('pyright', default_lsp_config)
-    vim.lsp.config('clangd', {
-        on_attach = on_attach,
-        init_options = {
-            fallbackFlags = { "-std=c++23" },
-        },
-    })
+    vim.lsp.config('clangd', default_lsp_config)
     vim.lsp.config('bashls', default_lsp_config)
     vim.lsp.config('jdtls', default_lsp_config)
     vim.lsp.config('phpactor', default_lsp_config)
