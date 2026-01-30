@@ -75,6 +75,11 @@ keyset('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', 
 keyset('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts.default())
 keyset('n', '<leader>ty', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts.default())
 
+keyset("n", "<leader>tr", ':lua require("neotest").run.run()<CR>', { desc = "Run Nearest" })
+keyset("n", "<leader>tf", ':lua require("neotest").run.run(vim.fn.expand("%"))<CR>', { desc = "Run File" })
+keyset("n", "<leader>ts", ':lua require("neotest").summary.toggle()<CR>', { desc = "Toggle Summary" })
+keyset("n", "<leader>to", ':lua require("neotest").output_panel.toggle()<CR>', { desc = "Toggle Output Panel" })
+
 local crates = require("crates")
 
 keyset("n", "<leader>ct", crates.toggle, opts.default())

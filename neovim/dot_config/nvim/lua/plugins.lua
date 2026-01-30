@@ -91,17 +91,13 @@ require('lazy').setup({
         end
     },
 
-    -- {
-    -- 'nvim-treesitter/nvim-treesitter',
-    -- build = ':TSUpdate',
-    -- config = function()
-    --   require('nvim-treesitter.configs').setup({
-    --     ensure_installed = { 'rust', 'lua', 'vimdoc', 'c', 'cpp' },
-    --     highlight = { enable = true },
-    --     indent = { enable = true },
-    --   })
-    -- end,
-    -- },
+    {
+        'nvim-treesitter/nvim-treesitter',
+        build = ':TSUpdate',
+        config = function()
+            require('plugins.treesitter').setup()
+        end,
+    },
 
     --colorcheme
     { 'folke/tokyonight.nvim' },
@@ -187,6 +183,20 @@ require('lazy').setup({
         },
         config = function()
             require('plugins.dap').setup()
+        end
+    },
+    {
+        'nvim-neotest/neotest',
+        dependencies = {
+            'nvim-neotest/nvim-nio',
+            'nvim-lua/plenary.nvim',
+            'nvim-treesitter/nvim-treesitter',
+
+            -- adapters
+            'rouge8/neotest-rust'
+        },
+        config = function()
+            require('plugins.neotest').setup()
         end
     },
 
