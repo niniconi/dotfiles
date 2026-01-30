@@ -3,7 +3,7 @@ layer-rule {
 }
 
 layer-rule {
-    match namespace="^swww-daemonbackdrop$"
+    match namespace="^dms:blurwallpaper$"
     place-within-backdrop true
 }
 
