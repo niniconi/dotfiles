@@ -11,6 +11,7 @@
 // This line starts waybar, a commonly used bar for Wayland compositors.
 spawn-at-startup "waybar"
 spawn-at-startup "hypridle"
+spawn-sh-at-startup "dms run"
 spawn-sh-at-startup "fcitx5 --replace -d"
 spawn-sh-at-startup "$HOME/.config/scripts/image-tool blur 30 $HOME/.local/share/backgrounds/background $HOME/.local/share/backgrounds-blur/background-blur"
 spawn-sh-at-startup "$HOME/.config/scripts/start-swww.sh background $HOME/.local/share/backgrounds/background"
