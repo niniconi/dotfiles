@@ -1,0 +1,12 @@
+[submodule "ranger/dot_config/ranger/plugins/ranger_devicon"]
+	path = ranger/dot_config/ranger/plugins/ranger_devicon
+	url = https://github.com/alexanderjeurissen/ranger_devicons
+[submodule "zsh/dot_oh-my-zsh/custom/plugins/zsh-autosuggestions"]
+	path = zsh/dot_oh-my-zsh/custom/plugins/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions.git
+[submodule "zsh/dot_oh-my-zsh/custom/plugins/zsh-syntax-highlighting"]
+	path = zsh/dot_oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "zsh/dot_oh-my-zsh/custom/themes/powerlevel10k"]
+	path = zsh/dot_oh-my-zsh/custom/themes/powerlevel10k
+	url = https://github.com/romkatv/powerlevel10k.git

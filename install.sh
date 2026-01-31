@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 red='\033[0;31m'
 green='\033[0;32m'
@@ -27,31 +27,26 @@ CONF_IGNORE=". .git README.md install.sh l18n dot_install.sh resolve.sh utils.sh
 
 SELECT_INDEX=1
 
+if [ "$EUID" -eq 0 ]; then
+  echo "Error: Please do not run this script with sudo or as root."
+  exit 1
+fi
+
+if [[ "$DEBUG" == "true" ]] && [[ -d "./.git" ]]; then
+    printf "${tip} Debug mode: Using local repository.\n"
+else
+    rm -rf /tmp/dotfiles.git
+    if git clone $REPOSITORY_URL /tmp/dotfiles.git; then
+        cd /tmp/dotfiles.git
+        trap 'rm -rf /tmp/dotfiles.git; printf "\e[?25h"; exit' EXIT SIGINT SIGTERM
+    else
+        echo "Error: git clone failed"
+        exit 1
+    fi
+fi
+
 . ./utils.sh
 . ./l18n
-
-# delete_repository(){
-    # if [ $NEED_DELETE_REPOSITORY == true ];then
-    #     cd ..
-    #     if [ -d "./${REPOSITORY_NAME}" ];then
-    #         rm "./${REPOSITORY_NAME}" -rf
-    #         printf "${removed}:./${REPOSITORY_NAME}\n"
-    #     fi
-    # fi
-# }
-
-function find_root_path(){
-    current_path=`pwd`
-    while [[ ! -e .git ]] && [[ `pwd` != '/' ]]
-    do
-        cd ..
-    done
-    if grep url .git/config | grep -w `sed 's/https:\/\///g;s/\.git$//g' <<< $REPOSITORY_URL` >> /dev/null; then
-        pwd
-        return 0
-    fi
-    return 255
-}
 
 clear_line(){
     printf "\e[K"
@@ -66,21 +61,6 @@ clear_screen(){
         printf "\e[1A"
         printf "\e[K"
     done
-}
-
-function make_pair(){
-    [[ $# != 2 ]] && exit -1
-    return $[ $1 * 100000 + $2]
-}
-
-function unwarp_pair_first(){
-    [[ $# != 1 ]] && exit -1
-    return $[$1/100000]
-}
-
-function unwarp_pair_second(){
-    [[ $# != 1 ]] && exit -1
-    return $[$1%100000]
 }
 
 # render the select panel
@@ -289,29 +269,6 @@ select_panel(){
     return $ret_val
 }
 
-execute_exist(){
-    is_ok=true
-    apps=""
-
-    for e in $*;do
-        which ${e} > /dev/null 2>&1
-        if [ $? == 1 ];then
-            apps="${apps} ${red}${e}${plain}"
-            is_ok=false
-        else
-            apps="${apps} ${green}${e}${plain}"
-        fi
-    done
-
-
-    if [ $is_ok != true ];then
-        printf "Make sure you installed the following programs (red is not install): ${apps} \n"
-        exit 1
-    else
-        return 0
-    fi
-}
-
 get_config_names(){
     local un_ignore_configs=`ls -a`
     for config in $un_ignore_configs
@@ -325,28 +282,22 @@ execute_install_script(){
     CONFIG_PATH="${REPOSITORY_PATH}/${1}"
 
     printf "${installing}:${1} configuration\n"
-    source ./${1}/install.sh
-    if [ $? == 0 ];then
-        printf "${installed}:${1} configuration\n"
-    else
-        printf "${error}:install ${1} configuration failed\n"
+
+    if [[ -e "${1}/install.sh" ]]; then
+        if source ./${1}/install.sh;then
+            printf "${installed}:${1} configuration\n"
+        else
+            printf "${error}:install ${1} configuration failed\n"
+        fi
     fi
 
     printf "\n"
 }
 
-main(){
+install(){
     REPOSITORY_PATH=$(pwd)
 
-    # execute_exist wget git
-
-    # if [ ! -d "../${REPOSITORY_NAME}" ];then
-    #     NEED_DELETE_REPOSITORY=true
-    #     if [ ! -d "./${REPOSITORY_NAME}" ];then
-    #         git clone ${REPOSITORY_URL}
-    #     fi
-    #     cd "${REPOSITORY_NAME}"
-    # fi
+    git submodule update --init --recursive
 
     local configs=`get_config_names`
 
@@ -403,6 +354,8 @@ main(){
             pkg_install "$filtered_suggest_pkg"
         fi
 
+        execute_install_script $configuration
+
         find $configuration -type f | while IFS= read config_file
         do
             config_file=`echo $config_file | sed "s/^$configuration\\///g"`
@@ -439,10 +392,8 @@ main(){
         done
     done
 
-    # delete_repository
-
     # show the cursor
     printf "\e[?25h"
 }
 
-main $@
+install $@
