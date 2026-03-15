@@ -27,6 +27,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
   - [Path / Glob](#318-path--glob)
   - [functools](#319-functools)
   - [dataclasses / attrs](#320-dataclasses--attrs)
+  - [Pyshark / Network Analysis](#321-pyshark--network-analysis)
 - [HTML](#4-html)
 - [CSS](#5-css)
 - [JavaScript](#6-javascript)
@@ -408,6 +409,25 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `dataclassfield` | Dataclass field |
 | `iattrs` | Import attrs |
 | `attrcls` | Attrs class |
+
+### 3.21 Pyshark / Network Analysis
+
+| Trigger | Description |
+|---------|-------------|
+| `ipyshark` | Import pyshark |
+| `plive` | LiveCapture - Real-time packet capture |
+| `pfile` | FileCapture - Read PCAP file |
+| `pstat` | PCAP statistical analysis |
+| `pfilter` | Display filter |
+| `phttp` | HTTP protocol analysis |
+| `pdns` | DNS protocol analysis |
+| `ptcpstream` | TCP stream reassembly |
+| `pextract` | Extract HTTP files from PCAP |
+| `pcreds` | Extract credentials from PCAP |
+| `pusb` | USB keyboard traffic analysis |
+| `picmp` | ICMP covert channel detection |
+| `pwifi` | WiFi traffic analysis |
+| `pfollow` | Follow TCP stream |
 
 ---
 

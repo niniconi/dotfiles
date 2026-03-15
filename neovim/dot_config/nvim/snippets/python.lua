@@ -2886,4 +2886,366 @@ class {}:
             }
         )
     ),
+
+    ---------------------------------------
+    -- 21. Pyshark / Network Analysis
+    ---------------------------------------
+
+    s({ trig = 'ipyshark', dscr = 'Import pyshark' },
+        t('import pyshark')
+    ),
+
+    s({ trig = 'plive', dscr = 'LiveCapture - real-time packet capture' },
+        fmt([[
+capture = pyshark.LiveCapture(interface='{}')
+
+for packet in capture.sniff_continuously(packet_count={}):
+    print(f'Protocol: {{packet.highest_layer}}')
+    print(f'Source: {{packet.ip.src}}')
+    print(f'Destination: {{packet.ip.dst}}')
+    print('-' * 50)
+
+capture.close()
+]],
+            {
+                i(1, 'eth0'),
+                i(0, '10'),
+            }
+        )
+    ),
+
+    s({ trig = 'pfile', dscr = 'FileCapture - read PCAP file' },
+        fmt([[
+capture = pyshark.FileCapture('{}')
+
+for packet in capture:
+    print(f'Time: {{packet.sniff_time}}')
+    print(f'Protocol: {{packet.highest_layer}}')
+    print(f'Source: {{packet.ip.src}}')
+    print(f'Destination: {{packet.ip.dst}}')
+    print('-' * 50)
+
+capture.close()
+]],
+            {
+                i(1, 'traffic.pcap'),
+            }
+        )
+    ),
+
+    s({ trig = 'pstat', dscr = 'PCAP statistics' },
+        fmt([[
+capture = pyshark.FileCapture('{}')
+
+packet_count = 0
+protocols = {{}}
+
+for packet in capture:
+    packet_count += 1
+    protocol = packet.highest_layer
+    protocols[protocol] = protocols.get(protocol, 0) + 1
+
+print(f"Total packets: {{packet_count}}")
+print(f"Protocols: {{protocols}}")
+
+capture.close()
+]],
+            {
+                i(1, 'traffic.pcap'),
+            }
+        )
+    ),
+
+    s({ trig = 'pfilter', dscr = 'Display filter' },
+        fmt([[
+capture = pyshark.FileCapture('{}', display_filter='{}')
+
+for packet in capture:
+    print(packet)
+
+capture.close()
+]],
+            {
+                i(1, 'traffic.pcap'),
+                i(2, 'http'),
+            }
+        )
+    ),
+
+    s({ trig = 'phttp', dscr = 'HTTP protocol analysis' },
+        fmt([[
+capture = pyshark.FileCapture('{}', display_filter='http')
+
+for packet in capture:
+    try:
+        if hasattr(packet.http, 'request_method'):
+            print(f"[REQUEST] {{packet.http.request_method}} {{packet.http.request_uri}}")
+            print(f"Host: {{packet.http.host}}")
+        if hasattr(packet.http, 'response_code'):
+            print(f"[RESPONSE] {{packet.http.response_code}}")
+    except AttributeError:
+        pass
+
+capture.close()
+]],
+            {
+                i(1, 'http_traffic.pcap'),
+            }
+        )
+    ),
+
+    s({ trig = 'pdns', dscr = 'DNS protocol analysis' },
+        fmt([[
+capture = pyshark.FileCapture('{}', display_filter='dns')
+
+for packet in capture:
+    try:
+        if hasattr(packet.dns, 'qry_name'):
+            print(f"[Query] {{packet.dns.qry_name}}")
+        if hasattr(packet.dns, 'a'):
+            print(f"[Answer] {{packet.dns.qry_name}} -> {{packet.dns.a}}")
+    except AttributeError:
+        pass
+
+capture.close()
+]],
+            {
+                i(1, 'dns_traffic.pcap'),
+            }
+        )
+    ),
+
+    s({ trig = 'ptcpstream', dscr = 'TCP stream reassembly' },
+        fmt([[
+def follow_tcp_stream(pcap_file, stream_id):
+    capture = pyshark.FileCapture(
+        pcap_file,
+        display_filter=f'tcp.stream eq {{stream_id}}'
+    )
+
+    stream_data = []
+
+    for packet in capture:
+        if hasattr(packet, 'tcp') and hasattr(packet.tcp, 'payload'):
+            payload = packet.tcp.payload.replace(':', '')
+            payload_bytes = bytes.fromhex(payload)
+            stream_data.append(payload_bytes)
+
+    capture.close()
+    return b''.join(stream_data)
+
+data = follow_tcp_stream('{}', stream_id={})
+with open('stream.bin', 'wb') as f:
+    f.write(data)
+]],
+            {
+                i(1, 'traffic.pcap'),
+                i(0, '0'),
+            }
+        )
+    ),
+
+    s({ trig = 'pextract', dscr = 'Extract HTTP files from PCAP' },
+        fmt([[
+def extract_http_files(pcap_file, output_dir='extracted'):
+    import os
+    os.makedirs(output_dir, exist_ok=True)
+
+    capture = pyshark.FileCapture(pcap_file, display_filter='http')
+    file_count = 0
+
+    for packet in capture:
+        try:
+            if hasattr(packet.http, 'file_data'):
+                file_data = packet.http.file_data
+                content_type = packet.http.content_type if hasattr(packet.http, 'content_type') else 'unknown'
+
+                ext_map = {{
+                    'image/png': '.png',
+                    'image/jpeg': '.jpg',
+                    'image/gif': '.gif',
+                    'text/html': '.html',
+                    'application/pdf': '.pdf',
+                }}
+                ext = ext_map.get(content_type.split(';')[0], '.bin')
+
+                file_count += 1
+                filename = f'{{output_dir}}/file_{{file_count}}{{ext}}'
+                file_bytes = bytes.fromhex(file_data.replace(':', ''))
+
+                with open(filename, 'wb') as f:
+                    f.write(file_bytes)
+                print(f"Extracted: {{filename}}")
+        except Exception as e:
+            pass
+
+    capture.close()
+    print(f"Total: {{file_count}} files")
+
+extract_http_files('{}')
+]],
+            {
+                i(1, 'web_traffic.pcap'),
+            }
+        )
+    ),
+
+    s({ trig = 'pcreds', dscr = 'Extract credentials from PCAP' },
+        fmt([[
+def extract_credentials(pcap_file):
+    capture = pyshark.FileCapture(pcap_file)
+
+    for packet in capture:
+        try:
+            # HTTP Basic Auth
+            if hasattr(packet, 'http') and hasattr(packet.http, 'authorization'):
+                print(f"[HTTP Auth] {{packet.http.authorization}}")
+
+            # FTP Login
+            if hasattr(packet, 'ftp'):
+                if hasattr(packet.ftp, 'request_command'):
+                    cmd = packet.ftp.request_command
+                    if cmd in ['USER', 'PASS']:
+                        print(f"[FTP] {{cmd}}: {{packet.ftp.request_arg}}")
+
+        except AttributeError:
+            pass
+
+    capture.close()
+
+extract_credentials('{}')
+]],
+            {
+                i(1, 'network.pcap'),
+            }
+        )
+    ),
+
+    s({ trig = 'pusb', dscr = 'USB keyboard analysis' },
+        fmt([[
+usb_codes = {{
+    0x04: 'a', 0x05: 'b', 0x06: 'c', 0x07: 'd', 0x08: 'e',
+    0x09: 'f', 0x0a: 'g', 0x0b: 'h', 0x0c: 'i', 0x0d: 'j',
+    0x0e: 'k', 0x0f: 'l', 0x10: 'm', 0x11: 'n', 0x12: 'o',
+    0x13: 'p', 0x14: 'q', 0x15: 'r', 0x16: 's', 0x17: 't',
+    0x18: 'u', 0x19: 'v', 0x1a: 'w', 0x1b: 'x', 0x1c: 'y',
+    0x1d: 'z', 0x1e: '1', 0x1f: '2', 0x20: '3', 0x21: '4',
+    0x22: '5', 0x23: '6', 0x24: '7', 0x25: '8', 0x26: '9',
+    0x27: '0', 0x28: '\\\\n', 0x2c: ' '
+}}
+
+def parse_usb_keyboard(pcap_file):
+    capture = pyshark.FileCapture(pcap_file)
+    keystrokes = []
+
+    for packet in capture:
+        try:
+            if hasattr(packet, 'usb') and hasattr(packet.usb, 'capdata'):
+                data = packet.usb.capdata.replace(':', '')
+                if len(data) >= 6:
+                    key_code = int(data[4:6], 16)
+                    if key_code in usb_codes:
+                        keystrokes.append(usb_codes[key_code])
+        except:
+            pass
+
+    capture.close()
+    return ''.join(keystrokes)
+
+result = parse_usb_keyboard('{}')
+print(f"Keystrokes: {{result}}")
+]],
+            {
+                i(1, 'usb_keyboard.pcap'),
+            }
+        )
+    ),
+
+    s({ trig = 'picmp', dscr = 'ICMP covert channel detection' },
+        fmt([[
+def detect_icmp_covert(pcap_file):
+    capture = pyshark.FileCapture(pcap_file, display_filter='icmp')
+    data_extracted = []
+
+    for packet in capture:
+        try:
+            if hasattr(packet.icmp, 'data'):
+                data = packet.icmp.data.replace(':', '')
+                data_bytes = bytes.fromhex(data)
+                try:
+                    text = data_bytes.decode('ascii')
+                    if text.isprintable():
+                        data_extracted.append(text)
+                except:
+                    pass
+        except:
+            pass
+
+    capture.close()
+    return ''.join(data_extracted)
+
+result = detect_icmp_covert('{}')
+print(f"Extracted: {{result}}")
+]],
+            {
+                i(1, 'icmp_traffic.pcap'),
+            }
+        )
+    ),
+
+    s({ trig = 'pwifi', dscr = 'WiFi traffic analysis' },
+        fmt([[
+def analyze_wifi(pcap_file):
+    capture = pyshark.FileCapture(pcap_file)
+    ssids = set()
+    clients = set()
+
+    for packet in capture:
+        try:
+            if hasattr(packet, 'wlan'):
+                if hasattr(packet.wlan, 'ssid'):
+                    ssid = packet.wlan.ssid
+                    if ssid:
+                        ssids.add(ssid)
+                if hasattr(packet.wlan, 'sa'):
+                    clients.add(packet.wlan.sa)
+        except:
+            pass
+
+    capture.close()
+    print("SSIDs found:")
+    for ssid in ssids:
+        print(f"  - {{ssid}}")
+    print(f"Clients: {{len(clients)}}")
+
+analyze_wifi('{}')
+]],
+            {
+                i(1, 'wifi.pcap'),
+            }
+        )
+    ),
+
+    s({ trig = 'pfollow', dscr = 'Follow TCP stream' },
+        fmt([[
+capture = pyshark.FileCapture('{}', display_filter='tcp.stream eq {}')
+
+for packet in capture:
+    if hasattr(packet, 'tcp'):
+        if hasattr(packet.tcp, 'payload'):
+            payload = packet.tcp.payload.replace(':', '')
+            try:
+                data = bytes.fromhex(payload)
+                print(data.decode('utf-8', errors='ignore'), end='')
+            except:
+                pass
+
+capture.close()
+]],
+            {
+                i(1, 'traffic.pcap'),
+                i(0, '0'),
+            }
+        )
+    ),
 }
