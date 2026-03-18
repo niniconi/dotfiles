@@ -5,32 +5,33 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 ## Table of Contents
 
 - [C](#1-c)
-- [Dart](#2-dart)
-- [Python](#3-python)
-  - [General Python](#31-general-python)
-  - [Web Scraping](#32-web-scraping)
-  - [Pwntools](#33-pwn-snippets-pwntools)
-  - [NumPy](#34-scientific-computing-numpy)
-  - [Pandas](#35-pandas)
-  - [Matplotlib / Seaborn](#36-matplotlib--seaborn)
-  - [Z3 / SMT Solver](#37-z3--smt-solver)
-  - [CLI / Automation](#38-cli--automation)
-  - [Testing](#39-testing)
-  - [Web Frameworks](#310-web-frameworks)
-  - [Concurrency / Async](#311-concurrency--async)
-  - [File I/O / Serialization](#312-file-io--serialization)
-  - [Type Hints](#313-type-hints)
-  - [Logging / Debugging](#314-logging--debugging)
-  - [DateTime](#315-datetime)
-  - [Collections / Utilities](#316-collections--utilities)
-  - [Math / Statistics](#317-math--statistics)
-  - [Path / Glob](#318-path--glob)
-  - [functools](#319-functools)
-  - [dataclasses / attrs](#320-dataclasses--attrs)
-  - [Pyshark / Network Analysis](#321-pyshark--network-analysis)
-- [HTML](#4-html)
-- [CSS](#5-css)
-- [JavaScript](#6-javascript)
+- [C++](#2-c)
+- [Dart](#3-dart)
+- [Python](#4-python)
+  - [General Python](#41-general-python)
+  - [Web Scraping](#42-web-scraping)
+  - [Pwntools](#43-pwn-snippets-pwntools)
+  - [NumPy](#44-scientific-computing-numpy)
+  - [Pandas](#45-pandas)
+  - [Matplotlib / Seaborn](#46-matplotlib--seaborn)
+  - [Z3 / SMT Solver](#47-z3--smt-solver)
+  - [CLI / Automation](#48-cli--automation)
+  - [Testing](#49-testing)
+  - [Web Frameworks](#410-web-frameworks)
+  - [Concurrency / Async](#411-concurrency--async)
+  - [File I/O / Serialization](#412-file-io--serialization)
+  - [Type Hints](#413-type-hints)
+  - [Logging / Debugging](#414-logging--debugging)
+  - [DateTime](#415-datetime)
+  - [Collections / Utilities](#416-collections--utilities)
+  - [Math / Statistics](#417-math--statistics)
+  - [Path / Glob](#418-path--glob)
+  - [functools](#419-functools)
+  - [dataclasses / attrs](#420-dataclasses--attrs)
+  - [Pyshark / Network Analysis](#421-pyshark--network-analysis)
+- [HTML](#5-html)
+- [CSS](#6-css)
+- [JavaScript](#7-javascript)
 
 ---
 
@@ -42,7 +43,16 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 
 ---
 
-## 2. Dart
+## 2. C++
+
+| Trigger | Description |
+|---------|-------------|
+| `main` | C++ main entry point |
+| `oi-cf` | Codeforces template |
+
+---
+
+## 3. Dart
 
 | Trigger | Description |
 |---------|-------------|
@@ -63,9 +73,9 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 
 ---
 
-## 3. Python
+## 4. Python
 
-### 3.1 General Python
+### 4.1 General Python
 
 | Trigger | Description |
 |---------|-------------|
@@ -95,7 +105,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `abc` | Abstract base class |
 | `match` | Match case statement (Python 3.10+) |
 
-### 3.2 Web Scraping
+### 4.2 Web Scraping
 
 | Trigger | Description |
 |---------|-------------|
@@ -104,7 +114,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `bsoup` | BeautifulSoup initialization |
 | `wcsv` | Write data to CSV file |
 
-### 3.3 Pwn Snippets (Pwntools)
+### 4.3 Pwn Snippets (Pwntools)
 
 | Trigger | Description |
 |---------|-------------|
@@ -116,7 +126,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `s` | io.send() |
 | `sa` | io.sendafter() |
 
-### 3.4 Scientific Computing (NumPy)
+### 4.4 Scientific Computing (NumPy)
 
 | Trigger | Description |
 |---------|-------------|
@@ -142,7 +152,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `npunique` | NumPy unique |
 | `npsave` | NumPy save/load |
 
-### 3.5 Pandas
+### 4.5 Pandas
 
 | Trigger | Description |
 |---------|-------------|
@@ -167,7 +177,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `pddrop` | DataFrame drop columns |
 | `pdrename` | DataFrame rename columns |
 
-### 3.6 Matplotlib / Seaborn
+### 4.6 Matplotlib / Seaborn
 
 | Trigger | Description |
 |---------|-------------|
@@ -185,7 +195,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `snsviolin` | Seaborn violinplot |
 | `snspair` | Seaborn pairplot |
 
-### 3.7 Z3 / SMT Solver
+### 4.7 Z3 / SMT Solver
 
 | Trigger | Description |
 |---------|-------------|
@@ -209,7 +219,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `z3sum` | Z3 Sum |
 | `z3product` | Z3 Product |
 
-### 3.8 CLI / Automation
+### 4.8 CLI / Automation
 
 | Trigger | Description |
 |---------|-------------|
@@ -232,7 +242,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `igetpass` | Import getpass |
 | `getpass` | Get password input |
 
-### 3.9 Testing
+### 4.9 Testing
 
 | Trigger | Description |
 |---------|-------------|
@@ -254,7 +264,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `assertIn` | assertIn |
 | `assertRaises` | assertRaises |
 
-### 3.10 Web Frameworks
+### 4.10 Web Frameworks
 
 | Trigger | Description |
 |---------|-------------|
@@ -267,7 +277,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `flaskroute` | Flask route |
 | `flaskjson` | Flask jsonify |
 
-### 3.11 Concurrency / Async
+### 4.11 Concurrency / Async
 
 | Trigger | Description |
 |---------|-------------|
@@ -287,7 +297,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `threadpool` | ThreadPoolExecutor |
 | `processpool` | ProcessPoolExecutor |
 
-### 3.12 File I/O / Serialization
+### 4.12 File I/O / Serialization
 
 | Trigger | Description |
 |---------|-------------|
@@ -306,7 +316,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `itoml` | Import toml |
 | `tomlcomp` | toml.loads / toml.dumps |
 
-### 3.13 Type Hints
+### 4.13 Type Hints
 
 | Trigger | Description |
 |---------|-------------|
@@ -321,7 +331,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `typefinal` | Final type hint |
 | `typenamed` | NamedTuple |
 
-### 3.14 Logging / Debugging
+### 4.14 Logging / Debugging
 
 | Trigger | Description |
 |---------|-------------|
@@ -337,7 +347,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `tqdm` | Tqdm progress bar |
 | `tqdmwr` | Tqdm wrapper |
 
-### 3.15 DateTime
+### 4.15 DateTime
 
 | Trigger | Description |
 |---------|-------------|
@@ -349,7 +359,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `idateutil` | Import dateutil |
 | `dateutilparse` | dateutil parser |
 
-### 3.16 Collections / Utilities
+### 4.16 Collections / Utilities
 
 | Trigger | Description |
 |---------|-------------|
@@ -368,7 +378,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `itemgetter` | ItemGetter |
 | `attrgetter` | AttrGetter |
 
-### 3.17 Math / Statistics
+### 4.17 Math / Statistics
 
 | Trigger | Description |
 |---------|-------------|
@@ -382,7 +392,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `hashlib` | Hashlib functions |
 | `base64` | Base64 encode/decode |
 
-### 3.18 Path / Glob
+### 4.18 Path / Glob
 
 | Trigger | Description |
 |---------|-------------|
@@ -394,14 +404,14 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `iglob` | Import glob |
 | `glob` | Glob files |
 
-### 3.19 functools
+### 4.19 functools
 
 | Trigger | Description |
 |---------|-------------|
 | `reduce` | Reduce function |
 | `cmp` | Cmp_to_key |
 
-### 3.20 dataclasses / attrs
+### 4.20 dataclasses / attrs
 
 | Trigger | Description |
 |---------|-------------|
@@ -410,7 +420,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 | `iattrs` | Import attrs |
 | `attrcls` | Attrs class |
 
-### 3.21 Pyshark / Network Analysis
+### 4.21 Pyshark / Network Analysis
 
 | Trigger | Description |
 |---------|-------------|
@@ -431,7 +441,7 @@ A collection of LuaSnip snippets for various programming languages in Neovim.
 
 ---
 
-## 4. HTML
+## 5. HTML
 
 ### 4.1 Document Structure
 
@@ -627,7 +637,7 @@ Usage: Type text, then add `.tag` or `#tag` suffix.
 
 ---
 
-## 5. CSS
+## 6. CSS
 
 ### 5.1 Selectors & Structure
 
@@ -790,7 +800,7 @@ Usage: Type text, then add `.tag` or `#tag` suffix.
 
 ---
 
-## 6. JavaScript
+## 7. JavaScript
 
 ### 6.1 Basic
 
