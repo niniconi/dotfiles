@@ -34,6 +34,11 @@ return {
 using namespace std;
 typedef unsigned long long ull;
 typedef long long ll;
+typedef double ld;
+typedef long double lld;
+
+#define endl "\n"
+#define enld "\n"
 
 void solve(){{
     {}
