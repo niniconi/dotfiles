@@ -108,9 +108,15 @@ require('lazy').setup({
     -- use('flazz/vim-colorschemes') --a colorscheme pack
 
     {
-        'nvim-tree/nvim-tree.lua',
+        'nvim-neo-tree/neo-tree.nvim',
+        branch = 'v3.x',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            'MunifTanjim/nui.nvim',
+            'nvim-tree/nvim-web-devicons',
+        },
         config = function()
-            require('plugins.nvim-tree').setup()
+            require('plugins.neo-tree').setup()
         end
     },
 

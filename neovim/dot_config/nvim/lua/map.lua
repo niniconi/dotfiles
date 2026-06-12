@@ -16,8 +16,8 @@ end
 --
 -- some basic keymap conf
 --
-keyset('n', '<leader>n', ':NvimTreeOpen<CR>', opts.default("Open NvimTree"))
-keyset('n', '<leader>q', ':NvimTreeClose<CR>', opts.default("Close NvimTree"))
+keyset('n', '<leader>n', '<Cmd>Neotree filesystem reveal left<CR>', opts.default("Toggle file tree"))
+keyset('n', '<leader>q', '<Cmd>Neotree close<CR>', opts.default("Close file tree"))
 keyset('n', '<leader>y', ':FloatermNew<CR>', opts.default("Open float terminal"))
 keyset('n', '<leader>t', ':terminal<CR>', opts.default("Open terminal"))
 keyset('n', '<leader>w', "<C-w>", opts.default("Split window mode"))
