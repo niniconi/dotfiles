@@ -7,6 +7,7 @@ function M.setup()
     vim.opt.termguicolors = true
 
     require("neo-tree").setup({
+        popup_border_style = "rounded",
         close_if_last_window = true,
         sort_case_insensitive = true,
         enable_git_status = true,
