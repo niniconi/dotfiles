@@ -104,3 +104,33 @@ keyset("n", "<leader>cR", crates.open_repository, opts.default())
 keyset("n", "<leader>cD", crates.open_documentation, opts.default())
 keyset("n", "<leader>cC", crates.open_crates_io, opts.default())
 keyset("n", "<leader>cL", crates.open_lib_rs, opts.default())
+
+--
+-- gitsigns keymaps
+--
+keyset('n', ']c', function()
+    if vim.wo.diff then return vim.cmd.normal({']c', bang = true}) end
+    require('gitsigns').nav_hunk('next')
+end, opts.default("Next hunk"))
+
+keyset('n', '[c', function()
+    if vim.wo.diff then return vim.cmd.normal({'[c', bang = true}) end
+    require('gitsigns').nav_hunk('prev')
+end, opts.default("Prev hunk"))
+
+keyset('n', '<leader>hs', ':Gitsigns stage_hunk<CR>', opts.default("Stage hunk"))
+keyset('v', '<leader>hs', ':Gitsigns stage_hunk<CR>', opts.default("Stage hunk visual"))
+keyset('n', '<leader>hr', ':Gitsigns reset_hunk<CR>', opts.default("Reset hunk"))
+keyset('v', '<leader>hr', ':Gitsigns reset_hunk<CR>', opts.default("Reset hunk visual"))
+keyset('n', '<leader>hp', ':Gitsigns preview_hunk<CR>', opts.default("Preview hunk"))
+keyset('n', '<leader>hb', ':Gitsigns blame_line<CR>', opts.default("Blame line"))
+keyset('n', '<leader>hB', ':Gitsigns blame<CR>', opts.default("Blame full screen"))
+keyset('n', '<leader>hd', ':Gitsigns diffthis<CR>', opts.default("Diff against index"))
+keyset('n', '<leader>hS', ':Gitsigns stage_buffer<CR>', opts.default("Stage buffer"))
+keyset('n', '<leader>hR', ':Gitsigns reset_buffer<CR>', opts.default("Reset buffer"))
+keyset('n', '<leader>hi', ':Gitsigns preview_hunk_inline<CR>', opts.default("Preview hunk inline"))
+keyset('n', '<leader>hq', ':Gitsigns setqflist<CR>', opts.default("Hunks to quickfix"))
+keyset('n', '<leader>tb', ':Gitsigns toggle_current_line_blame<CR>', opts.default("Toggle blame"))
+keyset('n', '<leader>tw', ':Gitsigns toggle_word_diff<CR>', opts.default("Toggle word diff"))
+keyset('n', '<leader>tn', ':Gitsigns toggle_numhl<CR>', opts.default("Toggle num highlight"))
+keyset('n', '<leader>tl', ':Gitsigns toggle_linehl<CR>', opts.default("Toggle line highlight"))
