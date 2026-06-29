@@ -1,11 +1,19 @@
+local function hl(name, attr)
+  local ok, val = pcall(vim.api.nvim_get_hl_by_name, name, true)
+  if ok and val[attr] then
+    return string.format('#%06x', val[attr])
+  end
+  return 'NONE'
+end
+
 local colors = {
-  blue   = '#80a0ff',
-  cyan   = '#79dac8',
-  black  = '#080808',
-  white  = '#c6c6c6',
-  red    = '#ff5189',
-  violet = '#d183e8',
-  grey   = '#303030',
+  blue   = hl('Function', 'foreground'),
+  cyan   = hl('Identifier', 'foreground'),
+  black  = hl('Normal', 'background'),
+  white  = hl('Normal', 'foreground'),
+  red    = hl('DiagnosticError', 'foreground'),
+  violet = hl('Keyword', 'foreground'),
+  grey   = hl('NonText', 'foreground'),
 }
 
 local bubbles_theme = {
@@ -68,3 +76,11 @@ require('lualine').setup {
   tabline = {},
   extensions = {},
 }
+
+-- refresh lualine when colorscheme changes
+vim.api.nvim_create_autocmd("ColorScheme", {
+  pattern = "*",
+  callback = function()
+    require('lualine').refresh()
+  end,
+})

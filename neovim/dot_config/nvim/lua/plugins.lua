@@ -110,6 +110,7 @@ require('lazy').setup({
     { 'joshdick/onedark.vim' },
     { 'tomasr/molokai' },
     { 'dracula/vim' },
+    { 'RRethy/base16-nvim' },
     -- use('flazz/vim-colorschemes') --a colorscheme pack
 
     {
