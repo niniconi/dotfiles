@@ -145,6 +145,13 @@ local hl_map = {
     NeoTreeGitUntracked       = { fg = "base0A" },
     NeoTreeGitConflict        = { fg = "base08" },
     NeoTreeGitIgnored         = { fg = "base03" },
+    NeoTreeTabActive          = { fg = "base05", bg = "base00" },
+    NeoTreeTabInactive        = { fg = "base03", bg = "base01" },
+    NeoTreeTabSeparatorActive   = { fg = "base03", bg = "base00" },
+    NeoTreeTabSeparatorInactive = { fg = "base01", bg = "base01" },
+    NeoTreeWinSeparator       = { fg = "base03", bg = "base00" },
+    WinBar                    = { fg = "base04", bg = "base01" },
+    WinBarNC                  = { fg = "base03", bg = "base01" },
 }
 
 local term_colors = {
