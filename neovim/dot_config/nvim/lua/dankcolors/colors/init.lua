@@ -45,7 +45,10 @@ function M.setup(opts)
     }
   end
 
-  ---@class Palette
+  local green_mint = b16.base0D
+  local pale_mint = b16.base0C
+  local peach = b16.base08
+
   local palette = {
     bg = b16.base00,
     bg_dark = Util.blend_bg(b16.base01, 0.6, b16.base00),
@@ -56,26 +59,26 @@ function M.setup(opts)
     fg_dark = b16.base04,
     fg_gutter = Util.blend_bg(b16.base02, 0.5, b16.base03),
 
-    blue = b16.base0D,
-    blue0 = Util.blend_bg(b16.base0D, 0.3, "#000000"),
-    blue1 = Util.brighten(b16.base0D, 0.1, 0.25),
-    blue2 = Util.brighten(b16.base0C, 0.15, 0.2),
-    blue5 = Util.brighten(b16.base0D, 0.05, 0.1),
-    blue6 = Util.brighten(b16.base0D, 0.3, 0.3),
-    blue7 = Util.blend_bg(b16.base0D, 0.4, b16.base00),
+    blue = Util.brighten(pale_mint, -0.30, -0.3),
+    blue0 = Util.blend_bg(pale_mint, 0.25, "#000000"),
+    blue1 = Util.brighten(pale_mint, -0.13, 0),
+    blue2 = Util.brighten(pale_mint, -0.20, 0),
+    blue5 = Util.brighten(pale_mint, -0.25, 0),
+    blue6 = Util.brighten(pale_mint, -0.05, 0),
+    blue7 = Util.blend_bg(pale_mint, 0.35, b16.base00),
 
-    cyan = b16.base0C,
-    teal = b16.base0C,
-    green = b16.base0B,
-    green1 = Util.brighten(b16.base0B, 0.1, 0.2),
-    green2 = Util.blend(b16.base0B, 0.5, b16.base0C),
-    magenta = b16.base0E,
-    magenta2 = Util.brighten(b16.base0E, 0.2, 0.3),
+    cyan = Util.brighten(pale_mint, -0.18, 0),
+    teal = Util.brighten(pale_mint, -0.28, 0),
+    green = green_mint,
+    green1 = Util.brighten(green_mint, 0.05, 0),
+    green2 = Util.blend(green_mint, 0.5, pale_mint),
+    magenta = Util.brighten(peach, -0.10, 0),
+    magenta2 = Util.brighten(peach, 0.05, 0),
     orange = b16.base09,
-    purple = b16.base0F,
+    purple = Util.brighten(peach, -0.20, 0),
     red = b16.base08,
-    red1 = Util.blend_bg(b16.base08, 0.3, "#000000"),
-    yellow = b16.base0A,
+    red1 = Util.blend_bg(peach, 0.3, "#000000"),
+    yellow = b16.base0B,
 
     dark3 = b16.base03,
     dark5 = b16.base04,
