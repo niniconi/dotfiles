@@ -21,19 +21,6 @@ return {
 				base0E = '#c0ffe4',
 				base0F = '#c0ffe4',
 			})
-
-			local current_file_path = vim.fn.stdpath("config") .. "/lua/plugins/dankcolors.lua"
-			if not _G._matugen_theme_watcher then
-				local uv = vim.uv or vim.loop
-				_G._matugen_theme_watcher = uv.new_fs_event()
-				_G._matugen_theme_watcher:start(current_file_path, {}, vim.schedule_wrap(function()
-					local new_spec = dofile(current_file_path)
-					if new_spec and new_spec[1] and new_spec[1].config then
-						new_spec[1].config()
-						print("Theme reload")
-					end
-				end))
-			end
 		end
 	}
 }
