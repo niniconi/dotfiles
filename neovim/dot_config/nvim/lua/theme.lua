@@ -122,6 +122,29 @@ local hl_map = {
     DiagnosticFloatingWarn     = { fg = "base0A", bg = "base01" },
     DiagnosticFloatingInfo     = { fg = "base0D", bg = "base01" },
     DiagnosticFloatingHint     = { fg = "base0C", bg = "base01" },
+
+    -- neo-tree
+    NeoTreeNormal             = { fg = "base05", bg = "base00" },
+    NeoTreeNormalNC           = { fg = "base05", bg = "base00" },
+    NeoTreeCursorLine         = { bg = "base01" },
+    NeoTreeIndentMarker       = { fg = "base03" },
+    NeoTreeExpander           = { fg = "base03" },
+    NeoTreeDotfile            = { fg = "base04" },
+    NeoTreeRootName           = { fg = "base0D" },
+    NeoTreeDirectoryName      = { fg = "base0D" },
+    NeoTreeFileName           = { fg = "base05" },
+    NeoTreeFileNameOpened     = { fg = "base0D" },
+    NeoTreeTitleBar           = { fg = "base04", bg = "base01" },
+    NeoTreeFloatBorder        = { fg = "base03", bg = "base00" },
+    NeoTreeFloatTitle         = { fg = "base05", bg = "base00" },
+    NeoTreeDimText            = { fg = "base03" },
+    NeoTreeSymbolicLinkTarget = { fg = "base0C" },
+    NeoTreeGitAdded           = { fg = "base0B" },
+    NeoTreeGitDeleted         = { fg = "base08" },
+    NeoTreeGitModified        = { fg = "base0D" },
+    NeoTreeGitUntracked       = { fg = "base0A" },
+    NeoTreeGitConflict        = { fg = "base08" },
+    NeoTreeGitIgnored         = { fg = "base03" },
 }
 
 local term_colors = {
