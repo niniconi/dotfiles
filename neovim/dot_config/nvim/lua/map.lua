@@ -19,15 +19,9 @@ end
 keyset('n', '<leader>n', '<Cmd>Neotree filesystem reveal left<CR>', opts.default("Toggle file tree"))
 keyset('n', '<leader>q', '<Cmd>Neotree close<CR>', opts.default("Close file tree"))
 keyset('n', '<leader>st', function()
-    local path = vim.fn.stdpath("config") .. "/lua/plugins/dankcolors.lua"
-    local ok, spec = pcall(dofile, path)
-    if ok and spec and spec[1] and spec[1].config then
-        spec[1].config()
-        vim.notify("Theme reloaded")
-    else
-        vim.notify("Failed to load dankcolors.lua")
-    end
-end, opts.default("Reload colorscheme from dankcolors.lua"))
+    require("dankcolors").load()
+    vim.notify("DankColors reloaded")
+end, opts.default("Reload DankColors"))
 keyset('n', '<leader>y', ':FloatermNew<CR>', opts.default("Open float terminal"))
 keyset('n', '<leader>t', ':terminal<CR>', opts.default("Open terminal"))
 keyset('n', '<leader>w', "<C-w>", opts.default("Split window mode"))
