@@ -115,7 +115,7 @@ function M.get(c, opts)
     DiagnosticWarn              = { fg = c.warning },
     DiagnosticInfo              = { fg = c.info },
     DiagnosticHint              = { fg = c.hint },
-    DiagnosticUnnecessary       = { fg = c.terminal_black },
+    DiagnosticUnnecessary       = { fg = c.fg_gutter },
     DiagnosticVirtualTextError  = { bg = Util.blend_bg(c.error, 0.1), fg = c.error },
     DiagnosticVirtualTextWarn   = { bg = Util.blend_bg(c.warning, 0.1), fg = c.warning },
     DiagnosticVirtualTextInfo   = { bg = Util.blend_bg(c.info, 0.1), fg = c.info },
