@@ -23,6 +23,8 @@ function M.setup(opts)
     M.terminal(colors)
   end
 
+  vim.api.nvim_exec_autocmds("ColorScheme", { pattern = "dankcolors" })
+
   return colors, groups, opts
 end
 
