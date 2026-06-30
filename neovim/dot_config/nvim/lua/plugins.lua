@@ -37,12 +37,6 @@ require('lazy').setup({
             require('plugins.gitsigns').setup()
         end
     },
-    {
-        'mhinz/vim-startify',
-        config = function()
-            require('plugins.vim-startify').setup()
-        end
-    },
     { 'voldikss/vim-floaterm' }, --terminal
     {
         'luochen1990/rainbow',
