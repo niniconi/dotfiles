@@ -98,6 +98,8 @@ require('lazy').setup({
 
     {
         'nvim-treesitter/nvim-treesitter',
+        branch = 'main',
+        lazy = false,
         build = ':TSUpdate',
         config = function()
             require('plugins.treesitter').setup()
@@ -129,7 +131,6 @@ require('lazy').setup({
     -- leetcode --
     {
         'kawre/leetcode.nvim',
-        build = ':TSUpdate html',
         dependencies = {
             'nvim-telescope/telescope.nvim',
             'nvim-lua/plenary.nvim', -- required by telescope
@@ -153,7 +154,19 @@ require('lazy').setup({
         main = 'ibl',
         ---@module 'ibl'
         ---@type ibl.config
-        opts = {}
+        opts = {
+            indent = { char = '┊' },
+            scope = {
+                enabled = true,
+                include = { node_type = { ['*'] = { '*' } } },
+            },
+            exclude = {
+                filetypes = {
+                    'help', 'dashboard', 'neo-tree', 'lazy',
+                    'TelescopePrompt', 'NvimTree',
+                },
+            },
+        },
     },
 
     -- rust --
