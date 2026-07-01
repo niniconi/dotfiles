@@ -136,6 +136,16 @@ ${content}}
             height = 7,
           })
           table.insert(cmds, {
+            icon = " ",
+            title = "Actions",
+            cmd = "gh run list -L 5",
+            key = "a",
+            action = function()
+              vim.fn.jobstart("gh run list --web", { detach = true })
+            end,
+            height = 8,
+          })
+          table.insert(cmds, {
             icon = " ",
             title = "Git Status",
             cmd = "git --no-pager diff --stat -B -M -C",
