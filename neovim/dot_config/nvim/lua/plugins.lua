@@ -287,4 +287,11 @@ require('lazy').setup({
             },
         },
     },
+    {
+        "folke/which-key.nvim",
+        event = "VeryLazy",
+        config = function()
+            require("plugins.which-key").setup()
+        end,
+    },
 })
