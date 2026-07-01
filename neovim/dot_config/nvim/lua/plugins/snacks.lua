@@ -96,12 +96,14 @@ ${content}}
         { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
         function()
           local in_git = Snacks.git.get_root() ~= nil
+          local has_git = vim.fn.executable("git") == 1
           local has_gh = vim.fn.executable("gh") == 1
-          local has_gh_notify = false
-          if has_gh then
-            local ext = vim.fn.system("gh extension list 2>/dev/null")
-            has_gh_notify = ext and ext:find("gh%-notify") ~= nil
+          if not in_git or not has_git or not has_gh then
+            return {}
           end
+          local has_gh_notify = false
+          local ext = vim.fn.system("gh extension list 2>/dev/null")
+          has_gh_notify = ext and ext:find("gh%-notify") ~= nil
           local cmds = {}
           if has_gh_notify then
             table.insert(cmds, {
@@ -136,6 +138,16 @@ ${content}}
             height = 7,
           })
           table.insert(cmds, {
+            icon = " ",
+            title = "Actions",
+            cmd = "gh run list -L 5",
+            key = "a",
+            action = function()
+              vim.fn.jobstart("gh run list --web", { detach = true })
+            end,
+            height = 8,
+          })
+          table.insert(cmds, {
             icon = " ",
             title = "Git Status",
             cmd = "git --no-pager diff --stat -B -M -C",
@@ -145,7 +157,6 @@ ${content}}
             return vim.tbl_extend("force", {
               pane = 2,
               section = "terminal",
-              enabled = in_git and has_gh,
               padding = 1,
               ttl = 5 * 60,
               indent = 3,
