@@ -3,11 +3,6 @@ local M = {}
 function M.setup()
   local wk = require("which-key")
 
-  wk.setup({
-    delay = 500,
-    icons = { mappings = false },
-  })
-
   wk.add({
     { "<leader>b", group = "Breakpoint" },
     { "<leader>c", group = "Cargo" },

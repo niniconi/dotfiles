@@ -290,7 +290,48 @@ require('lazy').setup({
     {
         "folke/which-key.nvim",
         event = "VeryLazy",
-        config = function()
+        opts = {
+            preset = "modern",
+            delay = 500,
+            icons = { mappings = true },
+            filter = function(mapping)
+                return mapping.desc and mapping.desc ~= ""
+            end,
+            plugins = {
+                marks = true,
+                registers = true,
+                spelling = { enabled = true, suggestions = 20 },
+                presets = {
+                    operators = false,
+                    motions = false,
+                    text_objects = false,
+                    windows = true,
+                    nav = false,
+                    z = false,
+                    g = false,
+                },
+            },
+            win = {
+                border = "rounded",
+                padding = { 1, 2 },
+                wo = { winblend = 10 },
+            },
+            layout = {
+                width = { min = 30 },
+                spacing = 3,
+            },
+        },
+        keys = {
+            {
+                "<leader>?",
+                function()
+                    require("which-key").show({ global = false })
+                end,
+                desc = "Buffer Local Keymaps (which-key)",
+            },
+        },
+        config = function(_, opts)
+            require("which-key").setup(opts)
             require("plugins.which-key").setup()
         end,
     },
