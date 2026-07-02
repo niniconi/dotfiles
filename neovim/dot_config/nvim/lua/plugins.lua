@@ -315,9 +315,12 @@ require('lazy').setup({
                 border = "rounded",
                 padding = { 1, 2 },
                 wo = { winblend = 10 },
+                width = 40,
+                height = { min = 5, max = 50 },
+                row = math.huge,
+                col = math.huge,
             },
             layout = {
-                width = { min = 30 },
                 spacing = 3,
             },
         },
