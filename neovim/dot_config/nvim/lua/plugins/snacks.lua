@@ -27,6 +27,9 @@ function M.setup()
       cache = vim.fn.stdpath('cache') .. '/snacks/image',
       debug = { request = false, convert = false, placement = false },
       env = {},
+      commands = {
+        tex = 'tectonic',
+      },
       icons = { math = '󰪚 ', chart = '󰄧 ', image = ' ' },
       convert = {
         notify = true,
@@ -37,12 +40,13 @@ function M.setup()
         magick = {
           default = { '{src}[0]', '-scale', '1920x1080>' },
           vector = { '-density', 192, '{src}[0]' },
-          math = { '-density', 192, '{src}[0]', '-trim' },
+          math = { '-density', 240, '{src}[0]', '-trim' },
           pdf = { '-density', 192, '{src}[0]', '-background', 'white', '-alpha', 'remove', '-trim' },
         },
       },
       math = {
         enabled = true,
+        engine = 'latex',
         typst = {
           tpl = [[
 #set page(width: auto, height: auto, margin: (x: 2pt, y: 2pt))

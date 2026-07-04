@@ -225,6 +225,7 @@ function M.setup()
             language_icon = true,
             -- Whether to include the language name above code blocks.
             language_name = true,
+            disable = { 'math' },
             -- A list of language names for which background highlighting will be disabled.
             -- Likely because that language has background highlights itself.
             -- Use a boolean to make behavior apply to all languages.
