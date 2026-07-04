@@ -22,6 +22,7 @@ local langs = {
     'sql', 'prql', 'kusto', 'promql',
     -- Documentation
     'latex', 'bibtex', 'rst', 'djot',
+    'markdown', 'markdown_inline',
     -- DevOps / Build
     'terraform', 'jsonnet', 'puppet', 'meson', 'ninja', 'helm',
     -- Git

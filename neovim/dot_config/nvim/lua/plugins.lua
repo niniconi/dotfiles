@@ -252,6 +252,15 @@ require('lazy').setup({
         end
     },
     {
+        'lukas-reineke/headlines.nvim',
+        dependencies = { 'nvim-treesitter/nvim-treesitter' },
+        event = 'VeryLazy',
+        opts = {},
+        config = function(_, opts)
+            require('headlines').setup(opts)
+        end,
+    },
+    {
         'folke/snacks.nvim',
         ---@type snacks.Config
         opts = {

@@ -11,7 +11,7 @@ end
 function M.setup()
     require('mason').setup()
     require('mason-lspconfig').setup({
-        ensure_installed = { 'rust_analyzer', 'pyright', 'clangd', 'lua_ls', 'bashls', 'jdtls', 'phpactor', 'zls', 'ts_ls', 'asm_lsp', 'sqls', 'html', 'cssls', 'jsonls', 'yamlls' },
+        ensure_installed = { 'rust_analyzer', 'pyright', 'clangd', 'lua_ls', 'bashls', 'jdtls', 'phpactor', 'zls', 'ts_ls', 'asm_lsp', 'sqls', 'html', 'cssls', 'jsonls', 'yamlls', 'marksman' },
     })
 
     vim.diagnostic.config({
