@@ -6,81 +6,78 @@ local function hl(name, attr)
   return 'NONE'
 end
 
-local colors = {
-  blue   = hl('Function', 'foreground'),
-  cyan   = hl('Identifier', 'foreground'),
-  black  = hl('Normal', 'background'),
-  white  = hl('Normal', 'foreground'),
-  red    = hl('DiagnosticError', 'foreground'),
-  violet = hl('Keyword', 'foreground'),
-  grey   = hl('NonText', 'foreground'),
+local function get_mode_colors()
+  return {
+    blue   = hl('LualineBlue', 'background'),
+    cyan   = hl('LualineCyan', 'background'),
+    black  = hl('LualineBlack', 'foreground'),
+    white  = hl('LualineWhite', 'foreground'),
+    red    = hl('LualineRed', 'background'),
+    violet = hl('LualineViolet', 'background'),
+    grey   = hl('LualineGrey', 'background'),
+  }
+end
+
+local sections = {
+  lualine_a = {
+    { 'mode', separator = { right = '' }, right_padding = 2 },
+  },
+  lualine_b = {
+    'filename',
+    'branch',
+    'diff',
+    {
+      'diagnostics',
+      symbols = { error = "󰅚 ", warn = " ", info = "󰋽 ", hint = "󰘥 " },
+    },
+  },
+  lualine_c = { 'fileformat' },
+  lualine_x = {},
+  lualine_y = { 'filetype', 'encoding', 'progress' },
+  lualine_z = {
+    { 'location', separator = { left = '' }, left_padding = 2 },
+  },
 }
 
-local bubbles_theme = {
-  normal = {
-    a = { fg = colors.black, bg = colors.violet },
-    b = { fg = colors.white, bg = colors.grey },
-    c = { fg = colors.black, bg = colors.black },
-  },
+local inactive_sections = {
+  lualine_a = { 'filename' },
+  lualine_b = {},
+  lualine_c = {},
+  lualine_x = {},
+  lualine_y = {},
+  lualine_z = { 'location' },
+}
 
-  insert = { a = { fg = colors.black, bg = colors.blue } },
-  visual = { a = { fg = colors.black, bg = colors.cyan } },
-  replace = { a = { fg = colors.black, bg = colors.red } },
-
-  inactive = {
-    a = { fg = colors.white, bg = colors.black },
-    b = { fg = colors.white, bg = colors.black },
-    c = { fg = colors.black, bg = colors.black },
+local options = {
+  refresh = {
+    statusline = 1000,
+    tabline = 1000,
+    winbar = 1000,
   },
+  component_separators = { left = ")", right = "(" },
+  section_separators = { left = '', right = '' },
 }
 
 require('lualine').setup {
-  options = {
-    theme = bubbles_theme,
-    refresh = {
-      statusline = 1000,
-      tabline = 1000,
-      winbar = 1000,
-    },
-    component_separators = { left = ")", right = "(" },
-    section_separators = { left = '', right = '' },
-  },
-  sections = {
-    lualine_a = {
-      { 'mode', separator = { right = '' }, right_padding = 2 },
-    },
-    lualine_b = {
-      'filename',
-      'branch' ,
-      'diff',
-      {
-        'diagnostics',
-        symbols = { error = "󰅚 ", warn = " ", info = "󰋽 ", hint = "󰘥 " },
-      },
-    },
-    lualine_c = { 'fileformat' },
-    lualine_x = {},
-    lualine_y = { 'filetype', 'encoding', 'progress' },
-    lualine_z = {
-      { 'location', separator = { left = '' }, left_padding = 2 },
-    },
-  },
-  inactive_sections = {
-    lualine_a = { 'filename' },
-    lualine_b = {},
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = { 'location' },
-  },
+  options = vim.tbl_extend('keep', { theme = 'auto' }, options),
+  sections = sections,
+  inactive_sections = inactive_sections,
   tabline = {},
   extensions = {},
 }
 
--- refresh lualine when colorscheme changes
 vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "*",
   callback = function()
-    require('lualine').refresh()
+    local c = get_mode_colors()
+    vim.api.nvim_set_hl(0, 'lualine_a_normal',   { fg = c.black, bg = c.violet })
+    vim.api.nvim_set_hl(0, 'lualine_a_insert',   { fg = c.black, bg = c.blue })
+    vim.api.nvim_set_hl(0, 'lualine_a_visual',   { fg = c.black, bg = c.cyan })
+    vim.api.nvim_set_hl(0, 'lualine_a_replace',  { fg = c.black, bg = c.red })
+    vim.api.nvim_set_hl(0, 'lualine_b_normal',   { fg = c.white, bg = c.grey })
+    vim.api.nvim_set_hl(0, 'lualine_c_normal',   { fg = c.white, bg = c.black })
+    vim.api.nvim_set_hl(0, 'lualine_a_inactive', { fg = c.white, bg = c.black })
+    vim.api.nvim_set_hl(0, 'lualine_b_inactive', { fg = c.white, bg = c.black })
+    vim.api.nvim_set_hl(0, 'lualine_c_inactive', { fg = c.black, bg = c.black })
   end,
 })
