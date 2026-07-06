@@ -10,7 +10,9 @@ function M.load(opts)
   local bg = vim.o.background
   local style_bg = "dark"
 
-  if opts.style == "day" then style_bg = "light" end
+  if opts.style == "day" then
+    style_bg = "light"
+  end
 
   if bg ~= style_bg then
     if vim.g.colors_name == "dankcolors" then

@@ -11,13 +11,21 @@ function M.start()
   end
 
   local ok, w = pcall(uv.new_fs_event)
-  if not ok then return end
+  if not ok then
+    return
+  end
 
-  local ok_start = pcall(w.start, w, DANKCOLORS_FILE, {}, vim.schedule_wrap(function()
-    vim.defer_fn(function()
-      require("dankcolors").load()
-    end, 50)
-  end))
+  local ok_start = pcall(
+    w.start,
+    w,
+    DANKCOLORS_FILE,
+    {},
+    vim.schedule_wrap(function()
+      vim.defer_fn(function()
+        require("dankcolors").load()
+      end, 50)
+    end)
+  )
 
   if ok_start then
     M._watcher = w
