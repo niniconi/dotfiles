@@ -15,7 +15,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
     { 'nvim-tree/nvim-web-devicons' }, --file icons
-    { 'tpope/vim-commentary' },
     {
         'akinsho/bufferline.nvim',
         config = function()
