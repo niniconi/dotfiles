@@ -38,12 +38,7 @@ require('lazy').setup({
         end
     },
     { 'voldikss/vim-floaterm' }, --terminal
-    {
-        'luochen1990/rainbow',
-        config = function()
-            require('plugins.rainbow').setup()
-        end
-    }, --colorful brackets
+    { 'HiPhish/rainbow-delimiters.nvim' },
 
     {
         'neovim/nvim-lspconfig',
