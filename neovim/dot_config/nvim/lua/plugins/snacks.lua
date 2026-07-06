@@ -2,6 +2,7 @@ local M = {}
 
 function M.setup()
   require('snacks').setup({
+    terminal = {},
     image = {
       formats = {
         'png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'tiff', 'heic', 'avif',

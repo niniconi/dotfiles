@@ -37,7 +37,6 @@ require('lazy').setup({
             require('plugins.gitsigns').setup()
         end
     },
-    { 'voldikss/vim-floaterm' }, --terminal
     { 'HiPhish/rainbow-delimiters.nvim' },
 
     {
