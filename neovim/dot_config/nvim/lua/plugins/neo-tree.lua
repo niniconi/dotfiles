@@ -15,12 +15,12 @@ function M.setup()
     follow_current_file = {
       enabled = true,
     },
-    use_libuv_file_watcher = true,
     source_selector = {
       winbar = true,
       statusline = false,
     },
     filesystem = {
+      use_libuv_file_watcher = true,
       filtered_items = {
         visible = true,
         hide_dotfiles = false,
