@@ -2,12 +2,13 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ config, pkgs, userName, hostName, ... }:
+{ config, pkgs, lib, userName, hostName, ... }:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware-configuration.nix
+      ./modules/packages
     ];
 
   # Bootloader.
@@ -62,6 +63,44 @@
   # Enable flakes and nix-command
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
+  # unfree packages: whitelist only (allowUnfree=false, allowUnfreePredicate lists the exceptions)
+  nixpkgs.config.allowUnfree = false;
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "volatility3"      # memory forensics
+    "unrar"            # rar extraction
+    # androidenv (objection dependency): composed wrappers use the
+    # android-sdk-* prefix, raw archives use the bare package name.
+    "android-sdk-cmdline-tools"
+    "android-sdk-platform-tools"
+    "android-sdk-build-tools"
+    "android-sdk-cmake"
+    "android-sdk-platforms"
+    "android-sdk-sources"
+    "android-sdk-tools"
+    "android-sdk-emulator"
+    "android-sdk-ndk"
+    "cmdline-tools"
+    "platform-tools"
+    "build-tools"
+    "cmake"
+    "platforms"
+    "sources"
+    "tools"
+    "emulator"
+    "ndk"
+    "ndk-bundle"
+    "extras"
+    "patcher"
+    "skiaparser"
+    "system-images"
+    "addons"
+  ];
+  nixpkgs.config.android_sdk.accept_license = true;
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-39.8.10"
+    "openclaw-2026.5.7"
+  ];
+
   # Automatic store maintenance
   nix.gc = {
     automatic = true;
@@ -77,8 +116,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
     neovim
     openssh
     niri

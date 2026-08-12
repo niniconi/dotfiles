@@ -1,0 +1,32 @@
+# gui - desktop apps (design-utils + extra-utils + game-emulators)
+
+{ config, pkgs, ... }:
+
+{
+  environment.systemPackages = with pkgs; [
+    # design/creation
+    gimp
+    inkscape
+    krita
+    blender
+    pkgs.kdePackages.kdenlive
+    obs-studio
+    audacity
+    opentabletdriver
+    # daily apps
+    thunderbird
+    moonlight-qt
+    libreoffice
+    jellyfin-media-player
+    # bitwarden needs sandbox=false build (npm-deps prefetch hangs in sandbox)
+    bitwarden-desktop
+    sunshine
+    mpv
+    # games/emulators
+    ruffle
+    retroarch
+    libretro-core-info
+    # desktop shell (moved from ai: Wayland desktop components)
+    dms-shell
+  ];
+}
