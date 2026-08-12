@@ -30,6 +30,15 @@
     # lib.mkBefore puts this at the very top of .zshrc,
     # which is required for p10k's instant prompt.
     initContent = lib.mkBefore ''
+      # TERM fallback: SSH from kitty sends xterm-kitty; fall back to
+      # xterm-256color if the terminfo is missing to avoid zsh line editing issues
+      if [[ -z "''${TERM:-}" || "''${TERM}" == "dumb" ]]; then
+        export TERM=xterm-256color
+      fi
+      if [[ -n "''${TERM:-}" && "''${TERM}" != "dumb" ]] && ! infocmp "''${TERM}" >/dev/null 2>&1; then
+        export TERM=xterm-256color
+      fi
+
       # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
       # Initialization code that may require console input (password prompts, [y/n] confirmations, etc.) must go above this block; everything else may go below.
       if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then

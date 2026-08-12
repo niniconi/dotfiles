@@ -120,6 +120,8 @@
     openssh
     niri
     dms-shell
+    # xterm-kitty terminfo: fixes zsh line editing over SSH from kitty
+    kitty.terminfo
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
