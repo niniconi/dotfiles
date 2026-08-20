@@ -35,6 +35,8 @@
         ".gnupg"
         ".ssh"
         ".local/share/keyrings"
+        ".local/share/nvim"
+        ".local/state/nvim"
       ];
       files = [
         ".bash_history"
