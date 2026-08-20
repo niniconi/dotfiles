@@ -34,6 +34,7 @@
         "Vieos"
         ".gnupg"
         ".ssh"
+        ".cache"
         ".local/share/keyrings"
         ".local/share/nvim"
         ".local/state/nvim"
