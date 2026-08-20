@@ -137,10 +137,25 @@
   environment.systemPackages = with pkgs; [
     neovim
     openssh
-    dms-shell
     # xterm-kitty terminfo: fixes zsh line editing over SSH from kitty
     kitty.terminfo
   ];
+
+  programs.dms-shell = {
+    enable = true;
+
+    systemd = {
+      enable = true;                   # Systemd service for auto-start
+      restartIfChanged = true;         # Auto-restart dms.service when dms-shell changes
+    };
+
+    # Core features
+    enableSystemMonitoring = true;     # System monitoring widgets (dgop)
+    enableVPN = true;                  # VPN management widget
+    enableDynamicTheming = true;       # Wallpaper-based theming (matugen)
+    enableAudioWavelength = true;      # Audio visualizer (cava)
+    enableCalendarEvents = true;       # Calendar integration (khal)
+  };
 
   # niri - Wayland compositor. Official module registers the niri session
   # for display managers, sets up xdg portals and gnome-keyring.
