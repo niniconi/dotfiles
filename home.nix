@@ -4,6 +4,7 @@
   imports = [
     ./modules/shell/zsh.nix
     ./modules/shell/git.nix
+    ./modules/shell/kitty.nix
     ./modules/shell/neovim.nix
     ./modules/shell/niri.nix
   ];
