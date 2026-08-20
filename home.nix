@@ -7,6 +7,7 @@
     ./modules/shell/kitty.nix
     ./modules/shell/neovim.nix
     ./modules/shell/niri.nix
+    ./modules/shell/tmux.nix
   ];
 
   home = {
