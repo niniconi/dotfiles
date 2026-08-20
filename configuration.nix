@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 
-{ config, pkgs, lib, userName, hostName, ... }:
+{ config, pkgs, lib, userName, hostName, secretFile, ... }:
 
 {
   imports =
@@ -12,9 +12,12 @@
     ];
 
   # Bootloader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/vda";
-  boot.loader.grub.useOSProber = true;
+  boot.loader.grub.enable = false;
+  boot.loader.systemd-boot.enable = lib.mkForce false;
+  boot.lanzaboote = {
+      enable = true;
+      pkiBundle = "/var/lib/sbctl";
+  };
 
   networking.hostName = hostName; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -50,12 +53,28 @@
     variant = "";
   };
 
+  system.activationScripts.checkAdminPassword = {
+    deps = [ "specialfs" ];
+    supportsDryActivation = true;
+    text = ''
+      if [ ! -e "${secretFile}" ]; then
+        echo "Failed assertions:" >&2
+        echo "- Password file missing: /mnt${secretFile}" >&2
+        echo "  Generate it using:" >&2
+        echo "    mkdir -p \$(dirname /mnt${secretFile})" >&2
+        echo "    nix-shell -p mkpasswd --run \"mkpasswd -m sha-512 > /mnt${secretFile}\"" >&2
+        echo "    chmod 600 /mnt${secretFile}" >&2
+        exit 1
+      fi
+    '';
+  };
+
   # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.${userName} = {
     isNormalUser = true;
     description = userName;
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
+    hashedPasswordFile = secretFile;
     # zsh as the default login shell
     shell = pkgs.zsh;
   };

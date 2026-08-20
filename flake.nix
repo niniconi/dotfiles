@@ -7,24 +7,38 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+
+    impermanence.url = "github:nix-community/impermanence";
+
+    lanzaboote.url = "github:nix-community/lanzaboote/v1.1.0";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
-    { self, nixpkgs, home-manager, ... }@inputs:
+    { self, nixpkgs, disko, home-manager, lanzaboote, ... }@inputs:
     let
       system = "x86_64-linux";
       # Machine identity — change these when deploying to another machine.
       userName = "administrator";
       hostName = "nixos";
+      diskDevice = "/dev/nvme0n1";
+      secretFile = "/persist/secrets/administrator-password";
     in
     {
       nixosConfigurations.${hostName} = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs userName hostName;
+          inherit inputs userName hostName diskDevice secretFile;
         };
         modules = [
+          disko.nixosModules.disko
+          lanzaboote.nixosModules.lanzaboote
           ./configuration.nix
+          ./disko-configuration.nix
+          ./impermanence.nix
+          ./security-hardening.nix
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
