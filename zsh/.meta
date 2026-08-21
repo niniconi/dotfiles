@@ -1,3 +1,0 @@
-require=zsh wget git
-suggest=
-ignore=install.sh

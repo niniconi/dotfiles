@@ -1,3 +1,0 @@
-require=neovim wl-clipboard typst imagemagick tectonic
-suggest=npm rustup go python ripgrep
-ignore=install.sh
