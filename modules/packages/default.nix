@@ -15,7 +15,7 @@
     ./forensics.nix
     ./crypto.nix
     ./virtual.nix
-    ./zh-cn.nix
+    ./fonts-zh.nix
     ./ai.nix
     ./docs.nix
     ./dotfiles.nix

@@ -1,20 +1,8 @@
-# zh-cn - Chinese localization (fonts + fcitx5)
+# zh-cn - Chinese input method (fcitx5)
 
 { config, pkgs, lib, ... }:
 
 {
-  fonts.packages = with pkgs; [
-    source-han-sans
-    source-han-serif
-    noto-fonts-cjk-sans
-    noto-fonts-cjk-serif
-    wqy_microhei
-    wqy_zenhei
-    arphic-ukai
-    arphic-uming
-    pkgs.nerd-fonts.fira-code
-  ];
-
   i18n.inputMethod = {
     enable = true;
     type = "fcitx5";

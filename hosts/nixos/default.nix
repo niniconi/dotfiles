@@ -7,6 +7,7 @@
     ../common/optional/dms.nix
     ../common/optional/impermanence.nix
     ../common/optional/security-hardening.nix
+    ../common/optional/input-method.nix
     ./hardware.nix
     ../../modules/packages
   ];
