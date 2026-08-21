@@ -19,6 +19,21 @@
 
   programs.home-manager.enable = true;
 
+  # XDG user directories (English names)
+  xdg.userDirs = {
+    enable = true;
+    desktop = "Desktop";
+    documents = "Documents";
+    download = "Downloads";
+    music = "Music";
+    pictures = "Pictures";
+    projects = "Projects";
+    publicShare = "Public";
+    templates = "Templates";
+    videos = "Videos";
+    createDirectories = true;
+  };
+
   # Let home-manager manage the session
   home.sessionPath = [ "$HOME/.local/bin" ];
 }

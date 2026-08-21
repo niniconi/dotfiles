@@ -48,7 +48,7 @@
         "Projects"
         "Public"
         "Templates"
-        "Vieos"
+        "Videos"
         ".gnupg"
         ".ssh"
         ".cache"
