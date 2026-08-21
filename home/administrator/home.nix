@@ -7,6 +7,8 @@
     ../common/optional/neovim.nix
     ../common/optional/tmux.nix
     ../common/optional/niri.nix
+    ../common/optional/ranger.nix
+    ../common/optional/hyprland.nix
   ];
 
   home = {
