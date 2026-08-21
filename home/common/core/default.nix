@@ -5,6 +5,8 @@
     lsd
     bat
     hexyl
+    git
+    delta
   ];
 
   programs.zsh = {
@@ -87,7 +89,8 @@
 
   # Deploy the commands file as raw file (editable by user)
   home.file = {
-    ".zshrc_command".source = ./../../zsh/dot_zshrc_command;
+    ".zshrc_command".source = ../../../zsh/dot_zshrc_command;
+    ".gitconfig".source = ../../../git/dot_gitconfig;
   };
 
   # Set EDITOR for all sessions

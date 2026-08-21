@@ -35,10 +35,7 @@
         modules = [
           disko.nixosModules.disko
           lanzaboote.nixosModules.lanzaboote
-          ./configuration.nix
-          ./disko-configuration.nix
-          ./impermanence.nix
-          ./security-hardening.nix
+          ./hosts/nixos
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -48,7 +45,7 @@
             home-manager.extraSpecialArgs = {
               inherit userName;
             };
-            home-manager.users.${userName} = import ./home.nix;
+            home-manager.users.${userName} = import ./home/administrator/home.nix;
           }
         ];
       };

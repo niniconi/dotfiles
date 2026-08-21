@@ -1,9 +1,9 @@
 { config, pkgs, ... }:
 
 {
-  xdg.configFile."kitty" = {
+  xdg.configFile."tmux" = {
     force = true;
-    source = ../../kitty/dot_config/kitty;
+    source = ../../../tmux/dot_config/tmux;
     recursive = true;
   };
 }

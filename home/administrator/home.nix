@@ -2,12 +2,11 @@
 
 {
   imports = [
-    ./modules/shell/zsh.nix
-    ./modules/shell/git.nix
-    ./modules/shell/kitty.nix
-    ./modules/shell/neovim.nix
-    ./modules/shell/niri.nix
-    ./modules/shell/tmux.nix
+    ../common/core
+    ../common/optional/kitty.nix
+    ../common/optional/neovim.nix
+    ../common/optional/tmux.nix
+    ../common/optional/niri.nix
   ];
 
   home = {
