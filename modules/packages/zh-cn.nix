@@ -3,7 +3,6 @@
 { config, pkgs, lib, ... }:
 
 {
-  # Chinese fonts
   fonts.packages = with pkgs; [
     source-han-sans
     source-han-serif
@@ -16,17 +15,20 @@
     pkgs.nerd-fonts.fira-code
   ];
 
-  # input method fcitx5
   i18n.inputMethod = {
-    enabled = "fcitx5";
-    fcitx5.addons = with pkgs; [
-      fcitx5
-      pkgs.qt6Packages.fcitx5-configtool
-      fcitx5-gtk
-      pkgs.libsForQt5.fcitx5-qt
-      pkgs.qt6Packages.fcitx5-chinese-addons
-      fcitx5-mozc
-      fcitx5-pinyin-zhwiki
-    ];
+    enable = true;
+    type = "fcitx5";
+    fcitx5 = {
+      addons = with pkgs; [
+        fcitx5
+        qt6Packages.fcitx5-configtool
+        fcitx5-gtk
+        qt6Packages.fcitx5-qt
+        qt6Packages.fcitx5-chinese-addons
+        fcitx5-pinyin-zhwiki
+        fcitx5-mozc
+      ];
+      waylandFrontend = true;
+    };
   };
 }
