@@ -5,9 +5,25 @@
     lsd
     bat
     hexyl
-    git
     delta
   ];
+
+  programs.git = {
+    enable = true;
+    settings = {
+      merge.conflictStyle = "zdiff3";
+    };
+  };
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+      dark = true;
+      side-by-side = true;
+    };
+  };
 
   programs.zsh = {
     enable = true;
@@ -90,7 +106,6 @@
   # Deploy the commands file as raw file (editable by user)
   home.file = {
     ".zshrc_command".source = ../../../zsh/dot_zshrc_command;
-    ".gitconfig".source = ../../../git/dot_gitconfig;
   };
 
   # Set EDITOR for all sessions
