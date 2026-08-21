@@ -7,7 +7,6 @@
     # base build tools
     gcc
     gnumake
-    python3
     # CI/automation
     act
     github-cli
@@ -45,9 +44,5 @@
     kernelshark
     mariadb
     perf
-    # python libs
-    python3Packages.flask
-    python3Packages.requests
-    python3Packages.selenium
   ];
 }

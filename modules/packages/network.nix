@@ -32,7 +32,5 @@
     tor-browser
     # DNS
     bind
-    # attack framework
-    python3Packages.impacket
   ];
 }

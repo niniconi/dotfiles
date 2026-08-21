@@ -7,7 +7,6 @@
     # password cracking
     hashcat
     z3
-    python3Packages.pycryptodome
     # steganography
     zsteg
     stegsolve

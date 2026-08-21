@@ -9,7 +9,6 @@
     termshark
     wireshark-cli
     wireshark
-    python3Packages.pyshark
     tcpdump
     ecapture
     dive

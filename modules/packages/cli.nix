@@ -36,12 +36,6 @@
     # HTTP clients
     httpie
     posting
-    python3Packages.openapi-pydantic
-    python3Packages.pydantic
-    python3Packages.pydantic-core
-    python3Packages.textual
-    python3Packages.textual-autocomplete
-    python3Packages.openapi-spec-validator
     # git
     delta
     git-filter-repo
