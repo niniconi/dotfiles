@@ -7,9 +7,26 @@
 
     directories = [
       "/var/log"
+      "/var/lib/AccountsService"
       "/var/lib/bluetooth"
+      "/var/lib/colord"
+      "/var/lib/docker"
+      "/var/lib/gdm"
+      "/var/lib/geoclue"
+      "/var/lib/gnome-remote-desktop"
+      "/var/lib/libvirt"
+      "/var/lib/lxc"
+      "/var/lib/machines"
+      "/var/lib/misc"
       "/var/lib/nixos"
+      "/var/lib/portables"
+      "/var/lib/power-profiles-daemon"
+      "/var/lib/qemu"
+      "/var/lib/sbctl"
       "/var/lib/systemd/coredump"
+      "/var/lib/udisks2"
+      "/var/lib/upower"
+      "/var/lib/waydroid"
       "/etc/NetworkManager/system-connections"
     ];
 
@@ -35,11 +52,10 @@
         ".gnupg"
         ".ssh"
         ".cache"
-        ".local/share/keyrings"
-        ".local/share/nvim"
-        ".local/state/nvim"
+        ".local"
       ];
       files = [
+        ".zsh_history"
         ".bash_history"
       ];
     };
