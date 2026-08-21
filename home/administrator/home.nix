@@ -9,6 +9,7 @@
     ../common/optional/niri.nix
     ../common/optional/ranger.nix
     ../common/optional/hyprland.nix
+    ../common/optional/firefox.nix
   ];
 
   home = {

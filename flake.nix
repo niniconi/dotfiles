@@ -14,10 +14,13 @@
 
     lanzaboote.url = "github:nix-community/lanzaboote/v1.1.0";
     lanzaboote.inputs.nixpkgs.follows = "nixpkgs";
+
+    nur.url = "github:nix-community/NUR";
+    nur.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
-    { self, nixpkgs, disko, home-manager, lanzaboote, ... }@inputs:
+    { self, nixpkgs, disko, home-manager, lanzaboote, nur, ... }@inputs:
     let
       system = "x86_64-linux";
       # Machine identity — change these when deploying to another machine.
@@ -36,6 +39,7 @@
           disko.nixosModules.disko
           lanzaboote.nixosModules.lanzaboote
           ./hosts/nixos
+          { nixpkgs.overlays = [ nur.overlays.default ]; }
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
