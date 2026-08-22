@@ -19,6 +19,7 @@
     ./ai.nix
     ./docs.nix
     ./dotfiles.nix
+    ./nixos.nix
   ];
 
   environment.systemPackages = [
