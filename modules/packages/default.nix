@@ -20,6 +20,7 @@
     ./docs.nix
     ./dotfiles.nix
     ./nixos.nix
+    ./cargo.nix
   ];
 
   environment.systemPackages = [
