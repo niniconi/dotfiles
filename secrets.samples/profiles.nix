@@ -4,6 +4,7 @@
     git = {
       name = "myrealname";
       email = "private-work@domain.com";
+      signingKey = "0x1111222233334444";
     };
     ssh = {
       authorizedKeys = [
@@ -27,11 +28,6 @@
           sopsSecret = "ssh/id_ed25519_work";
           forwardX11 = true;
         };
-      };
-    };
-    hosts = {
-      "nixos" = {
-        gitSigningKey = "0x1111222233334444";
       };
     };
   };

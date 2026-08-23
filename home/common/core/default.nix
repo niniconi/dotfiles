@@ -2,21 +2,16 @@
 
 let
   profile = profiles.${userName} or {
-    git = { name = null; email = null; };
+    git = { name = null; email = null; signingKey = null; };
     ssh = { authorizedKeys = []; hosts = {}; };
-    hosts = {};
-  };
-  # Get current host config with safe fallback
-  currentHost = profile.hosts.${hostName} or {
-    gitSigningKey = null;
   };
 in
 {
   programs.git = {
     enable = true;
 
-    signing = lib.mkIf (currentHost.gitSigningKey != null) {
-      key = currentHost.gitSigningKey;
+    signing = lib.mkIf (profile.git.signingKey != null) {
+      key = profile.git.signingKey;
       signByDefault = true;
     };
 

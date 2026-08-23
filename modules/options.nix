@@ -2,16 +2,6 @@
 { lib, ... }:
 
 let
-  hostSecretsSubmodule = lib.types.submodule {
-    options = {
-      gitSigningKey = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        description = "Git signing key (GPG key ID or SSH key path)";
-      };
-    };
-  };
-
   sshHostSubmodule = lib.types.submodule {
     options = {
       hostname = lib.mkOption {
@@ -68,6 +58,11 @@ in
             default = null;
             description = "Git commit author email (not set if null)";
           };
+          signingKey = lib.mkOption {
+            type = lib.types.nullOr lib.types.str;
+            default = null;
+            description = "Git signing key (GPG key ID or SSH key path)";
+          };
         };
         ssh = {
           authorizedKeys = lib.mkOption {
@@ -80,11 +75,6 @@ in
             default = { };
             description = "SSH host configurations (empty = not configured)";
           };
-        };
-        hosts = lib.mkOption {
-          type = lib.types.attrsOf hostSecretsSubmodule;
-          default = { };
-          description = "Host-specific secret configuration map";
         };
       };
     });
