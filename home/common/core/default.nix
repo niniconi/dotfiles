@@ -1,13 +1,6 @@
 { config, pkgs, lib, ... }:
 
 {
-  home.packages = with pkgs; [
-    lsd
-    bat
-    hexyl
-    delta
-  ];
-
   programs.git = {
     enable = true;
     settings = {
