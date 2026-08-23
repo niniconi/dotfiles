@@ -1,24 +1,23 @@
 { config, pkgs, lib, userName, hostName, profiles, ... }:
 
 let
-  profile = profiles.${userName} or {
-    git = { name = null; email = null; signingKey = null; };
-    ssh = { authorizedKeys = []; hosts = {}; };
-  };
+  profile = profiles.${userName} or {};
+  git = profile.git or {};
+  ssh = profile.ssh or {};
 in
 {
   programs.git = {
     enable = true;
 
-    signing = lib.mkIf (profile.git.signingKey != null) {
-      key = profile.git.signingKey;
+    signing = lib.mkIf (git.signingKey or null != null) {
+      key = git.signingKey;
       signByDefault = true;
     };
 
     settings = {
       user = {
-        email = lib.mkIf (profile.git.email != null) profile.git.email;
-        name = lib.mkIf (profile.git.name != null) profile.git.name;
+        email = lib.mkIf (git.email or null != null) git.email;
+        name = lib.mkIf (git.name or null != null) git.name;
       };
       merge.conflictStyle = "zdiff3";
     };

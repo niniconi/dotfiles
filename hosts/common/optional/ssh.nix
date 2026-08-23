@@ -2,7 +2,9 @@
 { config, lib, pkgs, userName, profiles, ... }:
 
 let
-  profile = profiles.${userName} or { ssh.authorizedKeys = []; };
+  profile = profiles.${userName} or {};
+  ssh = profile.ssh or {};
+  authorizedKeys = ssh.authorizedKeys or [];
 in
 {
   services.openssh = {
@@ -15,7 +17,7 @@ in
     };
   };
 
-  users.users.${userName} = lib.mkIf (profile.ssh.authorizedKeys != []) {
-    openssh.authorizedKeys.keys = profile.ssh.authorizedKeys;
+  users.users.${userName} = lib.mkIf (authorizedKeys != []) {
+    openssh.authorizedKeys.keys = authorizedKeys;
   };
 }

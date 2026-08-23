@@ -3,7 +3,9 @@
 
 let
   hasSecrets = builtins.pathExists ../secrets/default.nix;
-  profile = profiles.${userName} or { ssh.hosts = {}; };
+  profile = profiles.${userName} or {};
+  ssh = profile.ssh or {};
+  hosts = ssh.hosts or {};
 
   # Auto-generate sops secret for each SSH host with sopsSecret configured
   sshSopsSecrets = lib.mapAttrs' (name: host: {
@@ -13,7 +15,7 @@ let
       owner = userName;
       mode = "0600";
     };
-  }) (lib.filterAttrs (n: h: h.sopsSecret or null != null) profile.ssh.hosts);
+  }) (lib.filterAttrs (n: h: h.sopsSecret or null != null) hosts);
 in
 {
   config = lib.mkIf hasSecrets {

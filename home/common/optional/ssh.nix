@@ -1,7 +1,9 @@
 { config, pkgs, lib, userName, profiles, ... }:
 
 let
-  profile = profiles.${userName} or { ssh.hosts = {}; };
+  profile = profiles.${userName} or {};
+  ssh = profile.ssh or {};
+  hosts = ssh.hosts or {};
 in
 {
   programs.ssh = {
@@ -18,6 +20,6 @@ in
       } // lib.optionalAttrs (host.forwardX11 or false) {
         ForwardX11 = "yes";
       };
-    }) profile.ssh.hosts;
+    }) hosts;
   };
 }
