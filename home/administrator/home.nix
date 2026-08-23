@@ -1,4 +1,4 @@
-{ config, pkgs, userName, ... }:
+{ config, pkgs, userName, profiles, ... }:
 
 {
   imports = [
@@ -10,6 +10,7 @@
     ../common/optional/ranger.nix
     ../common/optional/hyprland.nix
     ../common/optional/firefox.nix
+    ../common/optional/ssh.nix
   ];
 
   home = {

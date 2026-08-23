@@ -49,8 +49,7 @@
   # Enable zsh system-wide
   programs.zsh.enable = true;
 
-  # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  # SSH is configured in modules/ssh.nix using profiles options
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -1,9 +1,30 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, userName, hostName, profiles, ... }:
 
+let
+  profile = profiles.${userName} or {
+    git = { name = null; email = null; };
+    ssh = { authorizedKeys = []; hosts = {}; };
+    hosts = {};
+  };
+  # Get current host config with safe fallback
+  currentHost = profile.hosts.${hostName} or {
+    gitSigningKey = null;
+  };
+in
 {
   programs.git = {
     enable = true;
+
+    signing = lib.mkIf (currentHost.gitSigningKey != null) {
+      key = currentHost.gitSigningKey;
+      signByDefault = true;
+    };
+
     settings = {
+      user = {
+        email = lib.mkIf (profile.git.email != null) profile.git.email;
+        name = lib.mkIf (profile.git.name != null) profile.git.name;
+      };
       merge.conflictStyle = "zdiff3";
     };
   };

@@ -9,6 +9,7 @@
     ../common/optional/security-hardening.nix
     ../common/optional/input-method.nix
     ../common/optional/programs.nix
+    ../common/optional/ssh.nix
     ./hardware.nix
     ../common/packages
   ];

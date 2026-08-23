@@ -17,10 +17,15 @@
 
     nur.url = "github:nix-community/NUR";
     nur.inputs.nixpkgs.follows = "nixpkgs";
+
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { self, nixpkgs, disko, home-manager, lanzaboote, nur, ... }@inputs:
+    { self, nixpkgs, disko, home-manager, lanzaboote, nur, sops-nix, ... }@inputs:
     let
       system = "x86_64-linux";
       # Machine identity — change these when deploying to another machine.
@@ -28,29 +33,40 @@
       hostName = "nixos";
       diskDevice = "/dev/nvme0n1";
       secretFile = "/persist/secrets/administrator-password";
+
+      # Check if private secrets submodule exists
+      secretsPath = ./secrets/default.nix;
+      profilesPath = ./secrets/profiles.nix;
+      hasSecrets = builtins.pathExists secretsPath;
+
+      # Load profiles from secrets or use empty default
+      profiles = if hasSecrets then import profilesPath else {};
     in
     {
       nixosConfigurations.${hostName} = nixpkgs.lib.nixosSystem {
         inherit system;
         specialArgs = {
-          inherit inputs userName hostName diskDevice secretFile;
+          inherit inputs userName hostName diskDevice secretFile profiles;
         };
         modules = [
           disko.nixosModules.disko
           lanzaboote.nixosModules.lanzaboote
+          sops-nix.nixosModules.sops
+          ./modules/options.nix
+          ./modules/sops.nix
           ./hosts/nixos
           { nixpkgs.overlays = [ nur.overlays.default ]; }
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            # Top-level specialArgs do NOT propagate into home-manager's
-            # internal evalModules — pass them explicitly here.
             home-manager.extraSpecialArgs = {
-              inherit userName;
+              inherit userName hostName profiles;
             };
             home-manager.users.${userName} = import ./home/administrator/home.nix;
           }
+          # Load private secrets if submodule exists, otherwise load empty module
+          (if hasSecrets then secretsPath else { ... }: { })
         ];
       };
     };
