@@ -53,10 +53,26 @@
         ".ssh"
         ".cache"
         ".local"
+        # DMS Shell
+        ".config/DankMaterialShell"
       ];
       files = [
         ".zsh_history"
         ".bash_history"
+        # DMS Shell - GTK
+        ".config/gtk-3.0/dank-colors.css"
+        ".config/gtk-4.0/dank-colors.css"
+        # DMS Shell - Qt
+        ".config/qt5ct/colors/matugen.conf"
+        ".config/qt6ct/colors/matugen.conf"
+        # DMS Shell - Editors
+        ".config/nvim/colors/dms.lua"
+        ".config/nvim/lua/lualine/themes/dms.lua"
+        # DMS Shell - Terminals
+        ".config/foot/dank-colors.ini"
+        ".config/alacritty/dank-theme.toml"
+        ".config/kitty/dank-tabs.conf"
+        ".config/kitty/dank-theme.conf"
       ];
     };
   };
