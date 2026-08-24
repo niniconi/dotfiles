@@ -56,6 +56,21 @@ let
       };
     };
   };
+
+  wireguardSubmodule = lib.types.submodule {
+    options = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Enable WireGuard VPN service";
+      };
+      interfaces = lib.mkOption {
+        type = lib.types.attrs;
+        default = { };
+        description = "WireGuard network interfaces configuration";
+      };
+    };
+  };
 in
 {
   # Export submodule types for use in other modules
@@ -95,6 +110,11 @@ in
           type = singBoxSubmodule;
           default = { };
           description = "sing-box proxy configuration";
+        };
+        wireguard = lib.mkOption {
+          type = wireguardSubmodule;
+          default = { };
+          description = "WireGuard VPN configuration";
         };
       };
     });

@@ -64,5 +64,23 @@
         ];
       };
     };
+    wireguard = {
+      enable = true;
+      interfaces = {
+        wg0 = {
+          listenPort = 51820;
+          privateKey = "YOUR_PRIVATE_KEY_HERE";
+          ips = [ "10.0.0.2/32" ];
+          peers = [
+            {
+              publicKey = "SERVER_PUBLIC_KEY_HERE";
+              allowedIPs = [ "0.0.0.0/0" "::/0" ];
+              endpoint = "server.example.com:51820";
+              persistentKeepalive = 25;
+            }
+          ];
+        };
+      };
+    };
   };
 }
