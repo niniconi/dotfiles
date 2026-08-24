@@ -30,5 +30,39 @@
         };
       };
     };
+    sing-box = {
+      enable = true;
+      settings = {
+        route = {
+          rules = [
+            {
+              protocol = "dns";
+              action = "hijack-dns";
+            }
+          ];
+        };
+        inbounds = [
+          {
+            type = "tun";
+            tag = "tun-in";
+            interface_name = "tun0";
+            auto_route = true;
+            strict_route = true;
+            stack = "system";
+            sniff = true;
+          }
+        ];
+        outbounds = [
+          {
+            type = "direct";
+            tag = "direct";
+          }
+          {
+            type = "block";
+            tag = "block";
+          }
+        ];
+      };
+    };
   };
 }

@@ -10,6 +10,7 @@
     ../common/optional/input-method.nix
     ../common/optional/programs.nix
     ../common/optional/ssh.nix
+    ../common/optional/sing-box.nix
     ./hardware.nix
     ../common/packages
   ];

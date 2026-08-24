@@ -41,6 +41,21 @@ let
       };
     };
   };
+
+  singBoxSubmodule = lib.types.submodule {
+    options = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = false;
+        description = "Enable sing-box proxy service";
+      };
+      settings = lib.mkOption {
+        type = lib.types.attrs;
+        default = { };
+        description = "sing-box configuration (Nix attrset, converted to JSON)";
+      };
+    };
+  };
 in
 {
   # Export submodule types for use in other modules
@@ -75,6 +90,11 @@ in
             default = { };
             description = "SSH host configurations (empty = not configured)";
           };
+        };
+        sing-box = lib.mkOption {
+          type = singBoxSubmodule;
+          default = { };
+          description = "sing-box proxy configuration";
         };
       };
     });
