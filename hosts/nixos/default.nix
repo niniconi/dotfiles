@@ -12,6 +12,7 @@
     ../common/optional/ssh.nix
     ../common/optional/sing-box.nix
     ../common/optional/wireguard.nix
+    ../common/optional/wireshark.nix
     ./hardware.nix
     ../common/packages
   ];
@@ -46,7 +47,7 @@
   users.users.${userName} = {
     isNormalUser = true;
     description = userName;
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "wireshark" ];
     hashedPasswordFile = secretFile;
     # zsh as the default login shell
     shell = pkgs.zsh;
