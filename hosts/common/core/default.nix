@@ -54,6 +54,11 @@
   # Enable zsh system-wide
   programs.zsh.enable = true;
 
+  # OpenVPN CLI
+  environment.systemPackages = with pkgs; [
+    openvpn
+  ];
+
   # SSH is configured in modules/ssh.nix using profiles options
 
   # This value determines the NixOS release from which the default
