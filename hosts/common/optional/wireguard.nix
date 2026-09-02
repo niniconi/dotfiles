@@ -8,7 +8,7 @@ let
   interfaces = wg.interfaces or {};
 in
 {
-  networking.wireguard = lib.mkIf enabled {
+  networking.wg-quick = lib.mkIf enabled {
     inherit interfaces;
   };
 }

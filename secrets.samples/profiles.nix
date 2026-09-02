@@ -69,8 +69,10 @@
       interfaces = {
         wg0 = {
           listenPort = 51820;
+          autostart = true;
           privateKey = "YOUR_PRIVATE_KEY_HERE";
-          ips = [ "10.0.0.2/32" ];
+          address = [ "10.0.0.2/32" ];
+          dns = [ "192.168.1.1" ];
           peers = [
             {
               publicKey = "SERVER_PUBLIC_KEY_HERE";
