@@ -53,6 +53,8 @@
         ".ssh"
         ".cache"
         ".local"
+        # Firefox
+        ".config/mozilla"
         # DMS Shell
         ".config/DankMaterialShell"
       ];
