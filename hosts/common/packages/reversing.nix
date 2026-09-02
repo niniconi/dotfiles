@@ -1,6 +1,6 @@
 # reversing - reverse engineering (reversing-utils + angr deps)
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [

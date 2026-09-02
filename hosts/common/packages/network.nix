@@ -1,7 +1,7 @@
 # network - network tools (network-utils)
 # networkmanager is enabled via networking.networkmanager.enable (see configuration.nix)
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];

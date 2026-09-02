@@ -1,6 +1,6 @@
 # cargo.nix - Cargo extension tools
 
-{ config, pkgs, lib, ... }:
+{ pkgs, lib, ... }:
 
 let
   cargo-packager = pkgs.rustPlatform.buildRustPackage rec {

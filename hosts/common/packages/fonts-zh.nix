@@ -1,6 +1,6 @@
 # fonts-zh - Chinese fonts
 
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
   fonts.packages = with pkgs; [

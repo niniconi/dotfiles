@@ -1,7 +1,7 @@
 # recon - reconnaissance/audit (osint-utils + web-exp-utils + audit-utils)
 # duplicates kept across groups (firefox/subfinder) for independent group toggling
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
@@ -13,8 +13,8 @@
     # web app audit
     nuclei
     sqlmap
-    gobuster
     bettercap
+    zap
     # system audit
     lynis
     ssh-audit

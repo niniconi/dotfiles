@@ -1,11 +1,10 @@
-# ai - AI tools (ai-utils)
+# Fuzzing tools
 
 { pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
-    aichat
-    llama-cpp
-    openclaw
+    foundry
+    slither-analyzer
   ];
 }

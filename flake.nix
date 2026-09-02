@@ -22,10 +22,12 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    pwndbg.url = "github:pwndbg/pwndbg";
   };
 
   outputs =
-    { self, nixpkgs, disko, home-manager, lanzaboote, nur, sops-nix, ... }@inputs:
+    { self, nixpkgs, disko, home-manager, lanzaboote, nur, sops-nix, pwndbg, ... }@inputs:
     let
       system = "x86_64-linux";
       # Machine identity — change these when deploying to another machine.

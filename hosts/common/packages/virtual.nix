@@ -1,7 +1,7 @@
 # virtual - virtualization/containers (virtual-utils)
 # service-based: docker/libvirtd/waydroid run as system services
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   virtualisation.docker.enable = true;

@@ -1,25 +1,34 @@
 # Package modules grouped by use case (migrated from deploy-repo/archlinux)
 # Duplicates across groups are intentional for independent group toggling.
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
+    ./blockchain.nix
     ./cli.nix
+    ./container.nix
+    ./code.nix
     ./dev.nix
     ./gui.nix
+    ./kubernetes.nix
     ./network.nix
     ./recon.nix
     ./exploit.nix
+    ./fuzzers.nix
     ./reversing.nix
+    ./traffic.nix
     ./forensics.nix
     ./crypto.nix
     ./virtual.nix
+    ./windows.nix
+    ./wireless.nix
     ./fonts-zh.nix
     ./ai.nix
     ./docs.nix
     ./dotfiles.nix
     ./nixos.nix
+    ./password.nix
     ./cargo.nix
   ];
 
@@ -34,6 +43,8 @@
       openapi-spec-validator
       # crypto.nix
       pycryptodome
+      cryptography
+      z3-solver
       # dev.nix
       flask
       requests
@@ -46,6 +57,7 @@
       pyshark
       # network.nix
       impacket
+      scapy
       # reversing.nix
       frida-python
       keystone-engine
@@ -53,6 +65,9 @@
       pyqtgraph
       numba
       python-gnupg
+      r2pipe
+      lief
+      pefile
       # angr deps
       archinfo
       cachetools

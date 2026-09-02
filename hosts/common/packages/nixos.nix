@@ -1,6 +1,5 @@
 # nixos.nix - Nix ecosystem CLI tools
-
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
@@ -18,6 +17,8 @@
 
     # home-manager CLI
     home-manager
+
+    nixos-container
   ];
 
   # direnv + nix-direnv integration

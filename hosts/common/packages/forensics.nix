@@ -1,6 +1,6 @@
 # forensics - digital forensics (forensics-utils)
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [

@@ -1,10 +1,12 @@
 # docs - documentation/manual (docs-utils)
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
+  documentation.enable = true;
+  documentation.man.enable = true;
+  documentation.nixos.enable = true;
   environment.systemPackages = with pkgs; [
-    man-db
-    man-pages
+    man-pages-posix
   ];
 }

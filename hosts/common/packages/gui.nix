@@ -1,6 +1,6 @@
 # gui - desktop apps (design-utils + extra-utils + game-emulators)
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [

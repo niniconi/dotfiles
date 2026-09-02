@@ -1,6 +1,6 @@
 # crypto - cryptography/steganography (crypto-utils + stego-utils)
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [

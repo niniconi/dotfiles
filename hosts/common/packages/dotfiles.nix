@@ -1,6 +1,6 @@
 # dotfiles - runtime deps (dotfiles-* subpackages)
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [

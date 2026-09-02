@@ -1,6 +1,6 @@
 # dev - development toolchain (development-utils + verified rust-utils)
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [

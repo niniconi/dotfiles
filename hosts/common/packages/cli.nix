@@ -1,6 +1,6 @@
 # cli - general purpose CLI tools (base-utils + posting + docs-utils)
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   environment.systemPackages = with pkgs; [
@@ -9,6 +9,7 @@
     zip
     unzip
     # system info/monitoring
+    file
     btop
     cpufetch
     fastfetch
