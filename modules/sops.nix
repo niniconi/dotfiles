@@ -7,15 +7,31 @@ let
   ssh = profile.ssh or {};
   hosts = ssh.hosts or {};
 
+  validHosts = lib.filter (h: h.sopsSecret or null != null) (builtins.attrValues hosts);
+
   # Auto-generate sops secret for each SSH host with sopsSecret configured
-  sshSopsSecrets = lib.mapAttrs' (name: host: {
-    name = host.sopsSecret;
-    value = {
-      path = "/home/${userName}/.ssh/${builtins.baseNameOf host.sopsSecret}";
-      owner = userName;
-      mode = "0600";
-    };
-  }) (lib.filterAttrs (n: h: h.sopsSecret or null != null) hosts);
+  sshSopsSecrets = lib.listToAttrs (lib.concatMap (host: 
+    let
+      baseName = builtins.baseNameOf host.sopsSecret;
+    in [
+      {
+        name = host.sopsSecret;
+        value = {
+          path = "/home/${userName}/.ssh/${baseName}";
+          owner = userName;
+          mode = "0600";
+        };
+      }
+      {
+        name = "${host.sopsSecret}_pub";
+        value = {
+          path = "/home/${userName}/.ssh/${baseName}.pub";
+          owner = userName;
+          mode = "0644";
+        };
+      }
+    ]
+  ) validHosts);
 in
 {
   config = lib.mkIf hasSecrets {
