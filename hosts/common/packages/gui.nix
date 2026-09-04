@@ -21,6 +21,7 @@
     bitwarden-desktop
     sunshine
     mpv
+    logseq
     # games/emulators
     ruffle
     retroarch
