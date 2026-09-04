@@ -18,7 +18,6 @@
     moonlight-qt
     libreoffice
     jellyfin-media-player
-    # bitwarden needs sandbox=false build (npm-deps prefetch hangs in sandbox)
     bitwarden-desktop
     sunshine
     mpv
