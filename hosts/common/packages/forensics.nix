@@ -12,5 +12,8 @@
     tcpdump
     ecapture
     dive
+
+    # audio
+    multimon-ng
   ];
 }

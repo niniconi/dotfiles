@@ -34,6 +34,8 @@
 
   environment.systemPackages = [
     (pkgs.python3.withPackages (ps: with ps; [
+      # graphics
+      matplotlib
       # cli.nix
       openapi-pydantic
       pydantic
