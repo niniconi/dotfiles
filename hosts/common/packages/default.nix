@@ -19,6 +19,7 @@
     ./reversing.nix
     ./traffic.nix
     ./forensics.nix
+    ./fs.nix
     ./crypto.nix
     ./virtual.nix
     ./windows.nix
