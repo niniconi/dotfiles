@@ -11,6 +11,7 @@
     ../common/optional/programs.nix
     ../common/optional/ssh.nix
     ../common/optional/sing-box.nix
+    ../common/optional/swap.nix
     ../common/optional/wireguard.nix
     ../common/optional/wireshark.nix
     ./hardware.nix
