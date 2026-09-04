@@ -58,6 +58,7 @@
       # network.nix
       impacket
       scapy
+      dpkt
       # reversing.nix
       frida-python
       keystone-engine
@@ -68,6 +69,7 @@
       r2pipe
       lief
       pefile
+      pyghidra
       # angr deps
       archinfo
       cachetools

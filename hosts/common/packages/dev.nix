@@ -22,6 +22,7 @@
     chafa
     cmake
     dbeaver-bin
+    sqlite
     geckodriver
     glew
     gradle
@@ -44,5 +45,8 @@
     kernelshark
     mariadb
     perf
+    # media
+    ffmpeg-full
+    sox
   ];
 }
