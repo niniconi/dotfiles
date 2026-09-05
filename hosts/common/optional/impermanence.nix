@@ -53,6 +53,7 @@
         ".ssh"
         ".cache"
         ".local"
+        ".rustup"
         # Firefox
         ".config/mozilla"
         # DMS Shell
