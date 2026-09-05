@@ -1,0 +1,30 @@
+# Password and hashing tools
+{ pkgs, ... }:
+
+{
+  environment.systemPackages = with pkgs; [
+    authoscope
+    bruteforce-luks
+    # brutespray
+    cewl
+    conpass
+    crunch
+    h8mail
+    hashcat
+    hashcat-utils
+    hashdeep
+    john
+    legba
+    # medusa
+    nasty
+    ncrack
+    nth
+    # phrasendrescher
+    pywhisker
+    sh4d0wup
+    spearspray
+    spraycharles
+    thc-hydra
+    truecrack
+  ];
+}
