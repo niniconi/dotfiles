@@ -65,9 +65,6 @@
 git clone https://github.com/niniconi/dotfiles ~/.config/nixos
 cd ~/.config/nixos
 
-# 生成硬件配置（会生成 hardware-configuration.nix 到当前目录）
-sudo nixos-generate-config --dir ~/.config/nixos
-
 # 构建并应用（配置名跟随 hostname 自动匹配）
 sudo nixos-rebuild switch --flake ~/.config/nixos
 ```
