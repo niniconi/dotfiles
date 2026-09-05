@@ -58,13 +58,6 @@
 
 ### install
 
-使用以下命令安装，后字体需手动安装
-```bash
-sh -c "$(wget https://raw.githubusercontent.com/niniconi/dotfiles/master/install.sh -O -)"
-```
-
-#### NixOS 方式（Flake + home-manager）
-
 前提：NixOS 已装好、启用 Flakes、有 root 权限。home-manager 已通过 flake 内置，无需单独安装。
 
 ```bash
