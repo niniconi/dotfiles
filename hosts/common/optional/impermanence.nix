@@ -58,6 +58,10 @@
         ".config/mozilla"
         # DMS Shell
         ".config/DankMaterialShell"
+        # android
+        ".android"
+        # java
+        ".gradle"
       ];
       files = [
         ".zsh_history"
