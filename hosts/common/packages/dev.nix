@@ -48,5 +48,6 @@
     # media
     ffmpeg-full
     sox
+    v4l-utils
   ];
 }
