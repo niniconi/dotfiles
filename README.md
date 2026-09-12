@@ -1,10 +1,15 @@
 # dotfiles
 
-自用的linux系统的dotfiles
+自用的 Linux 系统 dotfiles。
 
-配置文件包括了:neovim + zsh + tmux + ranger + hyprland + waybar + wallpaper
+## 目录
 
-### screenshot
+- [截图](#截图)
+- [组件](#组件)
+- [安装](#安装)
+- [文档](#文档)
+
+## 截图
 
 <details>
   <summary>neovim</summary>
@@ -17,7 +22,7 @@
   
   ![terminal](./screenshot/Screenshot%202023-01-15%2002-42-53.png)
   
-  3. coc lsp
+  3. LSP
   
   ![lsp](./screenshot/Screenshot%202023-01-15%2002-42-32.png)
   
@@ -33,30 +38,18 @@
   
 </details>
 
-### neovim
+## 组件
 
-添加了如下快捷键，以下快捷键都是Normal模式下的,`<leader>` 为空格
+| 组件 | 说明 | 文档 |
+|------|------|------|
+| Neovim | 文本编辑器，使用原生 LSP + Mason | [文档](./doc/neovim.md) |
+| Niri | 可滚动平铺式 Wayland 合成器 | [文档](./doc/niri.md) |
+| Hyprland | 动态平铺式 Wayland 合成器 | [文档](./doc/hyprland.md) |
+| Tmux | 终端复用器 | [文档](./doc/tmux.md) |
+| Kitty | GPU 加速终端 | - |
+| Ranger | 终端文件管理器 | - |
 
-|快捷键     |命令                  |介绍        |
-|----------|---------------------|------------|
-|<leader>x |:wq                  |保存关闭    |
-|<leader>q |:nvimtreeclose       |关闭nvimtree|
-|<laeder>n |:nvimtreeopen        |打开nvimtree|
-|<leader>t |:floatermnew         |打开终端     |
-|<leader>ff|:telescope find_files|文件搜索     |
-|<leader>rn|                     |重命名变量   |
-|<leader>l |                     |到行尾      |
-|<leader>h |                     |到行首      |
-
-### hyprland
-
-|快捷键            |介绍        |
-|------------------|------------|
-|SUPER + M         |退出Hyprland|
-|SUPER + F         |窗口内全屏  |
-|SUPER + SHIFT + F |全屏        |
-
-### install
+## 安装
 
 前提：NixOS 已装好、启用 Flakes、有 root 权限。home-manager 已通过 flake 内置，无需单独安装。
 
@@ -69,8 +62,13 @@ cd ~/.config/nixos
 sudo nixos-rebuild switch --flake ~/.config/nixos
 ```
 
-> 🔧 换机器前，修改 `flake.nix` 顶部的 `userName` 和 `hostName` 为对应值。
+> 换机器前，修改 `flake.nix` 顶部的 `userName` 和 `hostName` 为对应值。
 
-### tip
+## 文档
 
-改动比较多还没做完，暂时无法正常使用。
+详细配置请查看 [doc/](./doc/) 目录。
+
+- [Neovim 配置](./doc/neovim.md) - 插件、LSP、快捷键
+- [Niri 配置](./doc/niri.md) - 快捷键、窗口管理
+- [Hyprland 配置](./doc/hyprland.md) - 快捷键、窗口管理
+- [Tmux 配置](./doc/tmux.md) - 快捷键、面板操作
