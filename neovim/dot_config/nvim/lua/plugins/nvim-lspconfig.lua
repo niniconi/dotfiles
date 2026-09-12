@@ -61,6 +61,7 @@ function M.setup()
   })
 
   vim.lsp.enable("dartls")
+  vim.lsp.enable("nixd")
 end
 
 return M

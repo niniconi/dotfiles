@@ -6,4 +6,9 @@
     source = ../../../neovim/dot_config/nvim;
     recursive = true;
   };
+
+  home.packages = with pkgs; [
+    nixd
+    nixfmt
+  ];
 }
