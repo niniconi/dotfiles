@@ -1,16 +1,16 @@
-{ config, pkgs, userName, profiles, ... }:
+{ config, pkgs, lib, userName, profiles, ... }:
 
 {
   imports = [
-    ../common/core
-    ../common/optional/kitty.nix
-    ../common/optional/neovim.nix
-    ../common/optional/tmux.nix
-    ../common/optional/niri.nix
-    ../common/optional/ranger.nix
-    ../common/optional/hyprland.nix
-    ../common/optional/firefox.nix
-    ../common/optional/ssh.nix
+    ../../common/core
+    ../../common/optional/kitty.nix
+    ../../common/optional/neovim.nix
+    ../../common/optional/tmux.nix
+    ../../common/optional/niri.nix
+    ../../common/optional/ranger.nix
+    ../../common/optional/hyprland.nix
+    ../../common/optional/firefox.nix
+    ../../common/optional/ssh.nix
   ];
 
   home = {

@@ -1,7 +1,7 @@
 { config, pkgs, lib, userName, hostName, profiles, ... }:
 
 let
-  profile = profiles.${userName} or {};
+  profile = profiles.${hostName}.users.${userName} or {};
   git = profile.git or {};
   ssh = profile.ssh or {};
 in

@@ -1,5 +1,5 @@
 # impermanence.nix - State Persistence Whitelist via Impermanence
-{ inputs, config, pkgs, userName, ... }: {
+{ inputs, config, pkgs, users, ... }: {
   imports = [ inputs.impermanence.nixosModules.impermanence ];
 
   environment.persistence."/persist" = {
@@ -38,7 +38,7 @@
       "/etc/ssh/ssh_host_rsa_key.pub"
     ];
 
-    users.${userName} = {
+    users = builtins.mapAttrs (userName: userConf: {
       directories = [
         "Desktop"
         "Documents"
@@ -81,7 +81,7 @@
         ".config/kitty/dank-tabs.conf"
         ".config/kitty/dank-theme.conf"
       ];
-    };
+    }) users;
   };
 
   boot.tmp.useTmpfs = true;
