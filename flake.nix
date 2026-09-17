@@ -80,6 +80,7 @@
                 lanzaboote.nixosModules.lanzaboote
                 sops-nix.nixosModules.sops
                 ./modules/options.nix
+                ./modules/validation.nix
                 ./modules/sops.nix
                 ./hosts/${hostName}
                 { nixpkgs.overlays = [ nur.overlays.default ]; }
@@ -122,6 +123,7 @@
                 lanzaboote.nixosModules.lanzaboote
                 sops-nix.nixosModules.sops
                 ./modules/options.nix
+                ./modules/validation.nix
                 ./modules/sops.nix
                 ./hosts/${hostName}
                 { nixpkgs.overlays = [ nur.overlays.default ]; }
