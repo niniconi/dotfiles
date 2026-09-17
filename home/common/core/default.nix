@@ -33,17 +33,28 @@ in
     };
   };
 
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    presets = [ "nerd-font-symbols" ];
+    settings = {
+      os = {
+        disabled = false;
+        symbols.NixOS = "󱄅 ";
+      };
+      git_branch = {
+        symbol = " ";
+      };
+      character = {
+        success_symbol = "[\\$](bold green)";
+        error_symbol = "[\\$](bold red)";
+      };
+    };
+  };
+
   programs.zsh = {
     enable = true;
     enableCompletion = true;
-
-    plugins = [
-      {
-        name = "powerlevel10k";
-        src = pkgs.zsh-powerlevel10k;
-        file = "share/zsh-powerlevel10k/powerlevel10k.zsh-theme";
-      }
-    ];
 
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
