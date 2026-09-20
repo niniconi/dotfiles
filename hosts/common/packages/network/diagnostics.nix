@@ -1,5 +1,4 @@
-# network - network tools (network-utils)
-# networkmanager is enabled via networking.networkmanager.enable (see configuration.nix)
+# network diagnostics - network diagnostics/monitoring tools
 
 { pkgs, ... }:
 
@@ -24,12 +23,6 @@
     socat
     wol
     proxychains
-    # proxy/VPN
-    sing-box
-    # browsers
-    firefox
-    chromium
-    tor-browser
     # DNS
     bind
   ];

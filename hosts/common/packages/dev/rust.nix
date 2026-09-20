@@ -23,6 +23,7 @@ let
 in
 {
   environment.systemPackages = with pkgs; [
+    rustup
     # Development
     cargo-expand       # show macro expansions
     cargo-watch        # watch for changes and rebuild

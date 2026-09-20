@@ -5,32 +5,14 @@
 
 {
   imports = [
-    ./blockchain.nix
-    ./cli.nix
-    ./container.nix
-    ./code.nix
-    ./dev.nix
-    ./gui.nix
-    ./kubernetes.nix
-    ./network.nix
-    ./recon.nix
-    ./exploit.nix
-    ./fuzzers.nix
-    ./reversing.nix
-    ./traffic.nix
-    ./forensics.nix
-    ./fs.nix
-    ./crypto.nix
-    ./virtual.nix
-    ./windows.nix
-    ./wireless.nix
-    ./fonts-zh.nix
-    ./ai.nix
-    ./docs.nix
-    ./dotfiles.nix
-    ./nixos.nix
-    ./password.nix
-    ./cargo.nix
+    ./security/default.nix
+    ./network/default.nix
+    ./dev/default.nix
+    ./system/default.nix
+    ./gui/default.nix
+    ./virtual/default.nix
+    ./ai/default.nix
+    ./docs/default.nix
   ];
 
   environment.systemPackages = [
