@@ -154,6 +154,33 @@
               ];
             };
           }
-        ) (builtins.attrNames hosts)));
+        ) (builtins.attrNames hosts)))
+        //
+        # VM configurations (for testing with QEMU)
+        # Usage: nixos-rebuild build-vm --flake .#nixos-vm
+        {
+          "nixos-vm" = nixpkgs.lib.nixosSystem {
+            inherit system;
+            specialArgs = {
+              inherit inputs profiles;
+              hostName = "nixos";
+            };
+            modules = [
+              ./hosts/nixos-vm
+              { nixpkgs.overlays = [ nur.overlays.default ]; }
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.extraSpecialArgs = {
+                  hostName = "nixos";
+                  userName = "administrator";
+                  inherit profiles;
+                };
+                home-manager.users.administrator = import ./home/nixos/administrator/home.nix;
+              }
+            ];
+          };
+        };
     };
 }
