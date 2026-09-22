@@ -8,5 +8,7 @@
     ffmpeg-full
     sox
     v4l-utils
+    # network video download (mpv pairing: mpv <url>)
+    yt-dlp
   ];
 }
