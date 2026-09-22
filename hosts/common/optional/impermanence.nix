@@ -1,5 +1,5 @@
 # impermanence.nix - State Persistence Whitelist via Impermanence
-{ inputs, config, pkgs, users, ... }: {
+{ inputs, users, ... }: {
   imports = [ inputs.impermanence.nixosModules.impermanence ];
 
   environment.persistence."/persist" = {
@@ -38,7 +38,7 @@
       "/etc/ssh/ssh_host_rsa_key.pub"
     ];
 
-    users = builtins.mapAttrs (userName: userConf: {
+    users = builtins.mapAttrs (_: _: {
       directories = [
         "Desktop"
         "Documents"

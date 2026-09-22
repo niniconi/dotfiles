@@ -1,7 +1,7 @@
 # Optional system programs (PAM, GPG, etc.)
 # Uncomment to enable.
 
-{ pkgs, ... }:
+_:
 
 {
   # programs.mtr.enable = true;

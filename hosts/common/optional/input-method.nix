@@ -1,6 +1,6 @@
 # zh-cn - Chinese input method (fcitx5)
 
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
   i18n.inputMethod = {

@@ -131,7 +131,8 @@ let
         default = { };
         description = "User profiles (username -> profile)";
       };
-    } // hostProfileSubmodule.options;
+    }
+    // hostProfileSubmodule.options;
   };
 in
 {

@@ -81,7 +81,10 @@
           peers = [
             {
               publicKey = "SERVER_PUBLIC_KEY_HERE";
-              allowedIPs = [ "0.0.0.0/0" "::/0" ];
+              allowedIPs = [
+                "0.0.0.0/0"
+                "::/0"
+              ];
               endpoint = "server.example.com:51820";
               persistentKeepalive = 25;
             }

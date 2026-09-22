@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
   # Set your time zone.
@@ -39,17 +39,22 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # networking.firewall.enable = false;
 
-  # Enable flakes and nix-command
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Automatic store maintenance
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 14d";
+  # Enable flakes, automatic store maintenance and optimization
+  nix = {
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      auto-optimise-store = true;
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 14d";
+    };
+    optimise.automatic = true;
   };
-  nix.optimise.automatic = true;
-  nix.settings.auto-optimise-store = true;
 
   # Enable zsh system-wide
   programs.zsh.enable = true;

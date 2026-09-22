@@ -1,5 +1,5 @@
 # secrets/default.nix - NixOS module that loads profiles
-{ config, lib, ... }:
+_:
 
 let
   profilesData = import ./profiles.nix;

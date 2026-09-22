@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+_:
 
 {
   # niri - Wayland compositor. Official module registers the niri session
