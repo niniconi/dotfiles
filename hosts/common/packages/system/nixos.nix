@@ -15,6 +15,15 @@
     # nix-index + nix-locate: file-to-package database
     nix-index
 
+    # lint (anti-patterns)
+    statix
+
+    # formatter
+    nixfmt
+
+    # dead code removal
+    deadnix
+
     # home-manager CLI
     home-manager
 
