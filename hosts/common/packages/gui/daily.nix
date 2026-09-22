@@ -13,5 +13,7 @@
     sunshine
     mpv
     logseq
+    # markdown editor (GTK4, lightweight)
+    apostrophe
   ];
 }
