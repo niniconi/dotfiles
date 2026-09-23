@@ -12,5 +12,6 @@
     ./web.nix
     ./db.nix
     ./media-prod.nix
+    ./lua.nix
   ];
 }
