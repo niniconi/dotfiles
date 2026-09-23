@@ -7,5 +7,7 @@
     aichat
     llama-cpp
     openclaw
+    # coding agents
+    opencode
   ];
 }
