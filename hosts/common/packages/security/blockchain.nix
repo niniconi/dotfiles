@@ -1,4 +1,4 @@
-# Fuzzing tools
+# blockchain - smart contract audit and blockchain tools
 
 { pkgs, ... }:
 
