@@ -31,6 +31,8 @@
     bc
     jq
     scc
+    # crypto/tls CLI (cert inspection and generation)
+    openssl
     # dev helper CLI
     lazygit
     onefetch
