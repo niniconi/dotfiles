@@ -84,15 +84,6 @@
     shell = pkgs.zsh;
   };
 
-  # System packages (synced with host)
-  environment.systemPackages = with pkgs; [
-    neovim
-    openssh
-    kitty.terminfo
-    git
-    htop
-  ];
-
   # zramSwap (same as host, without physical swapfile)
   zramSwap = {
     enable = true;

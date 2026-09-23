@@ -8,6 +8,7 @@
     gcc
     gnumake
     cmake
+    go
     # CI/automation
     act
     github-cli

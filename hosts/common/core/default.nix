@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+_:
 
 {
   # Set your time zone.
@@ -26,12 +26,7 @@
   };
 
   # Enable networking
-  networking.networkmanager = {
-    enable = true;
-    plugins = with pkgs; [
-      networkmanager-openvpn
-    ];
-  };
+  networking.networkmanager.enable = true;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -58,11 +53,6 @@
 
   # Enable zsh system-wide
   programs.zsh.enable = true;
-
-  # OpenVPN CLI
-  environment.systemPackages = with pkgs; [
-    openvpn
-  ];
 
   # SSH is configured in modules/ssh.nix using profiles options
 

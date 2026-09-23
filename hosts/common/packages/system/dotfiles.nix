@@ -6,9 +6,9 @@
   environment.systemPackages = with pkgs; [
     ranger
     kitty
-    wl-clipboard
+    neovim
+    # xterm-kitty terminfo: fixes zsh line editing over SSH from kitty
+    kitty.terminfo
     tree-sitter
-    xwayland-satellite
-    go
   ];
 }

@@ -3,8 +3,6 @@
 { pkgs, ... }:
 
 {
-  networking.networkmanager.plugins = [ pkgs.networkmanager-openvpn ];
-
   environment.systemPackages = with pkgs; [
     # network diagnostics/monitoring
     net-tools

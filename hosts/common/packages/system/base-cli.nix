@@ -21,6 +21,8 @@
     dosfstools
     # download
     wget
+    # remote shell
+    openssh
     # file search/browse
     bat
     fzf

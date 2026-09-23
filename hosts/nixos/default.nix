@@ -99,15 +99,6 @@
     ];
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    neovim
-    openssh
-    # xterm-kitty terminfo: fixes zsh line editing over SSH from kitty
-    kitty.terminfo
-  ];
-
   # Define user accounts (from hosts.nix manifest via users parameter)
   users.users = lib.mapAttrs (userName: userConf: {
     isNormalUser = true;

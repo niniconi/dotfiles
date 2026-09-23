@@ -9,5 +9,6 @@
     ./traffic.nix
     ./proxy-vpn.nix
     ./browsers.nix
+    ./remote.nix
   ];
 }
