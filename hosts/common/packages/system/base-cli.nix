@@ -25,6 +25,7 @@
     openssh
     # file search/browse
     bat
+    fd
     fzf
     hexyl
     lsd
