@@ -64,7 +64,6 @@
         ".gradle"
       ];
       files = [
-        ".zsh_history"
         ".bash_history"
         # DMS Shell - GTK
         ".config/gtk-3.0/dank-colors.css"

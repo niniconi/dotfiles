@@ -65,6 +65,16 @@ in
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
 
+      # $HOME is tmpfs while history lives on the persistent btrfs volume:
+      # zsh saves by renaming $HISTFILE.new onto $HISTFILE, which fails with
+      # EBUSY when HISTFILE is an impermanence bind mount. Write history
+      # straight into the persistent directory instead.
+      initContent = ''
+        if [[ -d /persist/home/${userName} ]]; then
+          export HISTFILE="/persist/home/${userName}/.zsh_history"
+        fi
+      '';
+
       shellAliases = {
         icat = "kitty +kitten icat";
 
