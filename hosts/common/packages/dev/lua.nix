@@ -7,7 +7,6 @@
     lua
     luajit
     stylua
-    lua-language-server
     luaPackages.luacheck
   ];
 }
