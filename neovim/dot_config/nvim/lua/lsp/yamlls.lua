@@ -1,4 +1,5 @@
 return {
+  cmd = { "yaml-language-server", "--stdio" },
   settings = {
     yaml = {
       schemas = {
