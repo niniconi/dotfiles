@@ -9,7 +9,5 @@
     # Wayland session runtime
     wl-clipboard
     xwayland-satellite
-    # Phone connect daemon (GNOME-native KDE Connect alternative)
-    valent
   ];
 }
