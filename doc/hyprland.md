@@ -80,12 +80,6 @@
 | `XF86AudioPrev` | 上一曲 |
 | `XF86AudioPlay/Pause` | 播放/暂停 |
 
-### 音量脚本
-
-音量控制使用脚本：
-- `$HOME/.config/scripts/up-volume.sh` - 增加音量
-- `$HOME/.config/scripts/down-volume.sh` - 降低音量
-
 ## 配置文件
 
 配置文件位于 `~/.config/hypr/`：
