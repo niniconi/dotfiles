@@ -12,6 +12,7 @@
     tcpdump
     ecapture
     dive
+    yara
 
     # audio
     multimon-ng
