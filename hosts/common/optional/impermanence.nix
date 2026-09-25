@@ -58,6 +58,7 @@
         ".config/mozilla"
         # DMS Shell
         ".config/DankMaterialShell"
+        ".config/dconf"
         # android
         ".android"
         # java
