@@ -71,54 +71,76 @@ let
       };
     };
   };
+
+  # User profile submodule (user-level configs only)
+  userProfileSubmodule = lib.types.submodule {
+    options = {
+      git = {
+        name = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+          description = "Git commit author name (not set if null)";
+        };
+        email = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+          description = "Git commit author email (not set if null)";
+        };
+        signingKey = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          default = null;
+          description = "Git signing key (GPG key ID or SSH key path)";
+        };
+      };
+      ssh = {
+        authorizedKeys = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
+          description = "User's SSH public keys (empty = not configured)";
+        };
+        hosts = lib.mkOption {
+          type = lib.types.attrsOf sshHostSubmodule;
+          default = { };
+          description = "SSH host configurations (empty = not configured)";
+        };
+      };
+    };
+  };
+
+  # Host profile submodule (host-level configs only)
+  hostProfileSubmodule = lib.types.submodule {
+    options = {
+      sing-box = lib.mkOption {
+        type = singBoxSubmodule;
+        default = { };
+        description = "sing-box proxy configuration";
+      };
+      wireguard = lib.mkOption {
+        type = wireguardSubmodule;
+        default = { };
+        description = "WireGuard VPN configuration";
+      };
+    };
+  };
+
+  # Full profile submodule (combines users + host-level configs)
+  fullProfileSubmodule = lib.types.submodule {
+    options = {
+      users = lib.mkOption {
+        type = lib.types.attrsOf userProfileSubmodule;
+        default = { };
+        description = "User profiles (username -> profile)";
+      };
+    }
+    // hostProfileSubmodule.options;
+  };
 in
 {
   # Export submodule types for use in other modules
+  # profiles structure: hostname -> { users, sing-box, wireguard }
   options.profiles = lib.mkOption {
-    type = lib.types.attrsOf (lib.types.submodule {
-      options = {
-        git = {
-          name = lib.mkOption {
-            type = lib.types.nullOr lib.types.str;
-            default = null;
-            description = "Git commit author name (not set if null)";
-          };
-          email = lib.mkOption {
-            type = lib.types.nullOr lib.types.str;
-            default = null;
-            description = "Git commit author email (not set if null)";
-          };
-          signingKey = lib.mkOption {
-            type = lib.types.nullOr lib.types.str;
-            default = null;
-            description = "Git signing key (GPG key ID or SSH key path)";
-          };
-        };
-        ssh = {
-          authorizedKeys = lib.mkOption {
-            type = lib.types.listOf lib.types.str;
-            default = [ ];
-            description = "User's SSH public keys (empty = not configured)";
-          };
-          hosts = lib.mkOption {
-            type = lib.types.attrsOf sshHostSubmodule;
-            default = { };
-            description = "SSH host configurations (empty = not configured)";
-          };
-        };
-        sing-box = lib.mkOption {
-          type = singBoxSubmodule;
-          default = { };
-          description = "sing-box proxy configuration";
-        };
-        wireguard = lib.mkOption {
-          type = wireguardSubmodule;
-          default = { };
-          description = "WireGuard VPN configuration";
-        };
-      };
-    });
+    type = lib.types.attrsOf fullProfileSubmodule;
     default = { };
-    description = "User profiles configuration map";
+    description = "Profiles configuration map (hostname -> profile)";
   };
 }

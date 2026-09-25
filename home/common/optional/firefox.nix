@@ -1,12 +1,15 @@
 # firefox - Firefox browser with extensions
 
-{ config, pkgs, lib, ... }:
+{ config, pkgs, ... }:
 
 {
   programs.firefox = {
     enable = true;
 
-    languagePacks = [ "zh-CN" "en-US" ];
+    languagePacks = [
+      "zh-CN"
+      "en-US"
+    ];
 
     policies = {
       # Updates & Background Services
@@ -60,8 +63,14 @@
               {
                 template = "https://search.nixos.org/packages";
                 params = [
-                  { name = "channel"; value = "unstable"; }
-                  { name = "query"; value = "{searchTerms}"; }
+                  {
+                    name = "channel";
+                    value = "unstable";
+                  }
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
                 ];
               }
             ];
@@ -74,8 +83,14 @@
               {
                 template = "https://search.nixos.org/options";
                 params = [
-                  { name = "channel"; value = "unstable"; }
-                  { name = "query"; value = "{searchTerms}"; }
+                  {
+                    name = "channel";
+                    value = "unstable";
+                  }
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
                 ];
               }
             ];
@@ -88,7 +103,10 @@
               {
                 template = "https://wiki.nixos.cn/w/index.php";
                 params = [
-                  { name = "search"; value = "{searchTerms}"; }
+                  {
+                    name = "search";
+                    value = "{searchTerms}";
+                  }
                 ];
               }
             ];

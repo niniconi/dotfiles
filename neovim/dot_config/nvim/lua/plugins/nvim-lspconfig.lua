@@ -1,5 +1,26 @@
 local M = {}
 
+local servers = {
+  "asm_lsp",
+  "bashls",
+  "clangd",
+  "cssls",
+  "dartls",
+  "html",
+  "jdtls",
+  "jsonls",
+  "lua_ls",
+  "marksman",
+  "nixd",
+  "phpactor",
+  "pyright",
+  "rust_analyzer",
+  "sqls",
+  "ts_ls",
+  "yamlls",
+  "zls",
+}
+
 local on_attach = function(client, bufnr)
   if client.server_capabilities.documentSymbolProvider then
     require("nvim-navic").attach(client, bufnr)
@@ -38,30 +59,12 @@ function M.setup()
     capabilities = capabilities,
   })
 
-  require("mason").setup()
-  require("mason-lspconfig").setup({
-    ensure_installed = {
-      "rust_analyzer",
-      "pyright",
-      "clangd",
-      "lua_ls",
-      "bashls",
-      "jdtls",
-      "phpactor",
-      "zls",
-      "ts_ls",
-      "asm_lsp",
-      "sqls",
-      "html",
-      "cssls",
-      "jsonls",
-      "yamlls",
-      "marksman",
-    },
-  })
-
-  vim.lsp.enable("dartls")
-  vim.lsp.enable("nixd")
+  -- servers come from nixpkgs (hosts/common/packages/dev/lsp.nix), configs in
+  -- lua/lsp/<server>.lua
+  for _, server in ipairs(servers) do
+    vim.lsp.config(server, require("lsp." .. server))
+    vim.lsp.enable(server)
+  end
 end
 
 return M

@@ -1,14 +1,17 @@
 # hosts/common/optional/wireguard.nix - WireGuard VPN service
-{ config, lib, pkgs, userName, profiles, ... }:
+{
+  lib,
+  hostName,
+  profiles,
+  ...
+}:
 
 let
-  profile = profiles.${userName} or {};
-  wg = profile.wireguard or {};
-  enabled = wg.enable or false;
-  interfaces = wg.interfaces or {};
+  hostProfile = profiles.${hostName} or { };
+  wg = hostProfile.wireguard or { };
 in
 {
-  networking.wg-quick = lib.mkIf enabled {
-    inherit interfaces;
+  networking.wg-quick = lib.mkIf (wg.enable or false) {
+    interfaces = wg.interfaces or { };
   };
 }

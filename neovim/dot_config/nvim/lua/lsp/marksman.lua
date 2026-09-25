@@ -1,0 +1,1 @@
+return { cmd = { "marksman", "server" } }

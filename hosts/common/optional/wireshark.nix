@@ -1,10 +1,10 @@
 # Wireshark configuration - allows non-root users to capture packets
 
-{ pkgs, ... }:
+_:
 
 {
   programs.wireshark = {
     enable = true;
-    dumpcap.enable = true;  # Allow network capture for wireshark group
+    dumpcap.enable = true; # Allow network capture for wireshark group
   };
 }

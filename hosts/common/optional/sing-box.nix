@@ -1,15 +1,13 @@
 # hosts/common/optional/sing-box.nix - sing-box proxy service
-{ config, lib, pkgs, userName, profiles, ... }:
+{ hostName, profiles, ... }:
 
 let
-  profile = profiles.${userName} or {};
-  singBox = profile.sing-box or {};
-  enabled = singBox.enable or false;
-  settings = singBox.settings or {};
+  hostProfile = profiles.${hostName} or { };
+  singBox = hostProfile.sing-box or { };
 in
 {
   services.sing-box = {
-    enable = enabled;
-    inherit settings;
+    enable = singBox.enable or false;
+    settings = singBox.settings or { };
   };
 }

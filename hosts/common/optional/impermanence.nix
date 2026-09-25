@@ -1,5 +1,5 @@
 # impermanence.nix - State Persistence Whitelist via Impermanence
-{ inputs, config, pkgs, userName, ... }: {
+{ inputs, users, ... }: {
   imports = [ inputs.impermanence.nixosModules.impermanence ];
 
   environment.persistence."/persist" = {
@@ -38,7 +38,7 @@
       "/etc/ssh/ssh_host_rsa_key.pub"
     ];
 
-    users.${userName} = {
+    users = builtins.mapAttrs (_: _: {
       directories = [
         "Desktop"
         "Documents"
@@ -58,13 +58,13 @@
         ".config/mozilla"
         # DMS Shell
         ".config/DankMaterialShell"
+        ".config/dconf"
         # android
         ".android"
         # java
         ".gradle"
       ];
       files = [
-        ".zsh_history"
         ".bash_history"
         # DMS Shell - GTK
         ".config/gtk-3.0/dank-colors.css"
@@ -81,7 +81,7 @@
         ".config/kitty/dank-tabs.conf"
         ".config/kitty/dank-theme.conf"
       ];
-    };
+    }) users;
   };
 
   boot.tmp.useTmpfs = true;

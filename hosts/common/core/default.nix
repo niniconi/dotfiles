@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+_:
 
 {
   # Set your time zone.
@@ -26,12 +26,7 @@
   };
 
   # Enable networking
-  networking.networkmanager = {
-    enable = true;
-    plugins = with pkgs; [
-      networkmanager-openvpn
-    ];
-  };
+  networking.networkmanager.enable = true;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -39,25 +34,25 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # networking.firewall.enable = false;
 
-  # Enable flakes and nix-command
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Automatic store maintenance
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 14d";
+  # Enable flakes, automatic store maintenance and optimization
+  nix = {
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      auto-optimise-store = true;
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 14d";
+    };
+    optimise.automatic = true;
   };
-  nix.optimise.automatic = true;
-  nix.settings.auto-optimise-store = true;
 
   # Enable zsh system-wide
   programs.zsh.enable = true;
-
-  # OpenVPN CLI
-  environment.systemPackages = with pkgs; [
-    openvpn
-  ];
 
   # SSH is configured in modules/ssh.nix using profiles options
 

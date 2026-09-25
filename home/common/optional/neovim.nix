@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   xdg.configFile."nvim" = {
@@ -8,7 +8,6 @@
   };
 
   home.packages = with pkgs; [
-    nixd
     nixfmt
   ];
 }
