@@ -106,7 +106,7 @@ stylua <lua files you touched>
 git diff HEAD       # review before commit
 ```
 
-Required order before every commit: **statix -> deadnix -> nixfmt -> stylua -> git diff HEAD -> commit**.
+Required order before every commit: **statix -> deadnix -> nixfmt -> stylua -> git diff HEAD -> ask the user how to commit -> commit**.
 
 ### Every line
 
@@ -147,6 +147,28 @@ Required order before every commit: **statix -> deadnix -> nixfmt -> stylua -> g
   `journalctl --user -u dms -b | grep -iE 'component error|dankKDE'`, then `dms restart` (or
   `systemctl --user restart dms`) and re-enable the plugin in the UI.
 - VM build test: `nh os build-vm .#nixos-vm` (or `nixos-rebuild build-vm --flake .#nixos-vm`).
+
+## Commits
+
+Applies on every line.
+
+- After the lint/format chain and `git diff HEAD`, **ask the user how to commit before
+  committing**, batching both questions into one message:
+  - new commit, or amend/reword an existing one
+  - the final commit message
+- Propose a ready-to-use conventional-commit message (scope = affected dir) so the answer can
+  be a single "yes".
+- Without an explicit answer, run neither `git commit` nor `git commit --amend` — never amend
+  on your own initiative.
+- Once answered, do exactly that: no extra commits, no rewritten wording.
+- Stage only the files this change touches; never `git add -A` (untracked scratch files and
+  `secrets/` must stay out).
+- Don't re-ask what the rules already settle (lint, formatting, message convention) — only the
+  two decisions above.
+- If the form was already stated earlier in the conversation, do not ask again — only ask what
+  is still undecided.
+- If there is nothing to commit, do not ask.
+- If the user answers only one of the two questions, ask only the remaining one.
 
 ## Neovim / LSP
 
