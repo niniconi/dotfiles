@@ -8,6 +8,7 @@
     hashcat
     z3
     # steganography
+    stegseek
     zsteg
     stegsolve
   ];
