@@ -45,5 +45,6 @@
     # git
     delta
     git-filter-repo
+    gource
   ];
 }
