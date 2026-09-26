@@ -14,6 +14,10 @@
     dive
     yara
 
+    # image container validation
+    pngcheck
+    jpeginfo
+
     # audio
     multimon-ng
   ];
