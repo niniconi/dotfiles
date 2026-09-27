@@ -29,5 +29,7 @@
     zig
     kernelshark
     perf
+    # memory profiling
+    heaptrack
   ];
 }
