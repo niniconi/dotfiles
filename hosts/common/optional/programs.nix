@@ -4,6 +4,9 @@
 _:
 
 {
+  # run unpatched dynamic binaries (binaries extracted from firmware)
+  programs.nix-ld.enable = true;
+
   # programs.mtr.enable = true;
   # programs.gnupg.agent = {
   #   enable = true;
