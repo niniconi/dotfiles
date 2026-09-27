@@ -53,7 +53,15 @@
         ".ssh"
         ".cache"
         ".local"
+        # rust
         ".rustup"
+        ".cargo"
+        # go
+        "go/pkg"
+        # maven
+        ".m2"
+        # node
+        ".npm"
         # Firefox
         ".config/mozilla"
         # DMS Shell
