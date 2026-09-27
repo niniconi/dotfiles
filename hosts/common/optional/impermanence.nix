@@ -62,6 +62,9 @@
         ".m2"
         # node
         ".npm"
+        # flutter
+        ".fvm"
+        ".pub-cache"
         # Firefox
         ".config/mozilla"
         # DMS Shell
