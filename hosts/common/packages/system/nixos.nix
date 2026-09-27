@@ -6,6 +6,21 @@
     # nixos-rebuild wrapper
     nh
 
+    # diskless installer
+    nixos-anywhere
+
+    # image-based NixOS builds (qcow2, OCI, VM)
+    colmena
+
+    # deployment over SSH/rsync
+    deploy-rs
+
+    # sops: sops-nix decrypts at build time, the CLI is for editing secrets by hand
+    sops
+
+    # age: key handling for the sops age recipients
+    age
+
     # better nix build output
     nix-output-monitor
 
