@@ -24,46 +24,6 @@
     ../common/packages
   ];
 
-  # Allow specific insecure packages (same as host)
-  nixpkgs.config = {
-    allowUnfree = false;
-    allowUnfreePredicate =
-      pkg:
-      builtins.elem (lib.getName pkg) [
-        "volatility3"
-        "unrar"
-        "android-sdk-cmdline-tools"
-        "android-sdk-platform-tools"
-        "android-sdk-build-tools"
-        "android-sdk-cmake"
-        "android-sdk-platforms"
-        "android-sdk-sources"
-        "android-sdk-tools"
-        "android-sdk-emulator"
-        "android-sdk-ndk"
-        "cmdline-tools"
-        "platform-tools"
-        "build-tools"
-        "cmake"
-        "platforms"
-        "sources"
-        "tools"
-        "emulator"
-        "ndk"
-        "ndk-bundle"
-        "extras"
-        "patcher"
-        "skiaparser"
-        "system-images"
-        "addons"
-      ];
-    android_sdk.accept_license = true;
-    permittedInsecurePackages = [
-      "electron-39.8.10"
-      "openclaw-2026.5.7"
-    ];
-  };
-
   # Bootloader (VM uses direct boot, but systemd-boot is still needed)
   boot.loader = {
     systemd-boot.enable = true;

@@ -177,6 +177,36 @@
             }) (builtins.attrNames hosts)
           ))
         //
+          # Container image of the same desktop. Booted by the host kernel, so
+          # there is no disk image and no bootloader.
+          # Usage: podman load <(nix build .#nixos-oci.config.system.build.ociImage)
+          {
+            "nixos-oci" = nixpkgs.lib.nixosSystem {
+              inherit system;
+              specialArgs = {
+                inherit inputs profiles;
+                hostName = "nixos";
+              };
+              modules = [
+                ./hosts/nixos-oci
+                { nixpkgs.overlays = [ nur.overlays.default ]; }
+                home-manager.nixosModules.home-manager
+                {
+                  home-manager = {
+                    useGlobalPkgs = true;
+                    useUserPackages = true;
+                    extraSpecialArgs = {
+                      hostName = "nixos";
+                      userName = "administrator";
+                      inherit profiles;
+                    };
+                    users.administrator = import ./home/nixos/administrator/home.nix;
+                  };
+                }
+              ];
+            };
+          }
+        //
           # VM configurations (for testing with QEMU)
           # Usage: nixos-rebuild build-vm --flake .#nixos-vm
           {
