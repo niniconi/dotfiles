@@ -80,6 +80,7 @@
                 specialArgs = {
                   inherit inputs profiles;
                   inherit hostName;
+                  minimalPackages = false;
                   # Only include this user for single-user deployment
                   users = {
                     ${userName} = userConf;
@@ -130,6 +131,7 @@
                 specialArgs = {
                   inherit inputs profiles;
                   inherit hostName;
+                  minimalPackages = false;
                   users = hosts.${hostName}.users;
                   diskDevice = hosts.${hostName}.diskDevice;
                 };
@@ -178,14 +180,17 @@
           ))
         //
           # Container image of the same desktop. Booted by the host kernel, so
-          # there is no disk image and no bootloader.
-          # Usage: podman load <(nix build .#nixos-oci.config.system.build.ociImage)
+          # there is no disk image and no bootloader, and it does not run
+          # systemd either, so it needs no privileges.
+          # Build: nh os build-image --image-variant oci --hostname nixos .#nixos-oci
+          # Run:   docker run -it nixos-oci bash
           {
             "nixos-oci" = nixpkgs.lib.nixosSystem {
               inherit system;
               specialArgs = {
                 inherit inputs profiles;
                 hostName = "nixos";
+                minimalPackages = true;
               };
               modules = [
                 ./hosts/nixos-oci
@@ -215,6 +220,38 @@
               specialArgs = {
                 inherit inputs profiles;
                 hostName = "nixos";
+                minimalPackages = false;
+              };
+              modules = [
+                ./hosts/nixos-vm
+                { nixpkgs.overlays = [ nur.overlays.default ]; }
+                home-manager.nixosModules.home-manager
+                {
+                  home-manager = {
+                    useGlobalPkgs = true;
+                    useUserPackages = true;
+                    extraSpecialArgs = {
+                      hostName = "nixos";
+                      userName = "administrator";
+                      inherit profiles;
+                    };
+                    users.administrator = import ./home/nixos/administrator/home.nix;
+                  };
+                }
+              ];
+            };
+          }
+        //
+          # Same VM, reusing ./hosts/nixos-vm, without the packages that
+          # dominate its disk.
+          # Usage: nh os build-vm .#nixos-vm-mini
+          {
+            "nixos-vm-mini" = nixpkgs.lib.nixosSystem {
+              inherit system;
+              specialArgs = {
+                inherit inputs profiles;
+                hostName = "nixos";
+                minimalPackages = true;
               };
               modules = [
                 ./hosts/nixos-vm
