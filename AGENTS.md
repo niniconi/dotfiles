@@ -135,6 +135,12 @@ Required order before every commit: **statix -> deadnix -> nixfmt -> stylua -> g
   is still undecided.
 - If there is nothing to commit, do not ask.
 - If the user answers only one of the two questions, ask only the remaining one.
+- The message body must not count things or enumerate them: no "three headers named X", no
+  list of the affected paths, no per-item summary. Counts rot the moment a follow-up commit
+  touches the same files, and a reader with `git show` can get the exact list in one command.
+  Describe the *kind* of problem instead ("several header comments named a file that does not
+  exist"), and name paths only where they locate the problem. Same rule as the one on
+  comments, for the same reason: `git show` already spells out what changed.
 
 ## Neovim / LSP
 
