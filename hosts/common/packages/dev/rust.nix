@@ -1,5 +1,3 @@
-# cargo.nix - Cargo extension tools
-
 { pkgs, lib, ... }:
 
 let

@@ -1,5 +1,4 @@
 # security - pentest/redteam/CTF tools
-# subcategories: recon, exploit, reversing, forensics, crypto, etc.
 
 { ... }:
 

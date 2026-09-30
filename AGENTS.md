@@ -157,6 +157,14 @@ Required order before every commit: **statix -> deadnix -> nixfmt -> stylua -> g
   removed, or duplicate the schema/other docs. Keep only non-obvious *why* (upstream quirks,
   deliberate deviations, footguns) — and put that "why" where the deviation lives, not next
   to a list it no longer belongs to.
+- Never enumerate in a comment what the adjacent code already spells out: no
+  "subcategories: a, b, c" header above the matching `imports` list, no listing the gated
+  groups next to the `imports` that gate them, no naming the keys of an attrset in the
+  comment above it. A duplicate list is a second thing to keep in sync and it silently
+  rots — the `subcategories` lines had already drifted out of date in four of six groups.
+  Name *what* something is for, or *why* it is the way it is; leave *which items* to the
+  code. Describing what is deliberately **absent** is fine, since absence is not readable
+  from the code.
 - statix rules the style: merge repeated attr keys into one nested attrset
   (`boot.a`/`boot.b` -> `boot = { a; b; }`), empty module pattern `{ ... }:` -> `_:`,
   `x = x;` -> `inherit x;`. deadnix: drop unused lambda args or prefix `_`

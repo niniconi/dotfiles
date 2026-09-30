@@ -1,5 +1,4 @@
 # dev - development tools
-# subcategories: toolchain, rust, java, web, db, media-prod
 
 { ... }:
 

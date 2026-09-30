@@ -1,5 +1,3 @@
-# fonts-zh - Chinese fonts
-
 { pkgs, ... }:
 
 {

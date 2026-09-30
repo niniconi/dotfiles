@@ -1,5 +1,3 @@
-# cli - general purpose CLI tools (base-utils + posting + docs-utils)
-
 { pkgs, ... }:
 
 {

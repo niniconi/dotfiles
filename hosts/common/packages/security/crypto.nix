@@ -1,4 +1,4 @@
-# crypto - cryptography/steganography (crypto-utils + stego-utils)
+# crypto - cryptography/steganography
 
 { pkgs, ... }:
 

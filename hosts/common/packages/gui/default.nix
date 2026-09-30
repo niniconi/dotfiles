@@ -1,5 +1,4 @@
 # gui - desktop applications
-# subcategories: design, daily, gaming, desktop-shell
 
 { ... }:
 

@@ -1,5 +1,4 @@
 # virtual - virtualization/container tools
-# subcategories: docker, libvirt, waydroid, kubernetes
 
 { ... }:
 

@@ -1,4 +1,4 @@
-# recon - reconnaissance/audit (osint-utils + web-exp-utils + audit-utils)
+# recon - reconnaissance/audit
 # duplicates kept across groups (firefox/subfinder) for independent group toggling
 
 { pkgs, ... }:

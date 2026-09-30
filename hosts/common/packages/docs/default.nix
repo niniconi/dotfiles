@@ -1,4 +1,4 @@
-# docs - documentation/manual (docs-utils)
+# docs - documentation/manual
 
 { pkgs, ... }:
 

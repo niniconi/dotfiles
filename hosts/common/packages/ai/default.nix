@@ -1,4 +1,4 @@
-# ai - AI tools (ai-utils)
+# ai - AI tools
 
 { pkgs, ... }:
 

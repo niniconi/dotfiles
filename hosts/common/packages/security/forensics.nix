@@ -1,4 +1,4 @@
-# forensics - digital forensics (forensics-utils)
+# forensics - digital forensics
 
 { pkgs, ... }:
 

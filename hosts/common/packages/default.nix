@@ -1,4 +1,4 @@
-# Package modules grouped by use case (migrated from deploy-repo/archlinux)
+# Package modules grouped by use case
 # Duplicates across groups are intentional for independent group toggling.
 
 {
@@ -14,9 +14,7 @@
   # mkIf in an imports list is rejected too. specialArgs sidesteps both, and the
   # repository already threads hostName and profiles the same way.
   #
-  # Setting it drops the groups that dominate a disk or image footprint: the
-  # mobile toolchain (Flutter plus the Android SDK), the AI tools, the container
-  # and VM stacks, the desktop applications, and the bundled python environment.
+  # Setting it drops the groups that dominate a disk or image footprint.
   imports = [
     ./network/default.nix
     ./system/default.nix

@@ -1,4 +1,4 @@
-# reversing - reverse engineering (reversing-utils + angr deps)
+# reversing - reverse engineering
 
 { pkgs, ... }:
 

@@ -1,5 +1,4 @@
 # network - network tools
-# subcategories: diagnostics, traffic, proxy/VPN, browsers
 
 { ... }:
 

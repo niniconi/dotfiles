@@ -1,5 +1,4 @@
 # system - system tools
-# subcategories: base-cli, fs, nixos, dotfiles, fonts
 
 { ... }:
 

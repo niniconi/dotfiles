@@ -1,5 +1,5 @@
 # hosts/hosts.nix - Host configuration manifest
-# Each host defines: diskDevice, users (username -> home path + password file)
+# users maps a username to its home configuration and password file
 {
   "nixos" = {
     diskDevice = "/dev/nvme0n1";
