@@ -7,6 +7,7 @@
     # base build tools
     gcc
     gnumake
+    ninja
     cmake
     go
     # CI/automation
