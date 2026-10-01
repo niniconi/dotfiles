@@ -6,6 +6,7 @@
   environment.systemPackages = with pkgs; [
     # base build tools
     gcc
+    clang
     gnumake
     ninja
     cmake
