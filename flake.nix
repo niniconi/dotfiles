@@ -58,6 +58,17 @@
       ) (builtins.attrNames hosts);
     in
     {
+      # `nix flake init -t <repo>#flutter` copies templates/flutter/flake.nix
+      # verbatim into the new project, so the template has to be a flake that
+      # works on its own rather than one that imports from here. One directory
+      # per template so a second one cannot collide with this one's flake.lock.
+      templates = {
+        flutter = {
+          path = ./templates/flutter;
+          description = "Flutter development and build environment";
+        };
+      };
+
       # nixosConfigurations supports two formats:
       # - "username@hostname" for deploying single user
       # - "hostname" for deploying all users on that host
