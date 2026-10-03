@@ -12,7 +12,6 @@
 {
   pkgs,
   lib,
-  modulesPath,
   hostName,
   ...
 }:
@@ -119,17 +118,46 @@
       system.build.image = pkgs.dockerTools.buildLayeredImage {
         name = "nixos-oci";
         tag = "latest";
-        # Order matters: each layer wins over the ones before it, so etc has to come
-        # after system.path, which also carries parts of /etc, and shell last.
+        # A single buildEnv rather than the four paths directly. symlinkJoin, which
+        # consumes `contents`, merges with lndir -silent, and lndir does not
+        # descend into a symlinked directory. system.build.toplevel carries its
+        # /etc as a symlink to system.build.etc (top-level.nix), so the flattened
+        # pass never reached the 125 entries behind it -- /etc/nix was absent and
+        # nix refused every command with "experimental Nix feature 'nix-command' is
+        # disabled". buildEnv recurses through real directories instead.
+        #
+        # `contents` is deprecated in favour of `copyToRoot`, but only buildImage
+        # accepts that one, and a single-layer image this size would be rebuilt
+        # from scratch on every configuration change.
         contents = [
-          config.system.build.toplevel
-          config.system.path
-          config.system.build.etc
-          shell
+          (pkgs.buildEnv {
+            name = "nixos-oci-root";
+            # Every path here carries the default meta.priority, so builder.pl's
+            # $priority < $oldPriority test never fires and the first path listed
+            # keeps each contested name. system.path republishes the etc directories
+            # of packages it installs -- dbus is built with --sysconfdir=/etc, for
+            # one -- so it collides with system.build.etc on files that resolve to
+            # the same place by different routes. Letting those through leaves
+            # /etc owned by system.build.etc, which is the point of it.
+            ignoreCollisions = true;
+            paths = [
+              config.system.build.etc
+              config.system.path
+              shell
+            ];
+          })
         ];
+        # Without this the store directory is populated but its database is not,
+        # so nix inside the container decides nothing is installed.
+        includeNixDB = true;
         config = {
           Cmd = [ "/bin/sh" ];
-          Env = [ "PATH=${path}" ];
+          Env = [
+            "PATH=${path}"
+            # nix refuses to start without one; the nixpkgs example that ships a
+            # usable container nix sets this alongside NIX_PAGER.
+            "USER=administrator"
+          ];
         };
       };
     }
