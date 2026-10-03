@@ -150,6 +150,20 @@
         # Without this the store directory is populated but its database is not,
         # so nix inside the container decides nothing is installed.
         includeNixDB = true;
+        # /etc/profile derives PATH, LOCALE_ARCHIVE and a dozen other variables
+        # from environment.profiles, and here those are either profiles nothing
+        # creates or paths under /run/current-system. An interactive bash
+        # sources it and finds nothing, so no external command resolves. Setting
+        # the variables ourselves would only win where we remember to repeat
+        # ourselves; giving /run/current-system/sw the one directory they all
+        # point at fixes the whole set at once, as nix's docker.nix does.
+        # /lib is among system.path's pathsToLink, so the locale archive comes
+        # with it.
+        fakeRootCommands = ''
+          mkdir -p run/current-system var
+          ln -s /run var/run
+          ln -s ${config.system.path} run/current-system/sw
+        '';
         config = {
           Cmd = [ "/bin/sh" ];
           Env = [
