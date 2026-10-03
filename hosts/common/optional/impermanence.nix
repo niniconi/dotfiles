@@ -63,7 +63,7 @@
         # node
         ".npm"
         # flutter
-        ".fvm"
+        "fvm"
         ".pub-cache"
         # Firefox
         ".config/mozilla"
