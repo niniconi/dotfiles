@@ -44,6 +44,13 @@
   };
   security.protectKernelImage = lib.mkForce false;
 
+  # container-config.nix assumes a systemd-nspawn container that borrows the host's
+  # nix-daemon, and boot.isContainer above is what pulls it in -- but nothing here
+  # runs a daemon. Overriding here rather than in the image's Env is the point:
+  # /etc/profile renders environment.variables, so anything set downstream gets
+  # overwritten. local is the single-user counterpart, matching the setting below.
+  environment.variables.NIX_REMOTE = lib.mkForce "local";
+
   # The build sandbox needs namespaces this image cannot create: it runs without
   # CAP_SYS_ADMIN so that it needs no --privileged (see the note on systemd in
   # image.modules.oci below). nixpkgs also disables sandbox-fallback, so without
@@ -163,6 +170,9 @@
           mkdir -p run/current-system var
           ln -s /run var/run
           ln -s ${config.system.path} run/current-system/sw
+          # buildLayeredImage's root has no /tmp either, and nix-shell fails
+          # outright rather than degrading when it cannot create its own.
+          mkdir tmp && chmod 1777 tmp
         '';
         config = {
           Cmd = [ "/bin/sh" ];
