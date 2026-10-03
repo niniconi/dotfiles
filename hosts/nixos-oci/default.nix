@@ -45,6 +45,16 @@
   };
   security.protectKernelImage = lib.mkForce false;
 
+  # The build sandbox needs namespaces this image cannot create: it runs without
+  # CAP_SYS_ADMIN so that it needs no --privileged (see the note on systemd in
+  # image.modules.oci below). nixpkgs also disables sandbox-fallback, so without
+  # this every build fails outright rather than degrading.
+  nix.settings = {
+    sandbox = false;
+    # Silent when unset, and single-user is the right mode for a container.
+    build-users-group = "";
+  };
+
   networking.hostName = hostName;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
