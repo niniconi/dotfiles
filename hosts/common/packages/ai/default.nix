@@ -1,13 +1,16 @@
 # ai - AI tools
 
-{ pkgs, ... }:
+{
+  pkgs,
+  ...
+}:
 
 {
+  imports = [ ./coding-agents.nix ];
+
   environment.systemPackages = with pkgs; [
     aichat
     llama-cpp
     openclaw
-    # coding agents
-    opencode
   ];
 }
