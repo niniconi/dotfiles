@@ -8,6 +8,5 @@
     ./fs.nix
     ./nixos.nix
     ./dotfiles.nix
-    ./fonts.nix
   ];
 }

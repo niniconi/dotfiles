@@ -1,13 +1,13 @@
-# nixos-oci - the desktop's packages, packaged as a container filesystem.
+# nixos-oci - a development, test and run environment packaged as a container
+# filesystem.
 #
 # Deliberately not a disk image. The OCI cloud-image path (system.build.OCIImage
 # in nixpkgs) produces a qcow2 with a partition table that boots its own kernel,
 # and it hardcodes an 8 GiB disk, which is what ran out of space. A container has
 # neither: nothing boots inside it, so there is no disk to size at all.
 #
-# Excluded versus the host: hardware.nix (disko, LUKS, btrfs, tmpfs root),
-# impermanence.nix (persists to /persist) and swap.nix (zram plus a swapfile on
-# /persist). Swap is the host's business; a container cannot set it up anyway.
+# Swap is the host's business: zram and a swapfile both need an init system to
+# set them up, and this image runs none.
 {
   pkgs,
   lib,
@@ -18,14 +18,10 @@
 {
   imports = [
     ../common/core
-    ../common/optional/niri.nix
-    ../common/optional/dms.nix
     ../common/optional/security-hardening.nix
-    ../common/optional/input-method.nix
     ../common/optional/programs.nix
     ../common/optional/ssh.nix
     ../common/optional/sing-box.nix
-    ../common/optional/valent.nix
     ../common/optional/wireguard.nix
     ../common/optional/wireshark.nix
     ../common/packages/nixpkgs-config.nix

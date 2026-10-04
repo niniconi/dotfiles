@@ -11,6 +11,8 @@
   # wants instead of this file, and takes nixpkgs-config.nix alongside them.
   imports = [
     ./nixpkgs-config.nix
+    ./fonts.nix
+    ./oversized.nix
     ./network/default.nix
     ./system/default.nix
     ./dev/default.nix

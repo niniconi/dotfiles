@@ -1,5 +1,4 @@
-# Standalone NixOS VM configuration, same as nixos-vm minus the package groups
-# that dominate a disk.
+# Standalone NixOS VM configuration
 # Does NOT import host hardware (disko, tmpfs root, LUKS, etc.)
 # Compatible with: nixos-rebuild build-vm --flake .#nixos-vm-mini
 {
@@ -23,11 +22,17 @@
     ../common/optional/wireguard.nix
     ../common/optional/wireshark.nix
     ../common/packages/nixpkgs-config.nix
+    ../common/packages/fonts.nix
+    ../common/packages/oversized.nix
     ../common/packages/network
     ../common/packages/system
     ../common/packages/dev
     ../common/packages/docs
     ../common/packages/security
+    ../common/packages/gui
+    ../common/packages/virtual
+    ../common/packages/ai
+    ../common/packages/mobile
   ];
 
   # Bootloader (VM uses direct boot, but systemd-boot is still needed)
@@ -38,6 +43,10 @@
   };
 
   networking.hostName = hostName;
+
+  # The test guest exists to exercise the desktop, so it keeps every package
+  # group and only leaves behind what would dominate its disk.
+  oversizedPackages.enable = false;
 
   # SLiRP keeps the guest on 10.0.2.15, so the host needs a forwarded port to
   # reach it: ssh -p 2222 administrator@127.0.0.1. The QEMU options live in the

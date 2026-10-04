@@ -5,8 +5,6 @@
 {
   environment.systemPackages = with pkgs; [
     # daily apps
-    thunderbird
-    libreoffice
     jellyfin-media-player
     bitwarden-desktop
     mpv
