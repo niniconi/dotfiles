@@ -149,6 +149,16 @@
             ignoreCollisions = true;
             paths = [
               config.system.build.etc
+              # NixOS writes the nss files out of users.users during activation,
+              # which an image never runs, so without them getpwuid(0) fails: bash
+              # answers with a literal "I have no name!" and whatever resolves a
+              # home directory settles on / instead. dockerTools' examples.nix does
+              # the same with nonRootShadowSetup. Only root, because the image runs
+              # as uid 0 and administrator's uid is still null here.
+              (pkgs.writeTextDir "etc/passwd" ''
+                root:x:0:0:System administrator:/root:/bin/bash
+              '')
+              (pkgs.writeTextDir "etc/group" "root:x:0:")
               config.system.path
               shell
             ];
@@ -173,6 +183,9 @@
           # buildLayeredImage's root has no /tmp either, and nix-shell fails
           # outright rather than degrading when it cannot create its own.
           mkdir tmp && chmod 1777 tmp
+          # The home /etc/passwd above promises; without it $HOME resolves to a
+          # path that cannot be written to.
+          mkdir root
         '';
         config = {
           Cmd = [ "/bin/sh" ];
@@ -180,7 +193,7 @@
             "PATH=${path}"
             # nix refuses to start without one; the nixpkgs example that ships a
             # usable container nix sets this alongside NIX_PAGER.
-            "USER=administrator"
+            "USER=root"
           ];
         };
       };
