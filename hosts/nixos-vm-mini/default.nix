@@ -44,6 +44,8 @@
 
   networking.hostName = hostName;
 
+  aiCodingAgents.channel = "unstable";
+
   # The test guest exists to exercise the desktop, so it keeps every package
   # group and only leaves behind what would dominate its disk.
   oversizedPackages.enable = false;

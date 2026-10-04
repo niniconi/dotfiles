@@ -33,6 +33,10 @@
 
   networking.hostName = hostName;
 
+  # Mirrors a desktop that is not being rebuilt right now, so exercise the agent
+  # build users actually have.
+  aiCodingAgents.channel = "unstable";
+
   # SLiRP keeps the guest on 10.0.2.15, so the host needs a forwarded port to
   # reach it: ssh -p 2222 administrator@127.0.0.1. The QEMU options live in the
   # vmVariant submodule, which is what system.build.vm is built from.

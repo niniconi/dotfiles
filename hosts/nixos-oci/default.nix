@@ -30,6 +30,7 @@
     ../common/packages/dev
     ../common/packages/docs
     ../common/packages/security
+    ../common/packages/ai
   ];
 
   # Tells nixpkgs the system runs inside a container: no bootloader is installed
@@ -62,6 +63,8 @@
   };
 
   networking.hostName = hostName;
+
+  aiCodingAgents.channel = "unstable";
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 

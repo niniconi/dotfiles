@@ -4,6 +4,10 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
+    # Not pinned to a release branch: the image and VM hosts exist to be tested
+    # against current releases, so a couple of packages track this instead. Every
+    # other host stays on nixpkgs above.
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,6 +29,7 @@
   outputs =
     {
       nixpkgs,
+      nixpkgs-unstable,
       disko,
       home-manager,
       lanzaboote,
@@ -34,6 +39,20 @@
     }@inputs:
     let
       system = "x86_64-linux";
+
+      # Resolved lazily, so a host that never asks for the unstable variants does
+      # not pay for instantiating a second nixpkgs.
+      unstablePkgs = nixpkgs-unstable.legacyPackages.${system};
+
+      unstableCodingAgents = _final: _prev: {
+        opencode-unstable = unstablePkgs.opencode;
+        pi-coding-agent-unstable = unstablePkgs.pi-coding-agent;
+      };
+
+      overlays = [
+        nur.overlays.default
+        unstableCodingAgents
+      ];
 
       # Host configuration manifest (nested structure for clarity)
       hosts = import ./hosts/hosts.nix;
@@ -105,7 +124,7 @@
                   ./modules/validation.nix
                   ./modules/sops.nix
                   ./hosts/${hostName}
-                  { nixpkgs.overlays = [ nur.overlays.default ]; }
+                  { nixpkgs.overlays = overlays; }
                   home-manager.nixosModules.home-manager
                   {
                     home-manager = {
@@ -152,7 +171,7 @@
                   ./modules/validation.nix
                   ./modules/sops.nix
                   ./hosts/${hostName}
-                  { nixpkgs.overlays = [ nur.overlays.default ]; }
+                  { nixpkgs.overlays = overlays; }
                   home-manager.nixosModules.home-manager
                   {
                     home-manager = {
@@ -202,7 +221,7 @@
               };
               modules = [
                 ./hosts/nixos-oci
-                { nixpkgs.overlays = [ nur.overlays.default ]; }
+                { nixpkgs.overlays = overlays; }
                 home-manager.nixosModules.home-manager
                 {
                   home-manager = {
@@ -231,7 +250,7 @@
               };
               modules = [
                 ./hosts/nixos-vm
-                { nixpkgs.overlays = [ nur.overlays.default ]; }
+                { nixpkgs.overlays = overlays; }
                 home-manager.nixosModules.home-manager
                 {
                   home-manager = {
@@ -262,7 +281,7 @@
               };
               modules = [
                 ./hosts/nixos-vm-mini
-                { nixpkgs.overlays = [ nur.overlays.default ]; }
+                { nixpkgs.overlays = overlays; }
                 home-manager.nixosModules.home-manager
                 {
                   home-manager = {
