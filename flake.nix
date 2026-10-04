@@ -91,7 +91,6 @@
                 specialArgs = {
                   inherit inputs profiles;
                   inherit hostName;
-                  minimalPackages = false;
                   # Only include this user for single-user deployment
                   users = {
                     ${userName} = userConf;
@@ -142,7 +141,6 @@
                 specialArgs = {
                   inherit inputs profiles;
                   inherit hostName;
-                  minimalPackages = false;
                   users = hosts.${hostName}.users;
                   diskDevice = hosts.${hostName}.diskDevice;
                 };
@@ -201,7 +199,6 @@
               specialArgs = {
                 inherit inputs profiles;
                 hostName = "nixos";
-                minimalPackages = true;
               };
               modules = [
                 ./hosts/nixos-oci
@@ -231,7 +228,6 @@
               specialArgs = {
                 inherit inputs profiles;
                 hostName = "nixos";
-                minimalPackages = false;
               };
               modules = [
                 ./hosts/nixos-vm
@@ -253,8 +249,9 @@
             };
           }
         //
-          # Same VM, reusing ./hosts/nixos-vm, without the packages that
-          # dominate its disk.
+          # Same VM without the package groups that dominate its disk. It cannot
+          # reuse ./hosts/nixos-vm for that: NixOS modules accumulate, so there
+          # is no way to import a host file and then drop what it pulled in.
           # Usage: nh os build-vm .#nixos-vm-mini
           {
             "nixos-vm-mini" = nixpkgs.lib.nixosSystem {
@@ -262,10 +259,9 @@
               specialArgs = {
                 inherit inputs profiles;
                 hostName = "nixos";
-                minimalPackages = true;
               };
               modules = [
-                ./hosts/nixos-vm
+                ./hosts/nixos-vm-mini
                 { nixpkgs.overlays = [ nur.overlays.default ]; }
                 home-manager.nixosModules.home-manager
                 {

@@ -7,8 +7,7 @@
 #
 # Excluded versus the host: hardware.nix (disko, LUKS, btrfs, tmpfs root),
 # impermanence.nix (persists to /persist) and swap.nix (zram plus a swapfile on
-# /persist), plus whatever minimalPackages drops. Swap is the host's business; a
-# container cannot set it up anyway.
+# /persist). Swap is the host's business; a container cannot set it up anyway.
 {
   pkgs,
   lib,
@@ -29,7 +28,12 @@
     ../common/optional/valent.nix
     ../common/optional/wireguard.nix
     ../common/optional/wireshark.nix
-    ../common/packages
+    ../common/packages/nixpkgs-config.nix
+    ../common/packages/network
+    ../common/packages/system
+    ../common/packages/dev
+    ../common/packages/docs
+    ../common/packages/security
   ];
 
   # Tells nixpkgs the system runs inside a container: no bootloader is installed
