@@ -49,15 +49,22 @@ function M.setup(opts)
   local pale_mint = b16.base0C
   local peach = b16.base08
 
+  -- base16 slots 00-07 are the dark ramp from background to foreground, but
+  -- dms-shell fills 01 with a repeat of 00 and 02/03 with the same mid grey.
+  -- Taken literally that grey becomes the CursorLine background and the comment
+  -- colour, so the neutrals are derived from the two ends of the ramp instead.
+  local bg = b16.base00
+  local fg = b16.base05
+
   local palette = {
-    bg = b16.base00,
-    bg_dark = Util.blend_bg(b16.base01, 0.6, b16.base00),
+    bg = bg,
+    bg_dark = Util.blend(fg, 0.10, bg),
     bg_dark1 = Util.blend_bg(b16.base01, 0.7, "#000000"),
-    bg_highlight = b16.base02,
-    comment = b16.base03,
-    fg = b16.base05,
+    bg_highlight = Util.blend(fg, 0.06, bg),
+    comment = Util.blend(fg, 0.45, bg),
+    fg = fg,
     fg_dark = b16.base04,
-    fg_gutter = Util.blend_bg(b16.base02, 0.5, b16.base03),
+    fg_gutter = Util.blend(fg, 0.40, bg),
 
     blue = Util.brighten(pale_mint, -0.30, -0.3),
     blue0 = Util.blend_bg(pale_mint, 0.25, "#000000"),
