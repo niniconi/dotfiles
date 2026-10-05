@@ -3,7 +3,7 @@ _:
 {
   xdg.configFile."hypr" = {
     force = true;
-    source = ../../../hyprland/dot_config/hypr;
+    source = ../../../hyprland;
     recursive = true;
   };
 }

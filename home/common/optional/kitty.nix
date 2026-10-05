@@ -3,7 +3,7 @@ _:
 {
   xdg.configFile."kitty" = {
     force = true;
-    source = ../../../kitty/dot_config/kitty;
+    source = ../../../kitty;
     recursive = true;
   };
 }

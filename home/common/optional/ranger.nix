@@ -3,7 +3,7 @@ _:
 {
   xdg.configFile."ranger" = {
     force = true;
-    source = ../../../ranger/dot_config/ranger;
+    source = ../../../ranger;
     recursive = true;
   };
 }

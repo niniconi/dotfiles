@@ -3,7 +3,7 @@ _:
 {
   xdg.configFile."niri" = {
     force = true;
-    source = ../../../niri/dot_config/niri;
+    source = ../../../niri;
     recursive = true;
   };
 }
