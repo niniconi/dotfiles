@@ -19,8 +19,7 @@ permanent line and no path-ownership split.
 Renaming or deleting these breaks the build, because home-manager resolves them by path:
 
 - `hyprland/`, `kitty/`, `niri/`, `ranger/`, `tmux/`, `neovim/` — each is deployed by the
-  matching `home/common/optional/<name>.nix` via
-  `xdg.configFile."x".source = ../../../<dir>/dot_config/...`.
+  matching `home/common/optional/<name>.nix` via `xdg.configFile."x".source = ../../../<dir>`.
 - `hosts/common/packages/dev/lsp.nix`, `hosts/common/packages/dev/lua.nix` and
   `home/common/optional/neovim.nix` — imported by `hosts/common/packages/dev/default.nix`
   and `home/nixos/administrator/home.nix`. Adding, renaming or removing one needs the
@@ -29,16 +28,27 @@ Renaming or deleting these breaks the build, because home-manager resolves them 
 ## Layout gotchas
 
 - Raw dotfile dirs live at repo root (`kitty/`, `neovim/`, `niri/`, `tmux/`, `ranger/`,
-  `hyprland/`, ...) with chezmoi-style `dot_config/...` names. home-manager deploys them via
-  `xdg.configFile."x".source = ../../../<dir>/dot_config/...` in `home/common/optional/*.nix`.
-  Deleting or renaming those dirs breaks the build — see Branches.
+  `hyprland/`, ...) and hold the XDG directory verbatim, so `niri/config.kdl` is
+  `~/.config/niri/config.kdl`. home-manager deploys them via
+  `xdg.configFile."x".source = ../../../<dir>` in `home/common/optional/*.nix`.
+  Deleting or renaming those dirs breaks the build — see Branches. Note the repo dir name
+  is not always the XDG one: `hyprland/` lands on `hypr`, `neovim/` on `nvim`.
+- `chromium/`, `gtk/`, `dms/`, `termux/`, `wallpaper/` and `doc/` are not deployed by any
+  module. The first four are kept as the source of record for settings that no NixOS module
+  installs; `doc/` is Chinese prose that `README.md` links to.
+- **dms-shell owns some of these files.** It writes `~/.config/niri/dms/*.kdl` and
+  `~/.config/nvim/lua/plugins/dankcolors.lua` at runtime, and
+  `neovim/lua/dankcolors/watcher.lua` watches the latter to reload the colorscheme. None of
+  them belong in this repository: home-manager deploying a stale copy is what stops dms from
+  writing its own. `neovim/lua/dankcolors/` and `neovim/colors/dankcolors.lua` are the
+  `dankcolors.nvim` library and are hand-maintained — leave them.
 - `README.md` is partly stale: it says to edit `userName`/`hostName` at the top of
   `flake.nix`. The real values live in `hosts/hosts.nix` (`diskDevice`,
   `users.<name>.{home,passwordFile}`); `hostName`/`userName` are derived in `flake.nix` from the
   `"<user>@<host>"` configuration keys and passed in through `specialArgs`. Trust code over docs.
-- Only `ranger/dot_config/ranger/plugins/ranger_devicon` is a real git submodule.
-  `.gitmodules` still lists removed zsh/powerlevel10k entries (prompt moved to
-  starship) — stale, ignore.
+- Only `ranger/plugins/ranger_devicon` is a real git submodule. `.gitmodules` still lists
+  removed zsh/powerlevel10k entries (prompt moved to starship) — stale, ignore. `git mv` does
+  not update the submodule's section name in `.gitmodules`, only its `path`.
 - `.stylua.toml` (2-space, 120 cols) applies to Lua under `neovim/`.
 
 ## Flake outputs
@@ -47,18 +57,52 @@ Renaming or deleting these breaks the build, because home-manager resolves them 
 |---|---|
 | `nixosConfigurations."administrator@nixos"` | single-user deploy of host `nixos` |
 | `nixosConfigurations.nixos` | whole host (all users) |
+| `nixosConfigurations.nixos-oci` | the desktop as a container filesystem |
 | `nixosConfigurations.nixos-vm` | standalone QEMU test VM |
+| `nixosConfigurations.nixos-vm-mini` | the same VM without `oversizedPackages` |
+| `templates.flutter` | `nix flake init -t ...#flutter` |
 
-- Only the two non-VM configs import `disko`, `lanzaboote`, `sops-nix` and
+- Only the two host configs import `disko`, `lanzaboote`, `sops-nix` and
   `modules/{options,validation,sops}.nix`.
-- `specialArgs` differ: host configs get `inputs profiles hostName users diskDevice`;
-  the VM gets only `inputs profiles hostName`. Never reference `users`/`diskDevice`
-  in modules that `hosts/nixos-vm` imports.
+- `specialArgs` differ: host configs get `inputs profiles hostName users diskDevice`; the
+  VM and image get only `inputs profiles hostName`, so a module either of them imports must
+  not reference `users` or `diskDevice`.
 - **`hosts/nixos-vm` must stay standalone**: importing `hosts/nixos` hardware (disko,
   tmpfs root, LUKS) collides with build-vm's `mkVMOverride` on `fileSystems` and bricks boot
   ("Failed to start Switch Root"). VM user login is `administrator` / `test`.
+- `hosts/nixos-vm-mini` cannot reuse `hosts/nixos-vm` the way it used to: NixOS modules
+  accumulate, so a host file cannot import another and then drop part of what it pulled in.
+  The two are separate directories that happen to agree.
 - home-manager `extraSpecialArgs` are set in `flake.nix`: `hostName`, `profiles`, plus `userName`
   in the per-user block.
+
+## Packages
+
+`hosts/common/packages/` holds nine group directories plus four loose modules a host may take
+independently:
+
+| Module | What it is |
+|---|---|
+| `default.nix` | every group at once, for a host that wants everything |
+| `nixpkgs-config.nix` | `allowUnfree` and the rest of the nixpkgs policy |
+| `fonts.nix` | the CJK and monospace faces |
+| `oversized.nix` | packages behind `oversizedPackages.enable` |
+
+A host picks its groups by importing the directories it wants and the loose modules it wants;
+there is no flag that turns groups off from the inside. `hosts/nixos` and `hosts/nixos-vm` take
+`default.nix` and so stay a superset of everything.
+
+Two options let a host deviate without editing a group:
+
+- `oversizedPackages.enable` (default `true`, declared in `oversized.nix`) drops the
+  heavyweight desktop applications. `nixos-vm-mini` sets it `false`. It also gates
+  `virtualisation.libvirtd.enable`, because that daemon reaches `pkgs.libvirt` through a
+  store path in its systemd environment — leave the packages without it and libvirt stays in
+  the closure anyway.
+- `aiCodingAgents.channel` (`"stable"` or `"unstable"`) picks which nixpkgs builds the coding
+  agents come from. `"stable"` is the pinned `nixpkgs`; `"unstable"` is a second flake input
+  exposed through an overlay as `opencode-unstable` and `pi-coding-agent-unstable`. The VMs
+  and the image track `"unstable"`, the desktop stays on `"stable"`.
 
 ## Secrets
 
@@ -82,14 +126,15 @@ Required order before every commit: **statix -> deadnix -> nixfmt -> stylua -> g
 - When adding/changing software, verify the attribute against the flake's **pinned** nixpkgs,
   not the registry: `nix eval --raw .#nixosConfigurations.<config>.pkgs.<pkg>.pname` (or
   `.version`; `.pkgs.path` prints the pinned nixpkgs source; that `pkgs` is the pinned nixpkgs
-  plus the NUR overlay). `<config>` is `nixos-vm` or `nixos`. Flake references need
-  `--extra-experimental-features 'nix-command flakes'` unless the host enables flakes in
-  `nix.conf`.
+  plus the NUR overlay). `<config>` is any of the `nixosConfigurations` keys above. Flake
+  references need `--extra-experimental-features 'nix-command flakes'` unless the host enables
+  flakes in `nix.conf`.
   The registry `nixpkgs#...` can be far ahead (dms-shell: registry 1.6.2 vs pinned 1.4.6) and
   already caused a real incompatibility. For discovery by keyword: `nix search nixpkgs <regex>`
   (e.g. `nix search nixpkgs remmina`; needs network and is slow — it enumerates legacyPackages.
   Note `nix search nixpkgs#<term>` errors: a regex arg is mandatory). Package names are often
-  non-obvious (`apostrophe`, `freerdp` -> binary `xfreerdp3`, `kdePackages.*`).
+  non-obvious (`apostrophe`, `freerdp` -> binary `xfreerdp3`, `kdePackages.*`), and an agent
+  may be under a longer name than its command (`pi-coding-agent` provides `pi`).
 - Fixed-output derivations (`fetchFromGitHub`): leave a fake hash, run the build, copy the `got:`
   hash from the error. For plain `.nix` files use `nix-build <file>` (`nix build` requires a flake
   path). `postFetch` globs in a FOD are unreliable — lift monorepo subdirs with a `runCommand`
@@ -99,22 +144,42 @@ Required order before every commit: **statix -> deadnix -> nixfmt -> stylua -> g
   - `nix eval .#nixosConfigurations.nixos-vm.config.system.build.vm.drvPath` for the VM. It does
     **not** import `modules/{options,validation,sops}.nix`, so it cannot catch errors there. Use
     `system.build.vm`, **not** `toplevel`: the VM declares no root filesystem (by design), which
-    trips nixpkgs' "fileSystems does not specify your root file system" assertion.
+    trips nixpkgs' "fileSystems does not specify your root file system" assertion. Both
+    VMs fail that one by design, so read past it and judge the rest of the output.
   - `nix eval .#nixosConfigurations.nixos.config.assertions --apply 'xs: builtins.all (x: x.assertion) xs'`
-    for the host path, including `modules/validation.nix` assertions.
+    for the host path, including `modules/validation.nix` assertions. The same works for
+    `nixos-oci`, which has no validation assertions of its own.
+- Build tests: `nh os build-vm .#nixos-vm` (or `nixos-rebuild build-vm --flake .#nixos-vm`),
+  and `nh os build-image --image-variant oci --hostname nixos .#nixos-oci` for the image, which
+  you then run with `docker run -it nixos-oci bash`.
 - Tools ship with the config: `statix`/`nixfmt`/`deadnix` in
   `hosts/common/packages/system/nixos.nix`, `stylua` in `hosts/common/packages/dev/lua.nix`. On
   non-NixOS: `nix profile install nixpkgs#statix nixpkgs#deadnix nixpkgs#nixfmt` (binaries in
   `~/.nix-profile/bin`; `statix` has no `--version`, use `statix --help`).
-- DMS plugins (`hosts/common/optional/dms.nix`): keep the pinned `rev` compatible with both the
-  plugin's `requires_dms` and the pinned dms-shell version (check the latter with
-  `nix eval --raw .#nixosConfigurations.nixos-vm.pkgs.dms-shell.version`), and re-audit the plugin
-  source on every bump. After a rev bump verify the *content* that landed on the host, not just
-  that the path exists — a stale install shows up as `"<Type> is not a type"` QML errors: check
+
+## Neovim / LSP
+
+- Language servers come from `hosts/common/packages/dev/lsp.nix`; per-server commands live in
+  `neovim/lua/lsp/<server>.lua`. Never add a mason-installed server.
+- `vscode-langservers-extracted` and `yaml-language-server` need an explicit `--stdio`; without it
+  the server starts, throws "Connection input stream is not set" and exits 1, so Neovim reports no
+  active client.
+- `:checkhealth vim.lsp` only proves a client was created. Verify with a real request
+  (`vim.lsp.buf_request`) or the editing feature you actually need, and read
+  `~/.local/state/nvim/lsp.log` for server stderr.
+- Neovim plugin versions are intentionally unlocked — do not generate `lazy-lock.json`.
+
+## dms-shell
+
+- Plugin revs (`hosts/common/optional/dms.nix`) must satisfy both the plugin's `requires_dms`
+  and the pinned dms-shell version, which you can read with
+  `nix eval --raw .#nixosConfigurations.nixos-vm.pkgs.dms-shell.version`. Re-audit the plugin
+  source on every bump.
+- After a rev bump verify the *content* that landed on the host, not just that the path exists.
+  A stale install shows up as `"<Type> is not a type"` QML errors: check
   `grep '"version"' /etc/xdg/quickshell/dms-plugins/DankKDEConnect/plugin.json` and
   `journalctl --user -u dms -b | grep -iE 'component error|dankKDE'`, then `dms restart` (or
   `systemctl --user restart dms`) and re-enable the plugin in the UI.
-- VM build test: `nh os build-vm .#nixos-vm` (or `nixos-rebuild build-vm --flake .#nixos-vm`).
 
 ## Commits
 
@@ -141,18 +206,6 @@ Required order before every commit: **statix -> deadnix -> nixfmt -> stylua -> g
   Describe the *kind* of problem instead ("several header comments named a file that does not
   exist"), and name paths only where they locate the problem. Same rule as the one on
   comments, for the same reason: `git show` already spells out what changed.
-
-## Neovim / LSP
-
-- Language servers come from `hosts/common/packages/dev/lsp.nix`; per-server commands live in
-  `neovim/dot_config/nvim/lua/lsp/<server>.lua`. Never add a mason-installed server.
-- `vscode-langservers-extracted` and `yaml-language-server` need an explicit `--stdio`; without it
-  the server starts, throws "Connection input stream is not set" and exits 1, so Neovim reports no
-  active client.
-- `:checkhealth vim.lsp` only proves a client was created. Verify with a real request
-  (`vim.lsp.buf_request`) or the editing feature you actually need, and read
-  `~/.local/state/nvim/lsp.log` for server stderr.
-- Neovim plugin versions are intentionally unlocked — do not generate `lazy-lock.json`.
 
 ## Conventions
 
