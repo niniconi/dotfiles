@@ -69,6 +69,7 @@
         ".config/mozilla"
         # DMS Shell
         ".config/DankMaterialShell"
+        ".config/niri/dms"
         ".config/dconf"
         # android
         ".android"
