@@ -12,30 +12,21 @@
 ## 截图
 
 <details>
-  <summary>neovim</summary>
-  
-  1. startup界面
-  
-  ![startup](./screenshot/Screenshot%202023-01-15%2002-41-50.png)
-  
-  2. 内嵌终端
-  
-  ![terminal](./screenshot/Screenshot%202023-01-15%2002-42-53.png)
-  
-  3. LSP
-  
-  ![lsp](./screenshot/Screenshot%202023-01-15%2002-42-32.png)
-  
-</details>
-<details>
-  <summary>ranger</summary>
-  
-  ![](/screenshot/Screenshot%202023-01-15%2002-40-19.png)
-  
-  ![](/screenshot/Screenshot%202023-01-15%2002-40-37.png)
-  
-  ![](/screenshot/Screenshot%202023-01-15%2002-41-06.png)
-  
+
+![](./screenshot/Screenshot%20from%202026-10-05%2021-20-56.png)
+
+![](./screenshot/Screenshot%20from%202026-10-05%2021-25-45.png)
+
+![](./screenshot/Screenshot%20from%202026-10-05%2021-27-40.png)
+
+![](./screenshot/Screenshot%20from%202026-10-05%2021-28-03.png)
+
+![](./screenshot/Screenshot%20from%202026-10-05%2021-28-15.png)
+
+![](./screenshot/Screenshot%20from%202026-10-05%2021-28-33.png)
+
+![](./screenshot/Screenshot%20from%202026-10-05%2021-28-41.png)
+
 </details>
 
 ## 组件
