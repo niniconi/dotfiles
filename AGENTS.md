@@ -36,12 +36,10 @@ Renaming or deleting these breaks the build, because home-manager resolves them 
 - `chromium/`, `gtk/`, `dms/`, `termux/`, `wallpaper/` and `doc/` are not deployed by any
   module. The first four are kept as the source of record for settings that no NixOS module
   installs; `doc/` is Chinese prose that `README.md` links to.
-- **dms-shell owns some of these files.** It writes `~/.config/niri/dms/*.kdl` and
-  `~/.config/nvim/lua/plugins/dankcolors.lua` at runtime, and
-  `neovim/lua/dankcolors/watcher.lua` watches the latter to reload the colorscheme. None of
-  them belong in this repository: home-manager deploying a stale copy is what stops dms from
-  writing its own. `neovim/lua/dankcolors/` and `neovim/colors/dankcolors.lua` are the
-  `dankcolors.nvim` library and are hand-maintained — leave them.
+- **Generated output does not belong in this repository** — home-manager deploying a file there
+  takes the path, and the generator can no longer write its own. dms-shell writes
+  `neovim/lua/plugins/dankcolors.lua`, `niri/dms/`, `kitty/dank-theme.conf`,
+  `kitty/dank-tabs.conf` and `hyprland/dms/`; leave every one of those paths empty.
 - `README.md` is partly stale: it says to edit `userName`/`hostName` at the top of
   `flake.nix`. The real values live in `hosts/hosts.nix` (`diskDevice`,
   `users.<name>.{home,passwordFile}`); `hostName`/`userName` are derived in `flake.nix` from the
@@ -160,7 +158,8 @@ Required order before every commit: **statix -> deadnix -> nixfmt -> stylua -> g
 ## Neovim / LSP
 
 - Language servers come from `hosts/common/packages/dev/lsp.nix`; per-server commands live in
-  `neovim/lua/lsp/<server>.lua`. Never add a mason-installed server.
+  `neovim/lua/lsp/<server>.lua`. Dart is the exception — `dartls.lua` reaches the Dart SDK
+  through `fvm` even though nixpkgs packages `dart`. Never add a mason-installed server.
 - `vscode-langservers-extracted` and `yaml-language-server` need an explicit `--stdio`; without it
   the server starts, throws "Connection input stream is not set" and exits 1, so Neovim reports no
   active client.
