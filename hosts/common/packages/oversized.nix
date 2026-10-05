@@ -50,7 +50,6 @@ in
       retroarch
       libretro-core-info
       ruffle
-      qemu
       virt-manager
     ]
   );

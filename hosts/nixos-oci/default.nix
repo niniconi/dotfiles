@@ -31,6 +31,9 @@
     ../common/packages/docs
     ../common/packages/security
     ../common/packages/ai
+    # qemu for running a guest or a foreign binary, without the rest of the group:
+    # libvirt, docker and waydroid all need a host this image cannot offer.
+    ../common/packages/virtual/misc.nix
   ];
 
   # Tells nixpkgs the system runs inside a container: no bootloader is installed
