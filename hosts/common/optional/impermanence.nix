@@ -71,6 +71,7 @@
         ".config/DankMaterialShell"
         ".config/niri/dms"
         ".config/dconf"
+        ".config/agentdock"
         # android
         ".android"
         # java
