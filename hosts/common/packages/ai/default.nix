@@ -6,7 +6,10 @@
 }:
 
 {
-  imports = [ ./coding-agents.nix ];
+  imports = [
+    ./agentdock.nix
+    ./coding-agents.nix
+  ];
 
   environment.systemPackages = with pkgs; [
     aichat
