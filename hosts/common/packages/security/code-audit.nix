@@ -11,7 +11,6 @@
     deepsecrets
     detect-secrets
     freeze
-    # garble
     git-secret
     gitjacker
     gitleaks

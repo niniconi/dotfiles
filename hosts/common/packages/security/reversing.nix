@@ -26,6 +26,11 @@
     imhex
     radare2
     detect-it-easy
+    # Go reversing
+    goresym
+    delve
+    garble
+    gore
     # mobile/Android reversing
     scrcpy
     objection
