@@ -50,6 +50,7 @@
         cookie-editor
         hacktools
         noscript
+        floccus
       ];
 
       search = {
