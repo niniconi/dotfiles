@@ -41,6 +41,7 @@
     httpie
     posting
     # git
+    git
     delta
     git-filter-repo
     gource
