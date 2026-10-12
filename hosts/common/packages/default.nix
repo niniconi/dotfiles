@@ -27,8 +27,26 @@
   environment.systemPackages = [
     (pkgs.python3.withPackages (
       ps: with ps; [
-        # graphics
+        # graphics / image processing
         matplotlib
+        pillow
+        scikit-image
+        imageio
+        opencv4
+        # data visualization
+        seaborn
+        plotly
+        # numeric / scientific
+        numpy
+        scipy
+        pandas
+        scikit-learn
+        # 3D graphics / rendering
+        trimesh
+        pyvista
+        vtk
+        moderngl
+        pyopengl
         # cli.nix
         openapi-pydantic
         pydantic
