@@ -41,6 +41,7 @@ in
       gimp
       krita
       inkscape
+      kicad
       obs-studio
       audacity
       opentabletdriver
