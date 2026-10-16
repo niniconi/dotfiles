@@ -99,13 +99,6 @@
       ...
     }:
     let
-      # NixOS does not put a shell in the closure: /bin/sh normally appears
-      # during activation, and nothing runs activation here.
-      shell = pkgs.runCommand "container-shell" { } ''
-        mkdir -p $out/bin
-        ln -s ${pkgs.bash}/bin/bash $out/bin/sh
-      '';
-
       # Both of these are nixpkgs' own symlink farms, one package per entry, so
       # nothing has to be listed by hand: system.path covers
       # environment.systemPackages, home.path covers the home-manager packages
@@ -117,6 +110,11 @@
         "${config.system.path}/sbin"
         "${config.home-manager.users.administrator.home.path}/bin"
       ];
+
+      # The generic-Linux ELF interpreter name and the FHS directory it lives
+      # in, as config/ldso.nix computes them.
+      libDir = pkgs.stdenv.hostPlatform.libDir;
+      ldsoBasename = lib.last (lib.splitString "/" pkgs.stdenv.cc.bintools.dynamicLinker);
     in
     {
       imports = [ (modulesPath + "/image/file-options.nix") ];
@@ -169,7 +167,12 @@
               '')
               (pkgs.writeTextDir "etc/group" "root:x:0:")
               config.system.path
-              shell
+              # /bin/sh and /usr/bin/env both normally appear during activation,
+              # which never runs here. dockerTools ships each as a one-line
+              # symlink farm, so a `#!/bin/sh` or `#!/usr/bin/env` shebang
+              # resolves the way a script expects.
+              pkgs.dockerTools.binSh
+              pkgs.dockerTools.usrBinEnv
             ];
           })
         ];
@@ -189,12 +192,48 @@
           mkdir -p run/current-system var
           ln -s /run var/run
           ln -s ${config.system.path} run/current-system/sw
+          ln -s ${config.system.build.etc}/etc run/current-system/etc
+          # The toplevel normally writes these two; nixos-version and anything
+          # that reports the running system reads them.
+          echo -n ${lib.escapeShellArg config.system.nixos.label} > run/current-system/nixos-version
+          echo -n ${lib.escapeShellArg pkgs.stdenv.hostPlatform.system} > run/current-system/system
           # buildLayeredImage's root has no /tmp either, and nix-shell fails
           # outright rather than degrading when it cannot create its own.
           mkdir tmp && chmod 1777 tmp
           # The home /etc/passwd above promises; without it $HOME resolves to a
           # path that cannot be written to.
           mkdir root
+          # /etc/set-environment routes PATH through the per-user and default
+          # nix profiles, and nothing else creates them. Nix's own container
+          # image lays them out the same way, so the profile nix manages here is
+          # the one already on PATH.
+          mkdir -p nix/var/nix/profiles/per-user/root nix/var/nix/gcroots nix/var/nix/channels root/.local/state/nix
+          ln -s /run/current-system/sw nix/var/nix/profiles/default-1-link
+          ln -s /nix/var/nix/profiles/default-1-link nix/var/nix/profiles/default
+          ln -s /nix/var/nix/profiles/default root/.nix-profile
+          ln -s /nix/var/nix/profiles/default nix/profile
+          ln -s /run/current-system/sw root/.local/state/nix/profile
+          # What nixos-rebuild and nix-channel expect; the gcroot also keeps the
+          # running system's store path from being collected.
+          ln -s /run/current-system nix/var/nix/gcroots/current-system
+          ln -s /run/current-system nix/var/nix/profiles/system
+          # systemd writes this at boot; an empty file is the state that
+          # nixos-containers.nix also ships, and it stays writable.
+          touch etc/machine-id
+          # State directories that activation and systemd-tmpfiles create on a
+          # stock system. /var/empty is the sshd privilege separation directory
+          # and the home of the non-login system accounts.
+          mkdir -p var/empty var/log var/lib/nixos var/lib/systemd var/lib/nix var/lib/dbus
+          chmod 0555 var/empty
+          mkdir -p run/lock run/user/0 run/wrappers/bin
+          ln -s /run/lock var/lock
+          # config/ldso.nix installs this through a systemd-tmpfiles rule, which
+          # never runs here, so programs.nix-ld cannot launch an unpatched binary
+          # without it.
+          ${lib.optionalString (config.environment.ldso != null) ''
+            mkdir -p ${libDir}
+            ln -s ${config.environment.ldso} ${libDir}/${ldsoBasename}
+          ''}
         '';
         config = {
           Cmd = [ "/bin/sh" ];
