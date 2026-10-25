@@ -28,6 +28,7 @@
 
   outputs =
     {
+      self,
       nixpkgs,
       nixpkgs-unstable,
       disko,
@@ -53,6 +54,13 @@
         nur.overlays.default
         unstableCodingAgents
       ];
+
+      # Container images are tagged by source date and revision instead of
+      # "latest", so a pulled image can be traced back to the checkout it was
+      # built from.
+      ociVersion = "${nixpkgs.lib.substring 0 8 (self.lastModifiedDate or "19700101")}-${
+        self.shortRev or self.dirtyShortRev or "unknown"
+      }";
 
       # Host configuration manifest (nested structure for clarity)
       hosts = import ./hosts/hosts.nix;
@@ -211,13 +219,15 @@
           # there is no disk image and no bootloader, and it does not run
           # systemd either, so it needs no privileges.
           # Build: nh os build-image --image-variant oci --hostname nixos .#nixos-oci
-          # Run:   docker run -it nixos-oci bash
+          # Tag:   nix eval --raw .#nixosConfigurations.nixos-oci.config.system.build.images.oci.passthru.imageTag
+          # Run:   docker run -it nixos-oci:<tag> bash
           {
             "nixos-oci" = nixpkgs.lib.nixosSystem {
               inherit system;
               specialArgs = {
                 inherit inputs profiles;
                 hostName = "nixos";
+                inherit ociVersion;
               };
               modules = [
                 ./hosts/nixos-oci

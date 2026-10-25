@@ -148,8 +148,10 @@ Required order before every commit: **statix -> deadnix -> nixfmt -> stylua -> g
     for the host path, including `modules/validation.nix` assertions. The same works for
     `nixos-oci`, which has no validation assertions of its own.
 - Build tests: `nh os build-vm .#nixos-vm` (or `nixos-rebuild build-vm --flake .#nixos-vm`),
-  and `nh os build-image --image-variant oci --hostname nixos .#nixos-oci` for the image, which
-  you then run with `docker run -it nixos-oci bash`.
+  and `nh os build-image --image-variant oci --hostname nixos .#nixos-oci` for the image. The
+  image is tagged with its source date and revision, not `latest`; read the tag from
+  `nixosConfigurations.nixos-oci.config.system.build.images.oci.passthru.imageTag` and run it
+  with `docker run -it nixos-oci:<tag> bash`.
 - Tools ship with the config: `statix`/`nixfmt`/`deadnix` in
   `hosts/common/packages/system/nixos.nix`, `stylua` in `hosts/common/packages/dev/lua.nix`. On
   non-NixOS: `nix profile install nixpkgs#statix nixpkgs#deadnix nixpkgs#nixfmt` (binaries in

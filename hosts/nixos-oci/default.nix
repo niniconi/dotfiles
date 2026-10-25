@@ -12,6 +12,7 @@
   pkgs,
   lib,
   hostName,
+  ociVersion,
   ...
 }:
 
@@ -121,6 +122,8 @@
       imports = [ (modulesPath + "/image/file-options.nix") ];
       # buildLayeredImage's `name` is what ends up on disk and in the loaded image
       # reference, so it matches the flake output rather than anything else here.
+      # The tag is the source date and revision, not "latest": every build then
+      # names a distinct image, so an update can pin the version it runs.
       #
       # Deliberately not systemd. As PID 1 it insists on mounting /proc, /sys,
       # /dev and tmpfs itself and exits when it cannot, which needs
@@ -130,7 +133,7 @@
       # it every service, getty login, dbus and NetworkManager.
       system.build.image = pkgs.dockerTools.buildLayeredImage {
         name = "nixos-oci";
-        tag = "latest";
+        tag = ociVersion;
         # A single buildEnv rather than the four paths directly. symlinkJoin, which
         # consumes `contents`, merges with lndir -silent, and lndir does not
         # descend into a symlinked directory. system.build.toplevel carries its
@@ -195,6 +198,10 @@
         '';
         config = {
           Cmd = [ "/bin/sh" ];
+          Labels = {
+            "org.opencontainers.image.title" = "nixos-oci";
+            "org.opencontainers.image.version" = ociVersion;
+          };
           Env = [
             "PATH=${path}"
             # nix refuses to start without one; the nixpkgs example that ships a
