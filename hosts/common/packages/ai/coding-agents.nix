@@ -27,6 +27,8 @@
       [
         pkgs.opencode-unstable
         pkgs.pi-coding-agent-unstable
+        # Not in the pinned release at all, so it can only ride the unstable list
+        pkgs.deepseek-harness-unstable
       ]
     else
       [

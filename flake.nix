@@ -48,6 +48,7 @@
       unstableCodingAgents = _final: _prev: {
         opencode-unstable = unstablePkgs.opencode;
         pi-coding-agent-unstable = unstablePkgs.pi-coding-agent;
+        deepseek-harness-unstable = unstablePkgs.deepseek-harness;
       };
 
       overlays = [

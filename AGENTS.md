@@ -99,8 +99,9 @@ Two options let a host deviate without editing a group:
   the closure anyway.
 - `aiCodingAgents.channel` (`"stable"` or `"unstable"`) picks which nixpkgs builds the coding
   agents come from. `"stable"` is the pinned `nixpkgs`; `"unstable"` is a second flake input
-  exposed through an overlay as `opencode-unstable` and `pi-coding-agent-unstable`. The VMs
-  and the image track `"unstable"`, the desktop stays on `"stable"`.
+  exposed through an overlay as `opencode-unstable`, `pi-coding-agent-unstable` and
+  `deepseek-harness-unstable`, the last with no stable counterpart. The VMs and the image
+  track `"unstable"`, the desktop stays on `"stable"` and so has no `dsh` at all.
 
 ## Secrets
 
