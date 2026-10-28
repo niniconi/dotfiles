@@ -16,6 +16,7 @@ local servers = {
   "pyright",
   "rust_analyzer",
   "sqls",
+  "tofu_ls",
   "ts_ls",
   "yamlls",
   "zls",

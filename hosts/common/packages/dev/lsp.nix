@@ -20,5 +20,6 @@
     yaml-language-server
     marksman
     nixd
+    tofu-ls
   ];
 }
