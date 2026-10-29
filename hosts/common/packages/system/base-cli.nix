@@ -15,6 +15,7 @@
     tmux
     inotify-tools
     usbutils
+    pciutils
     dmidecode
     dosfstools
     # download
