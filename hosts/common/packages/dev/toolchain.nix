@@ -33,5 +33,7 @@
     perf
     # memory profiling
     heaptrack
+    # python
+    uv
   ];
 }
