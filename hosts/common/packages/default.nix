@@ -62,6 +62,7 @@
         flask
         requests
         selenium
+        playwright
         # exploit.nix
         pwntools
         capstone
