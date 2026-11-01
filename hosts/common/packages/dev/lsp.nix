@@ -21,5 +21,6 @@
     marksman
     nixd
     tofu-ls
+    gopls
   ];
 }

@@ -6,6 +6,7 @@ local servers = {
   "clangd",
   "cssls",
   "dartls",
+  "gopls",
   "html",
   "jdtls",
   "jsonls",
