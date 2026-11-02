@@ -8,5 +8,6 @@
     firefox
     chromium
     tor-browser
+    mullvad-browser
   ];
 }
