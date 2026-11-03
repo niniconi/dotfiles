@@ -13,6 +13,7 @@
     fastfetch
     htop
     tmux
+    zellij
     inotify-tools
     usbutils
     pciutils
