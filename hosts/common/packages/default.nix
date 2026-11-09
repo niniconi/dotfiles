@@ -41,6 +41,8 @@
         scipy
         pandas
         scikit-learn
+        # machine learning
+        torch
         # 3D graphics / rendering
         trimesh
         pyvista

@@ -39,9 +39,10 @@
     # dev helper CLI
     lazygit
     onefetch
-    # HTTP clients
+    # HTTP/gRPC clients
     httpie
     posting
+    grpcurl
     # git
     git
     delta

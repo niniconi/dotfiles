@@ -4,6 +4,9 @@
 
 {
   environment.systemPackages = with pkgs; [
+    # hex editors / binary patching
+    imhex
+    hexpatch
     # decompilers/disassemblers
     (ghidra.withExtensions (
       p: with p; [
@@ -23,7 +26,6 @@
     ))
     jadx
     apktool
-    imhex
     radare2
     detect-it-easy
     # Go reversing
