@@ -39,6 +39,10 @@
 
   networking.hostName = hostName;
 
+  # *.md resolves to the canonical text/markdown, while Apostrophe only declares
+  # the text/x-markdown alias, and its desktop id is not the package name.
+  xdg.mime.defaultApplications."text/markdown" = "org.gnome.gitlab.somas.Apostrophe.desktop";
+
   # Check if all user password files exist
   system.activationScripts.checkPasswords = {
     deps = [ "specialfs" ];
