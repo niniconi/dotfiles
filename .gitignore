@@ -1,2 +1,5 @@
 nixos.qcow2
 result
+
+# Real secrets are never committed; only secrets.samples/ is tracked.
+secrets/
