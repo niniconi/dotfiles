@@ -1,8 +1,11 @@
 # impermanence.nix - State Persistence Whitelist via Impermanence
-{ inputs, users, ... }: {
-  imports = [ inputs.impermanence.nixosModules.impermanence ];
-
-  environment.persistence."/persist" = {
+{
+  config,
+  users,
+  ...
+}:
+{
+  environment.persistence.${config.dotfiles.persistencePath} = {
     hideMounts = true;
 
     directories = [

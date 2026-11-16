@@ -13,5 +13,7 @@
   # it qemu and virt-manager, in the closure even with those off oversizedPackages.
   virtualisation.libvirtd.enable = config.oversizedPackages.enable;
 
-  users.users.administrator.extraGroups = lib.mkIf config.oversizedPackages.enable [ "libvirtd" ];
+  users.users = lib.mapAttrs (_: _: {
+    extraGroups = lib.mkIf config.oversizedPackages.enable [ "libvirtd" ];
+  }) config.dotfiles.users;
 }

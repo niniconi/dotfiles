@@ -1,4 +1,7 @@
-_:
+{
+  config,
+  ...
+}:
 
 {
   zramSwap = {
@@ -21,7 +24,7 @@ _:
   # sudo mkswap /persist/swap/swapfile
   swapDevices = [
     {
-      device = "/persist/swap/swapfile";
+      device = "${config.dotfiles.persistencePath}/swap/swapfile";
       size = 16 * 1024;
       priority = 10;
     }

@@ -1,13 +1,13 @@
 {
+  config,
   lib,
-  userName,
-  hostName,
-  profiles,
+  osConfig,
   ...
 }:
 
 let
-  profile = profiles.${hostName}.users.${userName} or { };
+  profile =
+    osConfig.dotfiles.profiles.${osConfig.dotfiles.hostName}.users.${config.home.username} or { };
   ssh = profile.ssh or { };
   hosts = ssh.hosts or { };
 in

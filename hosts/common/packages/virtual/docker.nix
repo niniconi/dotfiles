@@ -1,11 +1,16 @@
 # docker - Docker container tools
 
-{ pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   virtualisation.docker.enable = true;
 
-  users.users.administrator.extraGroups = [ "docker" ];
+  users.users = lib.mapAttrs (_: _: { extraGroups = [ "docker" ]; }) config.dotfiles.users;
 
   environment.systemPackages = with pkgs; [
     docker

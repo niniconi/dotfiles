@@ -5,5 +5,5 @@ let
   profilesData = import ./profiles.nix;
 in
 {
-  profiles = profilesData;
+  dotfiles.profiles = profilesData;
 }

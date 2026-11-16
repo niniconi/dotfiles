@@ -74,6 +74,28 @@
       # Load profiles from secrets or use empty default
       profiles = if hasSecrets then import profilesPath else { };
 
+      # Self-use instantiation of the interface the exported module set expects.
+      # A private flake supplies the same options with its own manifest and
+      # secrets directory.
+      dotfilesModule =
+        {
+          hostName,
+          users ? { },
+          diskDevice ? "",
+          withSecrets ? false,
+        }:
+        {
+          imports = [ ./modules/dotfiles.nix ];
+          dotfiles = {
+            inherit hostName users diskDevice;
+            sops = {
+              enable = withSecrets;
+              defaultFile = if withSecrets then ./secrets/hosts/${hostName}/secrets.yaml else null;
+              ageKeyPaths = nixpkgs.lib.optionals withSecrets [ "/etc/ssh/ssh_host_ed25519_key" ];
+            };
+          };
+        };
+
       # Generate all user keys list
       # Format: ["administrator@nixos" "developer@workstation"]
       allUserKeys = builtins.concatMap (
@@ -95,6 +117,22 @@
           path = ./templates/flutter;
           description = "Flutter development and build environment";
         };
+      };
+
+      # Everything a consuming flake needs. lib/default.nix assembles these the
+      # same way this repository's own hosts are assembled.
+      nixosModules = {
+        desktop = ./modules/nixos/desktop.nix;
+        impermanence = ./hosts/common/optional/impermanence.nix;
+        swap = ./hosts/common/optional/swap.nix;
+      };
+
+      homeManagerModules.default = ./modules/home/default.nix;
+
+      overlays.default = overlays;
+
+      lib = import ./lib {
+        inherit inputs overlays;
       };
 
       # nixosConfigurations supports two formats:
@@ -126,12 +164,19 @@
                   inherit (hostConf) diskDevice;
                 };
                 modules = [
+                  (dotfilesModule {
+                    inherit hostName;
+                    inherit (hostConf) diskDevice;
+                    users = {
+                      ${userName} = userConf;
+                    };
+                    withSecrets = hasSecrets;
+                  })
                   disko.nixosModules.disko
                   lanzaboote.nixosModules.lanzaboote
                   sops-nix.nixosModules.sops
-                  ./modules/options.nix
-                  ./modules/validation.nix
-                  ./modules/sops.nix
+                  ./modules/nixos/desktop.nix
+                  inputs.impermanence.nixosModules.impermanence
                   ./hosts/${hostName}
                   { nixpkgs.overlays = overlays; }
                   home-manager.nixosModules.home-manager
@@ -173,12 +218,17 @@
                   diskDevice = hosts.${hostName}.diskDevice;
                 };
                 modules = [
+                  (dotfilesModule {
+                    inherit hostName;
+                    users = hosts.${hostName}.users;
+                    diskDevice = hosts.${hostName}.diskDevice;
+                    withSecrets = hasSecrets;
+                  })
                   disko.nixosModules.disko
                   lanzaboote.nixosModules.lanzaboote
                   sops-nix.nixosModules.sops
-                  ./modules/options.nix
-                  ./modules/validation.nix
-                  ./modules/sops.nix
+                  ./modules/nixos/desktop.nix
+                  inputs.impermanence.nixosModules.impermanence
                   ./hosts/${hostName}
                   { nixpkgs.overlays = overlays; }
                   home-manager.nixosModules.home-manager
@@ -231,6 +281,12 @@
                 inherit ociVersion;
               };
               modules = [
+                (dotfilesModule {
+                  hostName = "nixos";
+                  users = {
+                    administrator = { };
+                  };
+                })
                 ./hosts/nixos-oci
                 { nixpkgs.overlays = overlays; }
                 home-manager.nixosModules.home-manager
@@ -260,6 +316,12 @@
                 hostName = "nixos";
               };
               modules = [
+                (dotfilesModule {
+                  hostName = "nixos";
+                  users = {
+                    administrator = { };
+                  };
+                })
                 ./hosts/nixos-vm
                 { nixpkgs.overlays = overlays; }
                 home-manager.nixosModules.home-manager
@@ -291,6 +353,12 @@
                 hostName = "nixos";
               };
               modules = [
+                (dotfilesModule {
+                  hostName = "nixos";
+                  users = {
+                    administrator = { };
+                  };
+                })
                 ./hosts/nixos-vm-mini
                 { nixpkgs.overlays = overlays; }
                 home-manager.nixosModules.home-manager

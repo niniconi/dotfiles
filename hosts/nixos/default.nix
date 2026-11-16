@@ -8,21 +8,9 @@
 
 {
   imports = [
-    ../common/core
-    ../common/optional/niri.nix
-    ../common/optional/dms.nix
     ../common/optional/impermanence.nix
-    ../common/optional/security-hardening.nix
-    ../common/optional/input-method.nix
-    ../common/optional/programs.nix
-    ../common/optional/ssh.nix
-    ../common/optional/sing-box.nix
-    ../common/optional/valent.nix
     ../common/optional/swap.nix
-    ../common/optional/wireguard.nix
-    ../common/optional/wireshark.nix
     ./hardware.nix
-    ../common/packages
   ];
 
   # Bootloader.

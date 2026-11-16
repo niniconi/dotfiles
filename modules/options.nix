@@ -136,9 +136,8 @@ let
   };
 in
 {
-  # Export submodule types for use in other modules
-  # profiles structure: hostname -> { users, sing-box, wireguard }
-  options.profiles = lib.mkOption {
+  # Hostname -> profile; the shape is documented by fullProfileSubmodule above.
+  options.dotfiles.profiles = lib.mkOption {
     type = lib.types.attrsOf fullProfileSubmodule;
     default = { };
     description = "Profiles configuration map (hostname -> profile)";

@@ -1,13 +1,13 @@
 {
+  config,
   lib,
-  userName,
-  hostName,
-  profiles,
+  osConfig,
   ...
 }:
 
 let
-  profile = profiles.${hostName}.users.${userName} or { };
+  profile =
+    osConfig.dotfiles.profiles.${osConfig.dotfiles.hostName}.users.${config.home.username} or { };
   git = profile.git or { };
 in
 {
@@ -70,8 +70,8 @@ in
       # EBUSY when HISTFILE is an impermanence bind mount. Write history
       # straight into the persistent directory instead.
       initContent = ''
-        if [[ -d /persist/home/${userName} ]]; then
-          export HISTFILE="/persist/home/${userName}/.zsh_history"
+        if [[ -d ${osConfig.dotfiles.persistencePath}/home/${config.home.username} ]]; then
+          export HISTFILE="${osConfig.dotfiles.persistencePath}/home/${config.home.username}/.zsh_history"
         fi
       '';
 

@@ -1,28 +1,33 @@
-_:
+{
+  config,
+  lib,
+  ...
+}:
 
 {
   # Set your time zone.
-  time.timeZone = "Asia/Shanghai";
+  time.timeZone = config.dotfiles.timeZone;
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "zh_CN.UTF-8";
-
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "zh_CN.UTF-8";
-    LC_IDENTIFICATION = "zh_CN.UTF-8";
-    LC_MEASUREMENT = "zh_CN.UTF-8";
-    LC_MONETARY = "zh_CN.UTF-8";
-    LC_NAME = "zh_CN.UTF-8";
-    LC_NUMERIC = "zh_CN.UTF-8";
-    LC_PAPER = "zh_CN.UTF-8";
-    LC_TELEPHONE = "zh_CN.UTF-8";
-    LC_TIME = "zh_CN.UTF-8";
+  i18n = {
+    defaultLocale = config.dotfiles.locale;
+    extraLocaleSettings = lib.genAttrs [
+      "LC_ADDRESS"
+      "LC_IDENTIFICATION"
+      "LC_MEASUREMENT"
+      "LC_MONETARY"
+      "LC_NAME"
+      "LC_NUMERIC"
+      "LC_PAPER"
+      "LC_TELEPHONE"
+      "LC_TIME"
+    ] (_: config.dotfiles.locale);
   };
 
   # Configure keymap in X11
   services.xserver.xkb = {
-    layout = "cn";
-    variant = "";
+    layout = config.dotfiles.xkbLayout;
+    variant = config.dotfiles.xkbVariant;
   };
 
   # Enable networking
@@ -62,5 +67,5 @@ _:
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "26.05"; # Did you read the comment?
+  system.stateVersion = config.dotfiles.stateVersion; # Did you read the comment?
 }
