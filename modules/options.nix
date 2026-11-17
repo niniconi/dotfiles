@@ -107,19 +107,17 @@ let
     };
   };
 
-  # Host profile submodule (host-level configs only)
-  hostProfileSubmodule = lib.types.submodule {
-    options = {
-      sing-box = lib.mkOption {
-        type = singBoxSubmodule;
-        default = { };
-        description = "sing-box proxy configuration";
-      };
-      wireguard = lib.mkOption {
-        type = wireguardSubmodule;
-        default = { };
-        description = "WireGuard VPN configuration";
-      };
+  # Host-level profile options, shared by the full profile submodule below.
+  hostProfileOptions = {
+    sing-box = lib.mkOption {
+      type = singBoxSubmodule;
+      default = { };
+      description = "sing-box proxy configuration";
+    };
+    wireguard = lib.mkOption {
+      type = wireguardSubmodule;
+      default = { };
+      description = "WireGuard VPN configuration";
     };
   };
 
@@ -132,7 +130,7 @@ let
         description = "User profiles (username -> profile)";
       };
     }
-    // hostProfileSubmodule.options;
+    // hostProfileOptions;
   };
 in
 {
