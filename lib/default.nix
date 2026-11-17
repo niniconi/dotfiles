@@ -19,8 +19,33 @@ let
         if withSecrets && secretsDir != null then secretsDir + "/hosts/${hostName}/secrets.yaml" else null;
       ageKeyPaths = lib.optionals withSecrets [ "/etc/ssh/ssh_host_ed25519_key" ];
     };
+
+  mkDotfilesModule =
+    {
+      hostName,
+      users ? { },
+      diskDevice ? "",
+      withSecrets ? false,
+      secretsDir ? null,
+    }:
+    {
+      imports = [ ../modules/dotfiles.nix ];
+
+      dotfiles = {
+        inherit hostName users diskDevice;
+        sops = sopsSettings { inherit hostName withSecrets secretsDir; };
+      };
+
+      # impermanence and pwndbg are pinned by this flake, not by the caller.
+      _module.args.inputs = inputs;
+    };
 in
 {
+  # The option tree on its own, for configurations that bring their own module
+  # list: the test VMs and the container image.
+  inherit mkDotfilesModule;
+
+  # The whole desktop, wired the way this repository's own hosts are.
   mkModules =
     {
       hostName,
@@ -35,30 +60,31 @@ in
       inputs.lanzaboote.nixosModules.lanzaboote
       inputs.sops-nix.nixosModules.sops
       inputs.impermanence.nixosModules.impermanence
-      inputs.self.nixosModules.desktop
+      ../modules/nixos/desktop.nix
       { nixpkgs.overlays = overlays; }
-      (_: {
-        dotfiles = {
-          inherit hostName users diskDevice;
-          sops = sopsSettings { inherit hostName withSecrets secretsDir; };
-        };
-
-        # impermanence and pwndbg are pinned by this flake, not by the caller.
-        _module.args.inputs = inputs;
-
+      (mkDotfilesModule {
+        inherit
+          hostName
+          users
+          diskDevice
+          withSecrets
+          secretsDir
+          ;
+      })
+      {
         home-manager = {
           useGlobalPkgs = true;
           useUserPackages = true;
           users = lib.mapAttrs (userName: userConf: {
             imports = [
-              inputs.self.homeManagerModules.default
+              ../modules/home/default.nix
             ]
             ++ lib.optional ((userConf.home or null) != null) userConf.home;
             home.username = lib.mkDefault userName;
             home.homeDirectory = lib.mkDefault "/home/${userName}";
           }) users;
         };
-      })
+      }
       inputs.home-manager.nixosModules.home-manager
     ]
     ++ extraModules;

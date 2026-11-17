@@ -1,23 +1,7 @@
-{ userName, ... }:
-
+# What the shared home module does not know. The username, home directory and
+# the desktop modules themselves are supplied by whoever deploys this user.
 {
-  imports = [
-    ../../common/core
-    ../../common/optional/kitty.nix
-    ../../common/optional/neovim.nix
-    ../../common/optional/tmux.nix
-    ../../common/optional/niri.nix
-    ../../common/optional/ranger.nix
-    ../../common/optional/hyprland.nix
-    ../../common/optional/firefox.nix
-    ../../common/optional/ssh.nix
-  ];
-
-  home = {
-    username = userName;
-    homeDirectory = "/home/${userName}";
-    stateVersion = "26.05";
-  };
+  home.stateVersion = "26.05";
 
   programs.home-manager.enable = true;
 

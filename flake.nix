@@ -31,11 +31,8 @@
       self,
       nixpkgs,
       nixpkgs-unstable,
-      disko,
       home-manager,
-      lanzaboote,
       nur,
-      sops-nix,
       ...
     }@inputs:
     let
@@ -73,28 +70,6 @@
 
       # Load profiles from secrets or use empty default
       profiles = if hasSecrets then import profilesPath else { };
-
-      # Self-use instantiation of the interface the exported module set expects.
-      # A private flake supplies the same options with its own manifest and
-      # secrets directory.
-      dotfilesModule =
-        {
-          hostName,
-          users ? { },
-          diskDevice ? "",
-          withSecrets ? false,
-        }:
-        {
-          imports = [ ./modules/dotfiles.nix ];
-          dotfiles = {
-            inherit hostName users diskDevice;
-            sops = {
-              enable = withSecrets;
-              defaultFile = if withSecrets then ./secrets/hosts/${hostName}/secrets.yaml else null;
-              ageKeyPaths = nixpkgs.lib.optionals withSecrets [ "/etc/ssh/ssh_host_ed25519_key" ];
-            };
-          };
-        };
 
       # Generate all user keys list
       # Format: ["administrator@nixos" "developer@workstation"]
@@ -154,52 +129,17 @@
               name = userKey;
               value = nixpkgs.lib.nixosSystem {
                 inherit system;
-                specialArgs = {
-                  inherit inputs profiles;
+                modules = self.lib.mkModules {
                   inherit hostName;
+                  inherit (hostConf) diskDevice;
                   # Only include this user for single-user deployment
                   users = {
                     ${userName} = userConf;
                   };
-                  inherit (hostConf) diskDevice;
+                  withSecrets = hasSecrets;
+                  secretsDir = ./secrets;
+                  extraModules = [ ./hosts/${hostName} ] ++ nixpkgs.lib.optional hasSecrets secretsPath;
                 };
-                modules = [
-                  (dotfilesModule {
-                    inherit hostName;
-                    inherit (hostConf) diskDevice;
-                    users = {
-                      ${userName} = userConf;
-                    };
-                    withSecrets = hasSecrets;
-                  })
-                  disko.nixosModules.disko
-                  lanzaboote.nixosModules.lanzaboote
-                  sops-nix.nixosModules.sops
-                  ./modules/nixos/desktop.nix
-                  inputs.impermanence.nixosModules.impermanence
-                  ./hosts/${hostName}
-                  { nixpkgs.overlays = overlays; }
-                  home-manager.nixosModules.home-manager
-                  {
-                    home-manager = {
-                      useGlobalPkgs = true;
-                      useUserPackages = true;
-                      extraSpecialArgs = {
-                        inherit hostName profiles;
-                      };
-                    };
-                  }
-                  {
-                    home-manager = {
-                      users.${userName} = import userConf.home;
-                      extraSpecialArgs = {
-                        inherit hostName profiles;
-                        inherit userName;
-                      };
-                    };
-                  }
-                  (if hasSecrets then secretsPath else _: { })
-                ];
               };
             }
           ) allUserKeys
@@ -211,57 +151,14 @@
               name = hostName;
               value = nixpkgs.lib.nixosSystem {
                 inherit system;
-                specialArgs = {
-                  inherit inputs profiles;
+                modules = self.lib.mkModules {
                   inherit hostName;
                   users = hosts.${hostName}.users;
                   diskDevice = hosts.${hostName}.diskDevice;
+                  withSecrets = hasSecrets;
+                  secretsDir = ./secrets;
+                  extraModules = [ ./hosts/${hostName} ] ++ nixpkgs.lib.optional hasSecrets secretsPath;
                 };
-                modules = [
-                  (dotfilesModule {
-                    inherit hostName;
-                    users = hosts.${hostName}.users;
-                    diskDevice = hosts.${hostName}.diskDevice;
-                    withSecrets = hasSecrets;
-                  })
-                  disko.nixosModules.disko
-                  lanzaboote.nixosModules.lanzaboote
-                  sops-nix.nixosModules.sops
-                  ./modules/nixos/desktop.nix
-                  inputs.impermanence.nixosModules.impermanence
-                  ./hosts/${hostName}
-                  { nixpkgs.overlays = overlays; }
-                  home-manager.nixosModules.home-manager
-                  {
-                    home-manager = {
-                      useGlobalPkgs = true;
-                      useUserPackages = true;
-                      extraSpecialArgs = {
-                        inherit hostName profiles;
-                      };
-                    };
-                  }
-                ]
-                ++ builtins.concatMap (
-                  userName:
-                  let
-                    userConf = hosts.${hostName}.users.${userName};
-                  in
-                  [
-                    {
-                      home-manager = {
-                        users.${userName} = import userConf.home;
-                        extraSpecialArgs = {
-                          inherit hostName profiles;
-                          inherit userName;
-                        };
-                      };
-                    }
-                  ]
-                ) (builtins.attrNames hosts.${hostName}.users)
-                ++ [
-                  (if hasSecrets then secretsPath else _: { })
-                ];
               };
             }) (builtins.attrNames hosts)
           ))
@@ -281,7 +178,7 @@
                 inherit ociVersion;
               };
               modules = [
-                (dotfilesModule {
+                (self.lib.mkDotfilesModule {
                   hostName = "nixos";
                   users = {
                     administrator = { };
@@ -294,12 +191,16 @@
                   home-manager = {
                     useGlobalPkgs = true;
                     useUserPackages = true;
-                    extraSpecialArgs = {
-                      hostName = "nixos";
-                      userName = "administrator";
-                      inherit profiles;
+                    users.administrator = {
+                      imports = [
+                        ./modules/home/default.nix
+                        ./home/nixos/administrator/home.nix
+                      ];
+                      home = {
+                        username = "administrator";
+                        homeDirectory = "/home/administrator";
+                      };
                     };
-                    users.administrator = import ./home/nixos/administrator/home.nix;
                   };
                 }
               ];
@@ -316,7 +217,7 @@
                 hostName = "nixos";
               };
               modules = [
-                (dotfilesModule {
+                (self.lib.mkDotfilesModule {
                   hostName = "nixos";
                   users = {
                     administrator = { };
@@ -329,12 +230,16 @@
                   home-manager = {
                     useGlobalPkgs = true;
                     useUserPackages = true;
-                    extraSpecialArgs = {
-                      hostName = "nixos";
-                      userName = "administrator";
-                      inherit profiles;
+                    users.administrator = {
+                      imports = [
+                        ./modules/home/default.nix
+                        ./home/nixos/administrator/home.nix
+                      ];
+                      home = {
+                        username = "administrator";
+                        homeDirectory = "/home/administrator";
+                      };
                     };
-                    users.administrator = import ./home/nixos/administrator/home.nix;
                   };
                 }
               ];
@@ -353,7 +258,7 @@
                 hostName = "nixos";
               };
               modules = [
-                (dotfilesModule {
+                (self.lib.mkDotfilesModule {
                   hostName = "nixos";
                   users = {
                     administrator = { };
@@ -366,12 +271,16 @@
                   home-manager = {
                     useGlobalPkgs = true;
                     useUserPackages = true;
-                    extraSpecialArgs = {
-                      hostName = "nixos";
-                      userName = "administrator";
-                      inherit profiles;
+                    users.administrator = {
+                      imports = [
+                        ./modules/home/default.nix
+                        ./home/nixos/administrator/home.nix
+                      ];
+                      home = {
+                        username = "administrator";
+                        homeDirectory = "/home/administrator";
+                      };
                     };
-                    users.administrator = import ./home/nixos/administrator/home.nix;
                   };
                 }
               ];
