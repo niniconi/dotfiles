@@ -23,8 +23,8 @@ Renaming or deleting these breaks the build, because home-manager resolves them 
   matching `home/common/optional/<name>.nix` via `xdg.configFile."x".source = ../../../<dir>`.
 - `hosts/common/packages/dev/lsp.nix`, `hosts/common/packages/dev/lua.nix` and
   `home/common/optional/neovim.nix` — imported by `hosts/common/packages/dev/default.nix`
-  and `home/nixos/administrator/home.nix`. Adding, renaming or removing one needs the
-  matching change to the importer in the same commit.
+  and `modules/home/default.nix`. Adding, renaming or removing one needs the matching change
+  to the importer in the same commit.
 
 ## Layout gotchas
 
