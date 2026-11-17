@@ -92,6 +92,10 @@
           path = ./templates/flutter;
           description = "Flutter development and build environment";
         };
+        deployment = {
+          path = ./templates/deployment;
+          description = "Deployment repo that takes its desktop from this flake";
+        };
       };
 
       # Everything a consuming flake needs. lib/default.nix assembles these the
