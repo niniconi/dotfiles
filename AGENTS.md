@@ -126,9 +126,9 @@ Two options let a host deviate without editing a group:
 - `.gitignore` ignores `secrets/`; `secrets.samples/` is the tracked template. The flake falls
   back to empty profiles when `builtins.pathExists ./secrets/default.nix` is false.
 - `modules/sops.nix` does not probe for a directory any more: it is gated by
-  `dotfiles.sops.enable` and reads `dotfiles.profiles`, both of which a consuming flake sets
-  through `lib.mkModules`. The flake's own `pathExists` check only decides what *this*
-  repository deploys.
+  `dotfiles.sops.enable` and reads `dotfiles.profiles`. Both come from the options, and
+  `lib.mkModules` imports `<secretsDir>/default.nix` itself when it exists, so this
+  repository and a consuming flake load profiles the same way.
 - Because flakes only see git-tracked files, testing the sops path locally means staging
   `secrets/` — which is one `git commit` away from publishing it. Unstage it afterwards.
 

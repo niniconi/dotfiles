@@ -54,6 +54,8 @@ dotfiles.profiles.<host> = {
 ```
 
 消费方只有一处写入点：私有 `secrets/default.nix` 里 `dotfiles.profiles = import ./profiles.nix;`。
+`mkModules` 会在 `secretsDir` 指向的目录里找到这个文件并自己 import，所以**不要**再把它
+写进 `extraModules`（会导入两次，list 型字段会被合并成重复项）。
 
 ## 消费方要做什么
 

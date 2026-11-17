@@ -20,6 +20,19 @@ let
       ageKeyPaths = lib.optionals withSecrets [ "/etc/ssh/ssh_host_ed25519_key" ];
     };
 
+  # The caller's secrets module is imported for them when it exists, so a
+  # deployment repo only has to create `secrets/default.nix` and point
+  # `secretsDir` at it — the same thing this repository's own flake does.
+  secretsModules =
+    {
+      withSecrets,
+      secretsDir,
+    }:
+    let
+      module = if secretsDir == null then null else secretsDir + "/default.nix";
+    in
+    lib.optional (withSecrets && module != null && builtins.pathExists module) module;
+
   mkDotfilesModule =
     {
       hostName,
@@ -87,5 +100,6 @@ in
       }
       inputs.home-manager.nixosModules.home-manager
     ]
+    ++ secretsModules { inherit withSecrets secretsDir; }
     ++ extraModules;
 }

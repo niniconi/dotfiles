@@ -24,7 +24,9 @@ nix flake init -t github:niniconi/dotfiles#deployment
   hardware, the bootloader and any activation script of your own.
 - **`secrets/`** (optional): `default.nix` that sets
   `dotfiles.profiles = import ./profiles.nix;`, the `profiles.nix` itself, and
-  `hosts/<host>/secrets.yaml`. Then point `hosts.nix` at it.
+  `hosts/<host>/secrets.yaml`. Then point `hosts.nix` at it — `mkModules`
+  imports `secrets/default.nix` on its own, so it must not also be listed in
+  `extraModules`.
 
 ## Two things that are easy to get wrong
 

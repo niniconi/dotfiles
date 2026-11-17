@@ -142,7 +142,7 @@
                   };
                   withSecrets = hasSecrets;
                   secretsDir = ./secrets;
-                  extraModules = [ ./hosts/${hostName} ] ++ nixpkgs.lib.optional hasSecrets secretsPath;
+                  extraModules = [ ./hosts/${hostName} ];
                 };
               };
             }
@@ -161,7 +161,7 @@
                   diskDevice = hosts.${hostName}.diskDevice;
                   withSecrets = hasSecrets;
                   secretsDir = ./secrets;
-                  extraModules = [ ./hosts/${hostName} ] ++ nixpkgs.lib.optional hasSecrets secretsPath;
+                  extraModules = [ ./hosts/${hostName} ];
                 };
               };
             }) (builtins.attrNames hosts)
