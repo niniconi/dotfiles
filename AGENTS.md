@@ -1,7 +1,7 @@
 # AGENTS.md
 
 NixOS flake dotfiles. Sources of truth: `flake.nix` (outputs), `hosts/hosts.nix`
-(host manifest), `modules/` (profile options, validation, sops), `lib/` (the builders a
+(host manifest), `modules/` (profile options, sops), `lib/` (the builders a
 consuming flake calls).
 
 ## Branches
@@ -72,7 +72,7 @@ Renaming or deleting these breaks the build, because home-manager resolves them 
 | `templates.deployment` | `nix flake init -t ...#deployment` |
 
 - The two host configs get `disko`, `lanzaboote`, `sops-nix`, `impermanence` and
-  `modules/{options,validation,sops}.nix` from `lib.mkModules`; they pass no `specialArgs` at
+  `modules/{options,sops}.nix` from `lib.mkModules`; they pass no `specialArgs` at
   all, so everything reaches them through `dotfiles.*` and `_module.args` — the same path a
   consuming flake takes.
 - The VM and image bring their own module list (`self.lib.mkDotfilesModule` plus their host
@@ -162,14 +162,14 @@ Required order before every commit: **statix -> deadnix -> nixfmt -> stylua -> g
   that copies the subdir to the root (example: `hosts/common/optional/dms.nix`).
 - No CI, no task runner, no test suite — lint + eval is the whole verification story.
 - Eval targets — pick by what you touched:
-  - `nix eval .#nixosConfigurations.nixos-vm.config.system.build.vm.drvPath` for the VM. It does
-    **not** import `modules/{options,validation,sops}.nix`, so it cannot catch errors there. Use
-    `system.build.vm`, **not** `toplevel`: the VM declares no root filesystem (by design), which
-    trips nixpkgs' "fileSystems does not specify your root file system" assertion. Both
-    VMs fail that one by design, so read past it and judge the rest of the output.
+  - `nix eval .#nixosConfigurations.nixos-vm.config.system.build.vm.drvPath` for the VM. It
+    imports the option tree through `lib.mkDotfilesModule` but not `modules/sops.nix`, so it
+    cannot catch errors there. Use `system.build.vm`, **not** `toplevel`: the VM declares no
+    root filesystem (by design), which trips nixpkgs' "fileSystems does not specify your root
+    file system" assertion. Both VMs fail that one by design, so read past it and judge the
+    rest of the output.
   - `nix eval .#nixosConfigurations.nixos.config.assertions --apply 'xs: builtins.all (x: x.assertion) xs'`
-    for the host path, including `modules/validation.nix` assertions. The same works for
-    `nixos-oci`, which has no validation assertions of its own.
+    for the host path. The same works for `nixos-oci`.
 - Build tests: `nh os build-vm .#nixos-vm` (or `nixos-rebuild build-vm --flake .#nixos-vm`),
   and `nh os build-image --image-variant oci --hostname nixos .#nixos-oci` for the image. The
   image is tagged with its source date and revision, not `latest`; read the tag from
@@ -252,18 +252,11 @@ Required order before every commit: **statix -> deadnix -> nixfmt -> stylua -> g
   (`boot.a`/`boot.b` -> `boot = { a; b; }`), empty module pattern `{ ... }:` -> `_:`,
   `x = x;` -> `inherit x;`. deadnix: drop unused lambda args or prefix `_`
   (`mapAttrs (_: _: ...)`).
-- `modules/options.nix` and `modules/validation.nix` are coupled: validation checks
-  hand-written `valid*Fields` string lists, not the option definitions. Adding,
-  renaming or removing an option in `options.nix` means updating the matching
-  whitelist in `validation.nix` **in the same commit**, otherwise a valid profile
-  field is rejected by the "Unknown fields" assertion. Mapping: `sshHostSubmodule`
-  -> `validSshHostFields`, `singBoxSubmodule` -> `validSingBoxFields`,
-  `wireguardSubmodule` -> `validWireguardFields`, `git`/`ssh` under
-  `userProfileSubmodule` -> `validGitFields`/`validSshFields`, `hostProfileOptions`
-  -> `validHostFields`. The assertion is skipped when `profiles` is empty (no
-  `secrets/`), so exercise it with a real `profiles.nix`. Note that the option types
-  now reject unknown fields too, and earlier than the assertion does; the whitelists
-  are the second copy of the same schema.
+- `modules/options.nix` is the schema for `dotfiles.profiles`, and the option types are the
+  only thing enforcing it: unknown fields at any depth are rejected at build time, and a
+  wrong type fails as soon as the field is read. Adding or renaming a field therefore needs
+  no second list anywhere — but a field nobody reads never gets type-checked, so wire it to a
+  consumer (`modules/sops.nix`, `home/common/optional/ssh.nix`, ...) or drop it.
 - Nix tooling (statix, nixfmt, deadnix) belongs only in
   `hosts/common/packages/system/nixos.nix` — don't split it out.
 - packages are grouped by use case under `hosts/common/packages/*/`; duplicates across

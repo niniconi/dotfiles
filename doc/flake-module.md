@@ -7,7 +7,7 @@
 
 | Output | 内容 |
 |---|---|
-| `nixosModules.desktop` | NixOS 侧的桌面：选项树、校验、sops、`hosts/common/{core,optional,packages}` |
+| `nixosModules.desktop` | NixOS 侧的桌面：选项树、sops、`hosts/common/{core,optional,packages}` |
 | `nixosModules.impermanence` / `.swap` | 依赖主机布局（`/persist`）的模块，不放进 `desktop` |
 | `homeManagerModules.default` | home 侧的桌面：`home/common/{core,optional}` |
 | `overlays.default` | `nur` + 从 `nixpkgs-unstable` 取的编码代理（`opencode-unstable` 等） |
