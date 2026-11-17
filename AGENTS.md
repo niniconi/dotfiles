@@ -1,7 +1,8 @@
 # AGENTS.md
 
 NixOS flake dotfiles. Sources of truth: `flake.nix` (outputs), `hosts/hosts.nix`
-(host manifest), `modules/` (profile options, validation, sops).
+(host manifest), `modules/` (profile options, validation, sops), `lib/` (the builders a
+consuming flake calls).
 
 ## Branches
 
@@ -43,7 +44,12 @@ Renaming or deleting these breaks the build, because home-manager resolves them 
 - `README.md` is partly stale: it says to edit `userName`/`hostName` at the top of
   `flake.nix`. The real values live in `hosts/hosts.nix` (`diskDevice`,
   `users.<name>.{home,passwordFile}`); `hostName`/`userName` are derived in `flake.nix` from the
-  `"<user>@<host>"` configuration keys and passed in through `specialArgs`. Trust code over docs.
+  `"<user>@<host>"` configuration keys and published as `dotfiles.*` options. Trust code over docs.
+- The desktop is two aggregate modules: `modules/nixos/desktop.nix` and
+  `modules/home/default.nix`. A host imports the former, a user the latter; neither is where a
+  machine's hardware, bootloader or accounts belong (see `templates/deployment/host.nix`).
+  `lib/default.nix` assembles both for a consuming flake, and this repository's own hosts go
+  through the same builders so the two paths cannot drift.
 - Only `ranger/plugins/ranger_devicon` is a real git submodule. `.gitmodules` still lists
   removed zsh/powerlevel10k entries (prompt moved to starship) — stale, ignore. `git mv` does
   not update the submodule's section name in `.gitmodules`, only its `path`.
@@ -58,21 +64,33 @@ Renaming or deleting these breaks the build, because home-manager resolves them 
 | `nixosConfigurations.nixos-oci` | the desktop as a container filesystem |
 | `nixosConfigurations.nixos-vm` | standalone QEMU test VM |
 | `nixosConfigurations.nixos-vm-mini` | the same VM without `oversizedPackages` |
+| `nixosModules.{desktop,impermanence,swap}` | the NixOS half of the desktop, for another flake |
+| `homeManagerModules.default` | the home half of the desktop |
+| `overlays.default` | `nur` plus the unstable coding agents |
+| `lib.{mkModules,mkDotfilesModule}` | builders: full desktop, or the option tree alone |
 | `templates.flutter` | `nix flake init -t ...#flutter` |
+| `templates.deployment` | `nix flake init -t ...#deployment` |
 
-- Only the two host configs import `disko`, `lanzaboote`, `sops-nix` and
-  `modules/{options,validation,sops}.nix`.
-- `specialArgs` differ: host configs get `inputs profiles hostName users diskDevice`; the
-  VM and image get only `inputs profiles hostName`, so a module either of them imports must
-  not reference `users` or `diskDevice`.
+- The two host configs get `disko`, `lanzaboote`, `sops-nix`, `impermanence` and
+  `modules/{options,validation,sops}.nix` from `lib.mkModules`; they pass no `specialArgs` at
+  all, so everything reaches them through `dotfiles.*` and `_module.args` — the same path a
+  consuming flake takes.
+- The VM and image bring their own module list (`self.lib.mkDotfilesModule` plus their host
+  file) because they deliberately omit disko and impermanence. They still pass
+  `specialArgs = { inputs profiles hostName; }`, so a module only they import must not
+  reference `users` or `diskDevice`.
 - **`hosts/nixos-vm` must stay standalone**: importing `hosts/nixos` hardware (disko,
   tmpfs root, LUKS) collides with build-vm's `mkVMOverride` on `fileSystems` and bricks boot
   ("Failed to start Switch Root"). VM user login is `administrator` / `test`.
 - `hosts/nixos-vm-mini` cannot reuse `hosts/nixos-vm` the way it used to: NixOS modules
   accumulate, so a host file cannot import another and then drop part of what it pulled in.
   The two are separate directories that happen to agree.
-- home-manager `extraSpecialArgs` are set in `flake.nix`: `hostName`, `profiles`, plus `userName`
-  in the per-user block.
+- home-manager modules read the NixOS side through `osConfig.dotfiles.*` and take the user
+  from `config.home.username`; there are no `extraSpecialArgs` to keep in sync. That is also
+  why home-manager has to be used as a NixOS module (`useGlobalPkgs = true`).
+
+Consuming this repository from another flake: `doc/flake-module.md` describes the contract,
+`templates/deployment/` is a skeleton that evaluates as is.
 
 ## Packages
 
@@ -105,10 +123,14 @@ Two options let a host deviate without editing a group:
 
 ## Secrets
 
-- Repo builds with no `secrets/` at all: the flake falls back to empty profiles when
-  `builtins.pathExists ./secrets/default.nix` is false, and `modules/sops.nix` is gated with
-  `lib.mkIf hasSecrets`. The real `secrets/` tree is never committed;
-  `secrets.samples/` is the tracked template.
+- `.gitignore` ignores `secrets/`; `secrets.samples/` is the tracked template. The flake falls
+  back to empty profiles when `builtins.pathExists ./secrets/default.nix` is false.
+- `modules/sops.nix` does not probe for a directory any more: it is gated by
+  `dotfiles.sops.enable` and reads `dotfiles.profiles`, both of which a consuming flake sets
+  through `lib.mkModules`. The flake's own `pathExists` check only decides what *this*
+  repository deploys.
+- Because flakes only see git-tracked files, testing the sops path locally means staging
+  `secrets/` — which is one `git commit` away from publishing it. Unstage it afterwards.
 
 ## Commands
 
@@ -237,9 +259,11 @@ Required order before every commit: **statix -> deadnix -> nixfmt -> stylua -> g
   field is rejected by the "Unknown fields" assertion. Mapping: `sshHostSubmodule`
   -> `validSshHostFields`, `singBoxSubmodule` -> `validSingBoxFields`,
   `wireguardSubmodule` -> `validWireguardFields`, `git`/`ssh` under
-  `userProfileSubmodule` -> `validGitFields`/`validSshFields`, `hostProfileSubmodule`
+  `userProfileSubmodule` -> `validGitFields`/`validSshFields`, `hostProfileOptions`
   -> `validHostFields`. The assertion is skipped when `profiles` is empty (no
-  `secrets/`), so exercise it with a real `profiles.nix`.
+  `secrets/`), so exercise it with a real `profiles.nix`. Note that the option types
+  now reject unknown fields too, and earlier than the assertion does; the whitelists
+  are the second copy of the same schema.
 - Nix tooling (statix, nixfmt, deadnix) belongs only in
   `hosts/common/packages/system/nixos.nix` — don't split it out.
 - packages are grouped by use case under `hosts/common/packages/*/`; duplicates across
