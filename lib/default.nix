@@ -44,7 +44,7 @@ in
         };
 
         # impermanence and pwndbg are pinned by this flake, not by the caller.
-        _module.args.inputs = builtins.removeAttrs inputs [ "self" ];
+        _module.args.inputs = inputs;
 
         home-manager = {
           useGlobalPkgs = true;
@@ -53,7 +53,7 @@ in
             imports = [
               inputs.self.homeManagerModules.default
             ]
-            ++ lib.optional (userConf.home != null) userConf.home;
+            ++ lib.optional ((userConf.home or null) != null) userConf.home;
             home.username = lib.mkDefault userName;
             home.homeDirectory = lib.mkDefault "/home/${userName}";
           }) users;
