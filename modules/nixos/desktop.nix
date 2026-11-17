@@ -5,7 +5,6 @@
 {
   imports = [
     ../dotfiles.nix
-    ../options.nix
     ../validation.nix
     ../sops.nix
     ../../hosts/common/core

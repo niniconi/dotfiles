@@ -25,6 +25,10 @@ let
   };
 in
 {
+  # Imported here rather than left to the desktop module, so every configuration
+  # declaring these options also gets `dotfiles.profiles`.
+  imports = [ ./options.nix ];
+
   options.dotfiles = {
     hostName = lib.mkOption {
       type = lib.types.str;
