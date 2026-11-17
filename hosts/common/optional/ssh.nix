@@ -33,5 +33,5 @@ in
         openssh.authorizedKeys.keys = authorizedKeys;
       }
     )
-  ) hostProfiles;
+  ) (hostProfiles.users or { });
 }
