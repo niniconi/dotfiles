@@ -27,6 +27,7 @@
     jadx
     apktool
     radare2
+    rizin
     detect-it-easy
     # Go reversing
     goresym
