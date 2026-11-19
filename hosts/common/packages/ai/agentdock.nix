@@ -5,16 +5,16 @@
 let
   agentdock = pkgs.rustPlatform.buildRustPackage {
     pname = "agentdock";
-    version = "0.1.0";
+    version = "0.2.0";
 
     src = pkgs.fetchFromGitHub {
       owner = "niniconi";
       repo = "agentdock";
-      rev = "10e310e58e95436cb77c7b4f3e78236dcb96f679"; # v0.1.0
-      hash = "sha256-0WkNZR0HbXL2Qm8rqFc4voU1vRLNcChFJ6+MEXvpRTk=";
+      rev = "69de15153c4b51969116f0acf39b372349f841e8"; # v0.2.0
+      hash = "sha256-+O135uc/5YDcpQ4BdCMwH382n+2w2woGheJhlTtsl3w=";
     };
 
-    cargoHash = "sha256-fc05s2yEjsrPUEE2Arbw/WitIJkhtqB51Xqku8lvSeM=";
+    cargoHash = "sha256-3ybiaUUivYF2Yx6odzkkmSPZBuxGK3zzxuedMScMp6U=";
 
     doCheck = false;
 
